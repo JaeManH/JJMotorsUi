@@ -2,9 +2,13 @@
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.start {
+  opacity: 0;
+}
+
+.end {
+  opacity: 1;
+  transition: opacity 0.5s;
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -13,26 +17,85 @@
   }
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
   }
   to {
     transform: rotate(360deg);
+  }
+}
+
+.chatbotContainer {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 275px; /* 원하는 너비로 조정 */
+  height: 500px; /* 원하는 높이로 조정 */
+  z-index: 1000; /* 다른 요소 위에 표시되도록 설정 */
+  max-height: calc(100vh - 100px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.chatbotIcon {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 50px; /* 아이콘 크기 */
+  height: 50px; /* 아이콘 크기 */
+  cursor: pointer;
+  z-index: 1000;
+  margin: 15px;
+}
+
+.chatbotIcon img {
+  width: 100%;
+  height: 100%;
+}
+
+.chatbotCloseButton {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.chatbotInitialMessage {
+  position: fixed;
+  bottom: 90px; /* 챗봇 아이콘 바로 위에 위치 */
+  right: 20px;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 1001;
+  animation: fadeOut 5s forwards; /* 5초 후에 페이드 아웃 */
+}
+
+.productCardGroupTitle {
+  text-align: left;
+  font-size: 28px;
+  padding: 20px;
+  font-weight: 700;
+}
+
+.testImg {
+  width: 1280px;
+  height: 200px;
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    display: none;
   }
 }
