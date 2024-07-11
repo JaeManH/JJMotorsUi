@@ -1,0 +1,25 @@
+.remote-control-box {
+  position: fixed;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  background-color: #f8f9fa;
+  padding: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  border-radius: 0 8px 8px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.remote-button {
+  width: 100%;
+  font-size: 16px;
+  padding: 10px;
+  transition: background-color 0.3s ease;
+}
+
+.remote-button:hover {
+  background-color: #0056b3; /* Bootstrap 기본 버튼 호버 색상 */
+}

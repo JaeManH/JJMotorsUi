@@ -1,3 +1,97 @@
+:root {
+  --theme-background: #f8f8f8;
+  --theme-primary: #d39a58;
+  --theme-secondary: #b19db4;
+  --theme-accent: #d04657;
+  --theme-dark: #5a5770;
+  --theme-light: #ffffff;
+}
+
+body {
+  padding-top: 80px; /* 네비게이션 바의 높이와 동일하게 설정 */
+  background-color: var(--theme-background);
+  color: var(--theme-dark);
+  font-family: "Roboto", sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.navbar {
+  background-color: var(--theme-dark);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 1rem 2rem;
+  height: 80px; /* 네비게이션 바의 높이 설정 */
+  display: flex;
+  justify-content: flex-start; /* 요소를 왼쪽 정렬 */
+  align-items: center;
+}
+
+.navbar-brand {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--theme-light) !important;
+}
+
+.nav-link {
+  color: var(--theme-light) !important;
+  margin-right: 1rem;
+  font-size: 1rem;
+  transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+  color: var(--theme-primary) !important;
+}
+
+.navbar-toggler {
+  border-color: var(--theme-light) !important;
+}
+
+.navbar-toggler-icon {
+  background-image: none;
+  width: 24px;
+  height: 24px;
+  position: relative;
+}
+
+.navbar-toggler-icon::before,
+.navbar-toggler-icon::after {
+  content: "";
+  position: absolute;
+  width: 24px;
+  height: 3px;
+  background-color: var(--theme-light);
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  transition: all 0.3s ease;
+}
+
+.navbar-toggler-icon::before {
+  top: 35%;
+}
+
+.navbar-toggler-icon::after {
+  top: 65%;
+}
+
+.btn-primary {
+  background-color: var(--theme-accent);
+  border-color: var(--theme-accent);
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.btn-primary:hover {
+  background-color: var(--theme-secondary);
+  border-color: var(--theme-secondary);
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
 .App {
   text-align: center;
 }
@@ -88,6 +182,14 @@
 .testImg {
   width: 1280px;
   height: 200px;
+}
+
+.mt-5 {
+  margin-top: 3rem !important;
+}
+
+.pt-4 {
+  padding-top: 1.5rem !important;
 }
 
 @keyframes fadeOut {

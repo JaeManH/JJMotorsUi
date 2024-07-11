@@ -1,28 +1,29 @@
-import { CardGroup } from "react-bootstrap";
-import ProductCard from "../components/ProductCard";
+import React, { useState } from "react";
 import SearchBar from "../components/SearchBar";
-import MainCarousel from "../components/MainCarousel";
+import CarList from "../components/Car/CarList";
+import { sedans, suvs, trucks } from "../test/TestData";
 
-function MainPage() {
-  let productSample = ["a", "b", "c", "d", "e"];
-  let testCarImage = [
-    "https://images.unsplash.com/photo-1546614042-7df3c24c9e5d?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    "https://images.unsplash.com/photo-1546614042-7df3c24c9e5d?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  ];
+const Main = () => {
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const handleSearch = (query) => {
+    setSearchQuery(query.toLowerCase());
+  };
+
+  const filterCars = (cars) => {
+    return cars.filter((car) => car.name.toLowerCase().includes(searchQuery));
+  };
 
   return (
-    <div>
-      <SearchBar></SearchBar>
-      <MainCarousel carImage={testCarImage}></MainCarousel>
-
-      <div className="productCardGroupTitle">인기상품</div>
-      <CardGroup style={{ padding: "12px" }}>
-        {productSample.map((value, i) => {
-          return <ProductCard></ProductCard>;
-        })}
-      </CardGroup>
+    <div className="main-page">
+      <SearchBar onSearch={handleSearch} />
+      <div className="container mt-5">
+        <CarList title="Sedans" cars={filterCars(sedans)} />
+        <CarList title="SUVs" cars={filterCars(suvs)} />
+        <CarList title="Trucks" cars={filterCars(trucks)} />
+      </div>
     </div>
   );
-}
+};
 
-export default MainPage;
+export default Main;

@@ -1,0 +1,12 @@
+.filter-form .filter-label {
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+.filter-form .form-group {
+  margin-bottom: 1rem;
+}
+
+.filter-form .form-control {
+  margin-top: 0.5rem;
+}

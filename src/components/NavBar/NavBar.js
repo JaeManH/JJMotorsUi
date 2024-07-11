@@ -1,41 +1,81 @@
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
+import { useState } from "react";
+import LoginModal from "../User/LoginModal";
+import SignupModal from "../User/SignupModal";
+import ForgotPasswordModal from "../User/ForgotPasswordModal";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../../store/store";
+import "./NavBar.css"; // 새로운 스타일링 파일 임포트
 
 function NavBar() {
-  let testCarImage =
-    "https://images.unsplash.com/photo-1546614042-7df3c24c9e5d?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
-  const carData = {
-    mainImage: testCarImage,
-    thumbnails: [testCarImage, testCarImage, testCarImage],
-    title: "2018 CHANGAN OSHAN X70A 1.5L 107HP L4 5MT",
-    price: "FOB:$4,756",
-    modelYear: "2018",
-    color: "White",
-    steering: "Left",
-    bodyType: "SUV",
-    engine: "1.5L 107HP L4",
-    drivetrain: "2WD",
-    seats: "7",
-    doors: "5",
+  let store = useSelector((state) => state);
+  let dispatch = useDispatch();
+  const [showLogin, setShowLogin] = useState(false);
+  const [showSignup, setShowSignup] = useState(false);
+  const [showForgotPassword, setShowForgotPassword] = useState(false);
+
+  const handleLoginClose = () => setShowLogin(false);
+  const handleLoginShow = () => setShowLogin(true);
+
+  const handleSignupClose = () => setShowSignup(false);
+  const handleSignupShow = () => setShowSignup(true);
+
+  const handleForgotPasswordClose = () => setShowForgotPassword(false);
+  const handleForgotPasswordShow = () => setShowForgotPassword(true);
+
+  const handleBackToLogin = () => {
+    setShowSignup(false);
+    setShowForgotPassword(false);
+    setShowLogin(true);
   };
+
+  const handleLogout = () => {
+    dispatch(logout());
+  };
+
   return (
-    <Navbar expand="lg" className="bg-body-tertiary">
+    <Navbar expand="lg" fixed="top" className="navbar">
       <Container>
         <Navbar.Brand href="/">KS Motors</Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Toggle
+          aria-controls="basic-navbar-nav"
+          className="navbar-toggler"
+        >
+          <span className="navbar-toggler-icon"></span>
+        </Navbar.Toggle>
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
-            <Nav.Link href="/purchase">구매</Nav.Link>
-            {/* <Nav.Link href="/sale">판매</Nav.Link> */}
-            {/* <Nav.Link href="/productcard/1">제품카드</Nav.Link> */}
+            <Nav.Link href="/product">제품</Nav.Link>
+            <Nav.Link href="/search">검색</Nav.Link>
             <Nav.Link href="/howtobuy">구매방법</Nav.Link>
             <Nav.Link href="/contact">문의하기</Nav.Link>
             <Nav.Link href="/test">Test</Nav.Link>
           </Nav>
+          {store.isAthenticate ? (
+            <Nav.Link onClick={handleLogout}>로그아웃</Nav.Link>
+          ) : (
+            <Nav.Link onClick={handleLoginShow}>로그인</Nav.Link>
+          )}
         </Navbar.Collapse>
-        <Nav.Link href="/login">로그인</Nav.Link>
       </Container>
+      <LoginModal
+        show={showLogin}
+        handleClose={handleLoginClose}
+        handleSignupShow={handleSignupShow}
+        handleForgotPasswordShow={handleForgotPasswordShow}
+      />
+      <SignupModal
+        show={showSignup}
+        handleClose={handleSignupClose}
+        handleBack={handleBackToLogin}
+      />
+      <ForgotPasswordModal
+        show={showForgotPassword}
+        handleClose={handleForgotPasswordClose}
+        handleBack={handleBackToLogin}
+      />
     </Navbar>
   );
 }

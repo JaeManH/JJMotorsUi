@@ -1,19 +1,16 @@
 import React from "react";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Outlet,
-} from "react-router-dom";
-// import NotFoundPage from "../pages/NotFoundPage";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import MainPage from "./../pages/Main";
 import CarInfoCard from "./../components/CarInfoCard";
-import CarDetails from "./../components/CarDetail/CarDetails";
+import CarDetails from "../components/Car/CarDetails";
+import NotFound404 from "../pages/NotFound404";
+import ProductPage from "../pages/ProductPage";
+import CarCategoryPage from "../pages/CarCategoryPage"; // 새로운 컴포넌트 임포트
 
 const AppRoutes = () => {
-  let productSample = ["a", "b", "c", "d", "e"];
   let testCarImage =
     "https://images.unsplash.com/photo-1546614042-7df3c24c9e5d?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
+  let productSample = ["a", "b", "c", "d", "e"];
 
   const car = {
     image: testCarImage,
@@ -60,24 +57,17 @@ const AppRoutes = () => {
     seats: "7",
     doors: "5",
   };
+
   return (
     <>
       <Routes>
-        <Route path="/" element={<MainPage></MainPage>}></Route>
-        <Route
-          path="/purchase"
-          element={
-            <>
-              <CarInfoCard car={carData} />
-            </>
-          }
-        ></Route>
-        <Route path="/sale" element={<div>판매</div>}></Route>
-
-        <Route
-          path="/test"
-          element={<CarDetails car={car}></CarDetails>}
-        ></Route>
+        <Route path="/" element={<MainPage />} />
+        <Route path="/purchase" element={<CarInfoCard car={carData} />} />
+        <Route path="/sale" element={<div>판매</div>} />
+        <Route path="/product" element={<ProductPage />} />
+        <Route path="/category/:category" element={<CarCategoryPage />} />
+        <Route path="/test" element={<CarDetails car={car} />} />
+        <Route path="*" element={<NotFound404 />} />
       </Routes>
     </>
   );
