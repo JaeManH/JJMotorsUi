@@ -7,7 +7,8 @@ import SignupModal from "../User/SignupModal";
 import ForgotPasswordModal from "../User/ForgotPasswordModal";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../store/store";
-import "./NavBar.css"; // 새로운 스타일링 파일 임포트
+import { Link } from "react-router-dom";
+import "./NavBar.css";
 
 function NavBar() {
   let store = useSelector((state) => state);
@@ -38,7 +39,9 @@ function NavBar() {
   return (
     <Navbar expand="lg" fixed="top" className="navbar">
       <Container>
-        <Navbar.Brand href="/">KS Motors</Navbar.Brand>
+        <Navbar.Brand as={Link} to="/">
+          KS Motors
+        </Navbar.Brand>
         <Navbar.Toggle
           aria-controls="basic-navbar-nav"
           className="navbar-toggler"
@@ -47,11 +50,21 @@ function NavBar() {
         </Navbar.Toggle>
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
-            <Nav.Link href="/product">제품</Nav.Link>
-            <Nav.Link href="/search">검색</Nav.Link>
-            <Nav.Link href="/howtobuy">구매방법</Nav.Link>
-            <Nav.Link href="/contact">문의하기</Nav.Link>
-            <Nav.Link href="/test">Test</Nav.Link>
+            <Nav.Link as={Link} to="/product">
+              제품
+            </Nav.Link>
+            <Nav.Link as={Link} to="/search">
+              검색
+            </Nav.Link>
+            <Nav.Link as={Link} to="/howtobuy">
+              구매방법
+            </Nav.Link>
+            <Nav.Link as={Link} to="/contact">
+              문의하기
+            </Nav.Link>
+            <Nav.Link as={Link} to="/qna">
+              QnA
+            </Nav.Link>
           </Nav>
           {store.isAthenticate ? (
             <Nav.Link onClick={handleLogout}>로그아웃</Nav.Link>

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import SearchBar from "../components/SearchBar";
+import SearchBar from "../components/SearchBar/SearchBar";
 import CarList from "../components/Car/CarList";
 import { sedans, suvs, trucks } from "../test/TestData";
 

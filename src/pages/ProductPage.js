@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import CarList from "../components/Car/CarList";
-import SearchBar from "../components/SearchBar";
+import SearchBar from "../components/SearchBar/SearchBar";
 import Filter from "../components/Filter/Filter";
 import { sedans, suvs, trucks } from "../test/TestData";
 

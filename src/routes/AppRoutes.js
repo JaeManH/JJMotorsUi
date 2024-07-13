@@ -1,11 +1,14 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import MainPage from "./../pages/Main";
-import CarInfoCard from "./../components/CarInfoCard";
+import CarInfoCard from "../components/Car/CarInfoCard";
 import CarDetails from "../components/Car/CarDetails";
 import NotFound404 from "../pages/NotFound404";
 import ProductPage from "../pages/ProductPage";
-import CarCategoryPage from "../pages/CarCategoryPage"; // 새로운 컴포넌트 임포트
+import CarCategoryPage from "../pages/CarCategoryPage";
+import QnA from "../components/QnA/QnA";
+import ProductDetails from "../components/ProductDetails"; // 새로운 컴포넌트 임포트
+import ContactForm from "../components/Contact/ContactForm"; // ContactForm 임포트
 
 const AppRoutes = () => {
   let testCarImage =
@@ -66,7 +69,14 @@ const AppRoutes = () => {
         <Route path="/sale" element={<div>판매</div>} />
         <Route path="/product" element={<ProductPage />} />
         <Route path="/category/:category" element={<CarCategoryPage />} />
-        <Route path="/test" element={<CarDetails car={car} />} />
+        <Route path="/qna" element={<QnA />} />
+        <Route
+          path="/product/:category/:id"
+          element={<ProductDetails />}
+        />{" "}
+        {/* 새로운 라우트 추가 */}
+        <Route path="/contact" element={<ContactForm />} />{" "}
+        {/* 문의하기 라우트 추가 */}
         <Route path="*" element={<NotFound404 />} />
       </Routes>
     </>

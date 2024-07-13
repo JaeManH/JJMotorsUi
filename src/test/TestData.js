@@ -3,6 +3,7 @@ const testCarImage =
 
 export const sedans = [
   {
+    id: 1,
     image: testCarImage,
     name: "Sedan 1",
     mileage: 10000,
@@ -11,6 +12,7 @@ export const sedans = [
     discountPrice: 9000,
   },
   {
+    id: 2,
     image: testCarImage,
     name: "Sedan 2",
     mileage: 20000,
@@ -18,6 +20,7 @@ export const sedans = [
     price: 12000,
   },
   {
+    id: 3,
     image: testCarImage,
     name: "Sedan 3",
     mileage: 30000,
@@ -26,6 +29,7 @@ export const sedans = [
     discountPrice: 13000,
   },
   {
+    id: 4,
     image: testCarImage,
     name: "Sedan 4",
     mileage: 40000,
@@ -33,6 +37,7 @@ export const sedans = [
     price: 16000,
   },
   {
+    id: 5,
     image: testCarImage,
     name: "Sedan 5",
     mileage: 50000,
@@ -44,6 +49,7 @@ export const sedans = [
 
 export const suvs = [
   {
+    id: 6,
     image: testCarImage,
     name: "SUV 1",
     mileage: 15000,
@@ -51,6 +57,7 @@ export const suvs = [
     price: 20000,
   },
   {
+    id: 7,
     image: testCarImage,
     name: "SUV 2",
     mileage: 25000,
@@ -59,6 +66,7 @@ export const suvs = [
     discountPrice: 21000,
   },
   {
+    id: 8,
     image: testCarImage,
     name: "SUV 3",
     mileage: 35000,
@@ -66,6 +74,7 @@ export const suvs = [
     price: 24000,
   },
   {
+    id: 9,
     image: testCarImage,
     name: "SUV 4",
     mileage: 45000,
@@ -73,6 +82,7 @@ export const suvs = [
     price: 26000,
   },
   {
+    id: 10,
     image: testCarImage,
     name: "SUV 5",
     mileage: 55000,
@@ -84,6 +94,7 @@ export const suvs = [
 
 export const trucks = [
   {
+    id: 11,
     image: testCarImage,
     name: "Truck 1",
     mileage: 20000,
@@ -92,6 +103,7 @@ export const trucks = [
     discountPrice: 29000,
   },
   {
+    id: 12,
     image: testCarImage,
     name: "Truck 2",
     mileage: 30000,
@@ -99,6 +111,7 @@ export const trucks = [
     price: 32000,
   },
   {
+    id: 13,
     image: testCarImage,
     name: "Truck 3",
     mileage: 40000,
@@ -107,6 +120,7 @@ export const trucks = [
     discountPrice: 33000,
   },
   {
+    id: 14,
     image: testCarImage,
     name: "Truck 4",
     mileage: 50000,
@@ -114,6 +128,7 @@ export const trucks = [
     price: 36000,
   },
   {
+    id: 15,
     image: testCarImage,
     name: "Truck 5",
     mileage: 60000,

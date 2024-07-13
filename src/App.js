@@ -1,15 +1,17 @@
-import "./App.css";
+import React from "react";
 import NavBar from "./components/NavBar/NavBar";
 import ChatBot from "./components/Chatbot/ChatBot";
-import AppRoutes from "./routes/AppRoutes"; // 수정된 경로
-import RemoteControlBox from "./components/RemoteControlBox";
+import AppRoutes from "./routes/AppRoutes";
+import RemoteControlBox from "./components/RemoteControlBox/RemoteControlBox";
 import ContactModal from "./components/Contact/ContactModal";
+import PurchaseModal from "./components/PurchaseModal/PurchaseModal";
+import Footer from "./components/Footer/Footer";
 import { useState } from "react";
-import PurchaseModal from "./components/PurchaseModal";
 import { useSelector } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import { Provider } from "react-redux";
-import { store, persistor } from "./store/store";
+import { store, persistor } from "./store/store"; // 경로 수정
+import "./App.css";
 
 function App() {
   const [showContact, setShowContact] = useState(false);
@@ -37,7 +39,7 @@ function App() {
       <PersistGate loading={null} persistor={persistor}>
         <div className="App">
           <NavBar />
-          <div className="mt-5 pt-4">
+          <div className="content mt-5 pt-4">
             <RemoteControlBox
               onContactClick={handleContactClick}
               onPurchaseClick={handlePurchaseClick}
@@ -56,6 +58,7 @@ function App() {
               <AppRoutes />
             </div>
           </div>
+          <Footer />
         </div>
       </PersistGate>
     </Provider>
