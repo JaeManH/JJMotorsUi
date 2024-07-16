@@ -36,6 +36,7 @@ function App() {
 
   return (
     <Provider store={store}>
+      <div className="overlay"></div>
       <PersistGate loading={null} persistor={persistor}>
         <div className="App">
           <NavBar />

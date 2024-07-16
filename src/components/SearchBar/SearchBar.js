@@ -13,14 +13,19 @@ const SearchBar = ({ onSearch }) => {
   };
 
   return (
-    <InputGroup className="mb-3">
+    <InputGroup className="search-bar mb-3">
       <Form.Control
         type="text"
         value={query}
         onChange={handleInputChange}
         placeholder="Search for products..."
+        className="search-input"
       />
-      <Button variant="primary" onClick={handleSearch}>
+      <Button
+        variant="primary"
+        onClick={handleSearch}
+        className="search-button"
+      >
         Search
       </Button>
     </InputGroup>

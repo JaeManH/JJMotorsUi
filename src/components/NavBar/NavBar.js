@@ -8,7 +8,6 @@ import ForgotPasswordModal from "../User/ForgotPasswordModal";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../store/store";
 import { Link } from "react-router-dom";
-import "./NavBar.css";
 
 function NavBar() {
   let store = useSelector((state) => state);
@@ -69,7 +68,9 @@ function NavBar() {
           {store.isAthenticate ? (
             <Nav.Link onClick={handleLogout}>로그아웃</Nav.Link>
           ) : (
-            <Nav.Link onClick={handleLoginShow}>로그인</Nav.Link>
+            <Nav.Link style={{ fontColor: "white" }} onClick={handleLoginShow}>
+              로그인
+            </Nav.Link>
           )}
         </Navbar.Collapse>
       </Container>

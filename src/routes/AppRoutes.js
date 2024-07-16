@@ -9,6 +9,8 @@ import CarCategoryPage from "../pages/CarCategoryPage";
 import QnA from "../components/QnA/QnA";
 import ProductDetails from "../components/ProductDetails"; // 새로운 컴포넌트 임포트
 import ContactForm from "../components/Contact/ContactForm"; // ContactForm 임포트
+import CarDetail from "../components/Car/CarDetail";
+import CarDetailExample from "../components/Car/CarDetailExample"; // CarDetailExample 컴포넌트 임포트
 
 const AppRoutes = () => {
   let testCarImage =
@@ -70,13 +72,12 @@ const AppRoutes = () => {
         <Route path="/product" element={<ProductPage />} />
         <Route path="/category/:category" element={<CarCategoryPage />} />
         <Route path="/qna" element={<QnA />} />
+        <Route path="/product/:category/:id" element={<ProductDetails />} />
+        <Route path="/contact" element={<ContactForm />} />
         <Route
-          path="/product/:category/:id"
-          element={<ProductDetails />}
-        />{" "}
-        {/* 새로운 라우트 추가 */}
-        <Route path="/contact" element={<ContactForm />} />{" "}
-        {/* 문의하기 라우트 추가 */}
+          path="/car/example"
+          element={<CarDetailExample></CarDetailExample>}
+        ></Route>
         <Route path="*" element={<NotFound404 />} />
       </Routes>
     </>
