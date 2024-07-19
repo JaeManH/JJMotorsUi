@@ -6,6 +6,7 @@ import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 import { store, persistor } from "./store/store";
+import "./i18n"; // i18n 초기화 파일 가져오기
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(

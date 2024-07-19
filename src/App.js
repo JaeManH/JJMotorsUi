@@ -12,6 +12,7 @@ import { PersistGate } from "redux-persist/integration/react";
 import { Provider } from "react-redux";
 import { store, persistor } from "./store/store"; // 경로 수정
 import "./App.css";
+import "./i18n"; // i18n 초기화 파일 가져오기
 
 function App() {
   const [showContact, setShowContact] = useState(false);

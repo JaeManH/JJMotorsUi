@@ -21,7 +21,9 @@ const Footer = () => {
         </div>
       </div>
       <div className="footer-bottom">
-        <p>&copy; 2023 Your Company. All rights reserved.</p>
+        <p>
+          &copy; Copyright 2023 KS MOTOR Trading Co.,Ltd All Rights Reserved.
+        </p>
       </div>
     </footer>
   );

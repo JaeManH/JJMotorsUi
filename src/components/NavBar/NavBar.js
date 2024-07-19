@@ -1,6 +1,7 @@
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
+import Dropdown from "react-bootstrap/Dropdown";
 import { useState } from "react";
 import LoginModal from "../User/LoginModal";
 import SignupModal from "../User/SignupModal";
@@ -8,8 +9,10 @@ import ForgotPasswordModal from "../User/ForgotPasswordModal";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../store/store";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next"; // i18next 훅 사용
 
 function NavBar() {
+  const { t, i18n } = useTranslation(); // i18next 훅 초기화
   let store = useSelector((state) => state);
   let dispatch = useDispatch();
   const [showLogin, setShowLogin] = useState(false);
@@ -35,11 +38,15 @@ function NavBar() {
     dispatch(logout());
   };
 
+  const changeLanguage = (lng) => {
+    i18n.changeLanguage(lng);
+  };
+
   return (
     <Navbar expand="lg" fixed="top" className="navbar">
       <Container>
         <Navbar.Brand as={Link} to="/">
-          KS Motors
+          {t("navbar.brand")}
         </Navbar.Brand>
         <Navbar.Toggle
           aria-controls="basic-navbar-nav"
@@ -50,28 +57,41 @@ function NavBar() {
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
             <Nav.Link as={Link} to="/product">
-              제품
+              {t("navbar.product")}
             </Nav.Link>
             <Nav.Link as={Link} to="/search">
-              검색
+              {t("navbar.search")}
             </Nav.Link>
             <Nav.Link as={Link} to="/howtobuy">
-              구매방법
+              {t("navbar.howtobuy")}
             </Nav.Link>
             <Nav.Link as={Link} to="/contact">
-              문의하기
+              {t("navbar.contact")}
             </Nav.Link>
             <Nav.Link as={Link} to="/qna">
-              QnA
+              {t("navbar.qna")}
             </Nav.Link>
           </Nav>
           {store.isAthenticate ? (
-            <Nav.Link onClick={handleLogout}>로그아웃</Nav.Link>
+            <Nav.Link onClick={handleLogout}>{t("navbar.logout")}</Nav.Link>
           ) : (
-            <Nav.Link style={{ fontColor: "white" }} onClick={handleLoginShow}>
-              로그인
+            <Nav.Link style={{ color: "white" }} onClick={handleLoginShow}>
+              {t("navbar.login")}
             </Nav.Link>
           )}
+          <Dropdown>
+            <Dropdown.Toggle variant="secondary" id="dropdown-basic">
+              {t("navbar.language")}
+            </Dropdown.Toggle>
+            <Dropdown.Menu>
+              <Dropdown.Item onClick={() => changeLanguage("en")}>
+                English
+              </Dropdown.Item>
+              <Dropdown.Item onClick={() => changeLanguage("ko")}>
+                한국어
+              </Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
         </Navbar.Collapse>
       </Container>
       <LoginModal
