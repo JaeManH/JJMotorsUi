@@ -1,0 +1,43 @@
+.notfound-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f8f8f8;
+  color: #333;
+  font-family: "Roboto", sans-serif;
+  text-align: center;
+  padding: 20px;
+}
+
+.notfound-title {
+  font-size: 3rem;
+  margin-bottom: 20px;
+  color: #5a5770; /* 다크 색상 */
+}
+
+.notfound-message {
+  font-size: 1.5rem;
+  margin-bottom: 40px;
+}
+
+.notfound-buttons {
+  display: flex;
+  gap: 20px;
+}
+
+.notfound-button {
+  padding: 10px 20px;
+  font-size: 1rem;
+  color: #fff;
+  background-color: #5a5770; /* 다크 색상 */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.notfound-button:hover {
+  background-color: #d39a58; /* 골드 색상 */
+}

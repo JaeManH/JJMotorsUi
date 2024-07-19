@@ -56,7 +56,7 @@ function App() {
               handleClose={handlePurchaseClose}
             />
             <ChatBot />
-            <div className="container">
+            <div className="content-container">
               <AppRoutes />
             </div>
           </div>

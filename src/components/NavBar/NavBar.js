@@ -59,9 +59,9 @@ function NavBar() {
             <Nav.Link as={Link} to="/product">
               {t("navbar.product")}
             </Nav.Link>
-            <Nav.Link as={Link} to="/search">
+            {/* <Nav.Link as={Link} to="/search">
               {t("navbar.search")}
-            </Nav.Link>
+            </Nav.Link> */}
             <Nav.Link as={Link} to="/howtobuy">
               {t("navbar.howtobuy")}
             </Nav.Link>
@@ -72,26 +72,28 @@ function NavBar() {
               {t("navbar.qna")}
             </Nav.Link>
           </Nav>
-          {store.isAthenticate ? (
-            <Nav.Link onClick={handleLogout}>{t("navbar.logout")}</Nav.Link>
-          ) : (
-            <Nav.Link style={{ color: "white" }} onClick={handleLoginShow}>
-              {t("navbar.login")}
-            </Nav.Link>
-          )}
-          <Dropdown>
-            <Dropdown.Toggle variant="secondary" id="dropdown-basic">
-              {t("navbar.language")}
-            </Dropdown.Toggle>
-            <Dropdown.Menu>
-              <Dropdown.Item onClick={() => changeLanguage("en")}>
-                English
-              </Dropdown.Item>
-              <Dropdown.Item onClick={() => changeLanguage("ko")}>
-                한국어
-              </Dropdown.Item>
-            </Dropdown.Menu>
-          </Dropdown>
+          <Nav className="ms-auto">
+            {store.isAthenticate ? (
+              <Nav.Link onClick={handleLogout}>{t("navbar.logout")}</Nav.Link>
+            ) : (
+              <Nav.Link style={{ color: "white" }} onClick={handleLoginShow}>
+                {t("navbar.login")}
+              </Nav.Link>
+            )}
+            <Dropdown>
+              <Dropdown.Toggle variant="secondary" id="dropdown-basic">
+                {t("navbar.language")}
+              </Dropdown.Toggle>
+              <Dropdown.Menu>
+                <Dropdown.Item onClick={() => changeLanguage("en")}>
+                  English
+                </Dropdown.Item>
+                <Dropdown.Item onClick={() => changeLanguage("ko")}>
+                  한국어
+                </Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+          </Nav>
         </Navbar.Collapse>
       </Container>
       <LoginModal
