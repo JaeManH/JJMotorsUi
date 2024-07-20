@@ -1,0 +1,15 @@
+{
+  "welcome": "Welcome to our global car trade platform",
+  "description": "Explore the world's leading platform for global car trade. Find new and used cars, connect with dealers, and access market trends and trade insights.",
+  "navbar": {
+    "brand": "KS Motors",
+    "product": "Product",
+    "search": "Search",
+    "howtobuy": "How to Buy",
+    "contact": "Contact",
+    "qna": "QnA",
+    "login": "Login",
+    "logout": "Logout",
+    "language": "Language"
+  }
+}

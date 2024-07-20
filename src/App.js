@@ -1,25 +1,69 @@
-import "./App.css";
+import React from "react";
 import NavBar from "./components/NavBar/NavBar";
 import ChatBot from "./components/Chatbot/ChatBot";
 import AppRoutes from "./routes/AppRoutes";
+import RemoteControlBox from "./components/RemoteControlBox/RemoteControlBox";
+import ContactModal from "./components/Contact/ContactModal";
+import PurchaseModal from "./components/PurchaseModal/PurchaseModal";
+import Footer from "./components/Footer/Footer";
+import { useState } from "react";
+import { useSelector } from "react-redux";
+import { PersistGate } from "redux-persist/integration/react";
+import { Provider } from "react-redux";
+import { store, persistor } from "./store/store"; // 경로 수정
+import "./App.css";
+import "./i18n"; // i18n 초기화 파일 가져오기
 
 function App() {
-  // 변수 저장소
-  let testCarImage =
-    "https://images.unsplash.com/photo-1546614042-7df3c24c9e5d?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
-  //여기서 부터 시작
+  const [showContact, setShowContact] = useState(false);
+  const [showPurchase, setShowPurchase] = useState(false);
+
+  const handleContactClose = () => setShowContact(false);
+  const handleContactShow = () => setShowContact(true);
+
+  const handlePurchaseClose = () => setShowPurchase(false);
+  const handlePurchaseShow = () => setShowPurchase(true);
+
+  const [user, setUser] = useState(null);
+
+  const handleContactClick = () => {
+    handleContactShow();
+  };
+  const handlePurchaseClick = () => {
+    handlePurchaseShow();
+  };
+
+  let isAthenticate = useSelector((state) => state.isAthenticate);
+
   return (
-    <div className="App">
-      <ChatBot></ChatBot>
-
-      <div className="header">
-        <NavBar></NavBar>
-      </div>
-
-      <div className="container">
-        <AppRoutes></AppRoutes>
-      </div>
-    </div>
+    <Provider store={store}>
+      <div className="overlay"></div>
+      <PersistGate loading={null} persistor={persistor}>
+        <div className="App">
+          <NavBar />
+          <div className="content mt-5 pt-4">
+            <RemoteControlBox
+              onContactClick={handleContactClick}
+              onPurchaseClick={handlePurchaseClick}
+            />
+            <ContactModal
+              show={showContact}
+              handleClose={handleContactClose}
+              user={user}
+            />
+            <PurchaseModal
+              show={showPurchase}
+              handleClose={handlePurchaseClose}
+            />
+            <ChatBot />
+            <div className="content-container">
+              <AppRoutes />
+            </div>
+          </div>
+          <Footer />
+        </div>
+      </PersistGate>
+    </Provider>
   );
 }
 

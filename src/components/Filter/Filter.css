@@ -1,0 +1,37 @@
+.filter-form {
+  background-color: #333; /* 배경색을 약간 투명하게 하여 콘텐츠를 읽기 쉽게 */
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.filter-form .filter-label {
+  font-weight: bold;
+  font-size: 1.1rem;
+  color: #fff; /* 레이블 텍스트 색상을 밝게 설정 */
+}
+
+.filter-form .form-group {
+  margin-bottom: 1rem;
+}
+
+.filter-form .form-control {
+  margin-top: 0.5rem;
+  background-color: #333; /* 입력 필드의 배경색을 다크 네이비로 설정 */
+  color: #fff; /* 입력 필드 텍스트 색상을 밝게 설정 */
+  border: 1px solid #ccc; /* 입력 필드 경계 색상 설정 */
+}
+
+.filter-form .form-control::placeholder {
+  color: #ccc; /* 플레이스홀더 텍스트 색상을 밝게 설정 */
+}
+
+.filter-form .btn-primary {
+  background-color: #ff6347; /* 버튼 색상 */
+  color: #fff; /* 버튼 텍스트 색상 */
+  border: none;
+}
+
+.filter-form .btn-primary:hover {
+  background-color: #ff4500; /* 버튼 호버 색상 */
+  color: #fff;
+}

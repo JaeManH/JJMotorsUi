@@ -1,0 +1,29 @@
+.remote-control-box {
+  position: fixed;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  background-color: rgba(51, 51, 51, 0.8); /* 투명도 0.8 */
+  padding: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  border-radius: 0 8px 8px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.remote-button {
+  width: 100%;
+  font-size: 16px;
+  padding: 10px;
+  background-color: #5a5770; /* 모던하고 세련된 다크 색상 */
+  color: #fff; /* 버튼 텍스트 색상 */
+  border: none;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.remote-button:hover {
+  background-color: #d39a58; /* 호버 시 골드 색상 */
+  color: #fff; /* 호버 시 버튼 텍스트 색상 */
+}

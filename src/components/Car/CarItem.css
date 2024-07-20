@@ -1,0 +1,30 @@
+.car-item {
+  background-color: var(--theme-light);
+  border: 1px solid var(--theme-dark);
+  border-radius: 10px;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.car-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+.car-item-image {
+  height: 200px;
+  object-fit: cover;
+}
+
+.card-title {
+  color: var(--theme-dark);
+  font-weight: bold;
+}
+
+.card-text {
+  color: var(--theme-dark);
+}
+
+.subDesc {
+  text-align: left;
+}

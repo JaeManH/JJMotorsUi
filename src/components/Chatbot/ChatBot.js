@@ -20,20 +20,22 @@ function ChatBot() {
   if (showChatbot) {
     return (
       <div className="chatbotContainer">
-        <Chatbot
-          config={config}
-          messageParser={MessageParser}
-          actionProvider={ActionProvider}
-          style={{ position: "fixed" }}
-        />
-        <button
-          className="chatbotCloseButton"
-          onClick={() => {
-            setShowChatbot(false);
-          }}
-        >
-          X
-        </button>
+        <div className="chatbotBox">
+          <Chatbot
+            config={config}
+            messageParser={MessageParser}
+            actionProvider={ActionProvider}
+            style={{ position: "fixed" }}
+          />
+          <button
+            className="chatbotCloseButton"
+            onClick={() => {
+              setShowChatbot(false);
+            }}
+          >
+            X
+          </button>
+        </div>
       </div>
     );
   }
@@ -49,7 +51,7 @@ function ChatBot() {
           setShowChatbot(true);
         }}
       >
-        <img src="/chatBotIcon.svg" alt="chatbotIcon" />
+        <img src="/help-desk.png" alt="chatbotIcon" />
       </div>
     </>
   );

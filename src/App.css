@@ -1,5 +1,115 @@
+:root {
+  --theme-background: #f8f8f8;
+  --theme-primary: #d39a58;
+  --theme-secondary: #b19db4;
+  --theme-accent: #d04657;
+  --theme-dark: #5a5770;
+  --theme-light: #ffffff;
+}
+
+body {
+  padding-top: 10%; /* 네비게이션 바의 높이와 동일하게 설정 */
+  color: #333; /* 기본 글자색 */
+  font-family: "Roboto", sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url("/public/mainBackground.png") no-repeat center center fixed;
+  background-size: cover;
+  opacity: 0.8; /* 투명도 설정 (0.0 - 1.0) */
+  z-index: -1; /* 콘텐츠보다 뒤에 위치 */
+}
+
+.navbar {
+  background-color: rgba(90, 87, 112, 0.9); /* 다크 네이비 투명도 0.9 */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  height: 10%; /* 네비게이션 바의 높이 설정 */
+  display: flex;
+  justify-content: space-between; /* 요소를 양쪽 끝에 배치 */
+  align-items: center;
+  z-index: 1000; /* 네비게이션 바가 다른 요소 위에 위치하도록 설정 */
+}
+
+.navbar-brand {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--theme-light) !important;
+}
+
+.navbar-toggler {
+  border-color: var(--theme-light) !important;
+}
+
+.navbar-toggler-icon {
+  background-image: none;
+  width: 24px;
+  height: 24px;
+  position: relative;
+}
+
+.navbar-toggler-icon::before,
+.navbar-toggler-icon::after {
+  content: "";
+  position: absolute;
+  width: 24px;
+  height: 3px;
+  background-color: var(--theme-light);
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  transition: all 0.3s ease;
+}
+
+.navbar-toggler-icon::before {
+  top: 35%;
+}
+
+.navbar-toggler-icon::after {
+  top: 65%;
+}
+
+.nav-link {
+  color: var(--theme-light) !important;
+  margin-right: 1rem;
+  font-size: 1rem;
+  transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+  color: var(--theme-primary) !important;
+}
+
+.btn-primary {
+  background-color: var(--theme-accent);
+  border-color: var(--theme-accent);
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.btn-primary:hover {
+  background-color: var(--theme-secondary);
+  border-color: var(--theme-secondary);
+}
+
+.content-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  width: 100%;
+}
+
 .App {
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
 .start {
@@ -43,16 +153,22 @@
   position: fixed;
   bottom: 20px;
   right: 20px;
-  width: 50px; /* 아이콘 크기 */
-  height: 50px; /* 아이콘 크기 */
+  width: 64px; /* 아이콘 크기 */
+  height: 64px; /* 아이콘 크기 */
   cursor: pointer;
   z-index: 1000;
   margin: 15px;
+  background-color: #6c757d; /* 배경과 조화로운 색상으로 변경 */
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .chatbotIcon img {
-  width: 100%;
-  height: 100%;
+  width: 50%;
+  height: 50%;
 }
 
 .chatbotCloseButton {
@@ -90,6 +206,55 @@
   height: 200px;
 }
 
+.mt-5 {
+  margin-top: 3rem !important;
+}
+
+.pt-4 {
+  padding-top: 1.5rem !important;
+}
+
+/* 컨텐츠 영역 설정 */
+.content {
+  flex: 1;
+}
+
+/* 푸터 스타일 설정 */
+.footer {
+  background-color: #333;
+  color: #fff;
+  padding: 20px 0;
+  text-align: center;
+}
+
+.footer-content {
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-start;
+  padding: 20px 0;
+}
+
+.footer-item {
+  max-width: 300px;
+}
+
+.footer-item h3 {
+  margin-bottom: 10px;
+  font-size: 18px;
+  color: #f8f8f8;
+}
+
+.footer-item p {
+  margin: 5px 0;
+  color: #ccc;
+}
+
+.footer-bottom {
+  margin-top: 20px;
+  border-top: 1px solid #444;
+  padding-top: 10px;
+}
+
 @keyframes fadeOut {
   0% {
     opacity: 1;
@@ -97,5 +262,198 @@
   100% {
     opacity: 0;
     display: none;
+  }
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* 반투명 오버레이 */
+  z-index: -1; /* 콘텐츠보다 뒤에 위치 */
+}
+
+/* 새로운 스타일 추가 */
+.search-bar .search-input {
+  border-radius: 0.25rem 0 0 0.25rem; /* 왼쪽 모서리를 둥글게 */
+  border: 1px solid var(--theme-accent); /* 테두리 색상 */
+  height: calc(2.25rem + 2px); /* 버튼 높이와 맞춤 */
+}
+
+.search-bar .search-button {
+  border-radius: 0 0.25rem 0.25rem 0; /* 오른쪽 모서리를 둥글게 */
+  height: calc(2.25rem + 2px); /* 입력 필드 높이와 맞춤 */
+  border: 1px solid var(--theme-accent); /* 테두리 색상 */
+  background-color: var(--theme-accent);
+}
+
+.search-bar .search-button:hover {
+  background-color: var(--theme-secondary); /* 호버 시 색상 변경 */
+}
+
+/* CarList 전체 배경 추가 */
+.car-list-container {
+  background-color: rgba(255, 255, 255, 0.9); /* 배경색과 투명도 */
+  padding: 1rem; /* 여백 추가 */
+  border-radius: 0.5rem; /* 모서리를 둥글게 */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 추가 */
+  margin: 1rem 0;
+}
+
+/* 제목 스타일 추가 */
+.car-list-title {
+  font-size: 1.75rem; /* 글씨 크기 조정 */
+  font-weight: bold; /* 글씨 굵게 */
+  color: var(--theme-dark); /* 글씨 색상 */
+  text-transform: uppercase; /* 대문자로 변환 */
+  border-bottom: 2px solid var(--theme-accent); /* 하단 경계선 추가 */
+  padding-bottom: 0.5rem; /* 아래 여백 추가 */
+}
+
+/* 반응형 디자인 */
+@media (max-width: 1200px) {
+  body {
+    padding-top: 70px; /* 테블릿에서 네비게이션 바의 높이 */
+  }
+
+  .navbar {
+    height: 70px; /* 테블릿에서 네비게이션 바의 높이 */
+  }
+
+  .navbar-collapse {
+    background-color: rgba(90, 87, 112, 0.9); /* 접힌 네비게이션 배경색 */
+    padding: 1rem;
+  }
+
+  .remote-control-box {
+    display: none; /* 테블릿에서 숨기기 */
+  }
+  .container {
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  body {
+    padding-top: 60px; /* 모바일에서 네비게이션 바의 높이 */
+  }
+
+  .navbar {
+    height: 60px; /* 모바일에서 네비게이션 바의 높이 */
+    padding: 0.5rem 1rem;
+  }
+
+  .navbar-collapse {
+    background-color: rgba(90, 87, 112, 0.9); /* 접힌 네비게이션 배경색 */
+    padding: 1rem;
+  }
+
+  .navbar-nav {
+    background-color: rgba(255, 255, 255, 0.95); /* 메뉴 구분 배경색 */
+    margin-top: 1rem;
+    border-radius: 0.5rem; /* 모서리 둥글게 */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 그림자 추가 */
+  }
+
+  .nav-item {
+    padding: 0.5rem 1rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1); /* 메뉴 항목 구분선 */
+  }
+
+  .nav-item:last-child {
+    border-bottom: none;
+  }
+
+  .nav-link {
+    color: var(--theme-dark) !important; /* 메뉴 글자색 변경 */
+  }
+
+  .nav-link.login-link {
+    color: var(--theme-dark) !important; /* 로그인 글자색 변경 */
+    font-weight: bold; /* 글씨 굵게 */
+    margin-left: auto; /* 오른쪽 끝으로 정렬 */
+  }
+
+  .chatbotContainer {
+    width: 90%;
+    height: 400px;
+    bottom: 10px;
+    right: 5%;
+  }
+
+  .chatbotIcon {
+    width: 50px;
+    height: 50px;
+  }
+
+  .remote-control-box {
+    display: none; /* 모바일에서 숨기기 */
+  }
+
+  .container {
+    width: 100%;
+  }
+}
+
+@media (max-width: 576px) {
+  body {
+    padding-top: 50px; /* 모바일에서 네비게이션 바의 높이 */
+  }
+
+  .navbar {
+    height: 50px; /* 모바일에서 네비게이션 바의 높이 */
+    padding: 0.25rem;
+  }
+
+  .navbar-collapse {
+    background-color: rgba(90, 87, 112, 0.9); /* 접힌 네비게이션 배경색 */
+    padding: 1rem;
+  }
+
+  .navbar-nav {
+    background-color: rgba(255, 255, 255, 0.95); /* 메뉴 구분 배경색 */
+    margin-top: 1rem;
+    border-radius: 0.5rem; /* 모서리 둥글게 */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 그림자 추가 */
+  }
+
+  .nav-item {
+    padding: 0.5rem 1rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1); /* 메뉴 항목 구분선 */
+  }
+
+  .nav-item:last-child {
+    border-bottom: none;
+  }
+
+  .nav-link {
+    color: var(--theme-dark) !important; /* 메뉴 글자색 변경 */
+  }
+
+  .nav-link.login-link {
+    color: var(--theme-dark) !important; /* 로그인 글자색 변경 */
+    font-weight: bold; /* 글씨 굵게 */
+    margin-left: auto; /* 오른쪽 끝으로 정렬 */
+  }
+
+  .chatbotContainer {
+    width: 80%;
+    height: 300px;
+    bottom: 5px;
+    right: 10%;
+  }
+
+  .chatbotIcon {
+    width: 40px;
+    height: 40px;
+  }
+
+  .remote-control-box {
+    display: none; /* 모바일에서 숨기기 */
+  }
+  .container {
+    width: 100%;
   }
 }

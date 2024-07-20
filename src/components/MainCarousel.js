@@ -8,14 +8,12 @@ function MainCarousel({ carImage }) {
         height: "200px",
         margin: "auto",
         marginTop: "20px",
-        // backgroundColor: "gray",
       }}
     >
       {carImage.map((e, i) => {
         return (
-          <Carousel.Item>
-            {/* <ExampleCarouselImage text="First slide" /> */}
-            <img src={e} alt="" className="testImg" />
+          <Carousel.Item key={i}>
+            <img src={e} alt={`Slide ${i + 1}`} className="testImg" />
             <Carousel.Caption>
               <h3>{i + 1} 번째 프로모션</h3>
             </Carousel.Caption>
