@@ -62,9 +62,9 @@ function NavBar() {
             {/* <Nav.Link as={Link} to="/search">
               {t("navbar.search")}
             </Nav.Link> */}
-            <Nav.Link as={Link} to="/howtobuy">
+            {/* <Nav.Link as={Link} to="/howtobuy">
               {t("navbar.howtobuy")}
-            </Nav.Link>
+            </Nav.Link> */}
             <Nav.Link as={Link} to="/contact">
               {t("navbar.contact")}
             </Nav.Link>
