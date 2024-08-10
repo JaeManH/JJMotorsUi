@@ -10,7 +10,8 @@ import QnA from "../components/QnA/QnA";
 import ProductDetails from "../components/ProductDetails"; // 새로운 컴포넌트 임포트
 import ContactForm from "../components/Contact/ContactForm"; // ContactForm 임포트
 import CarDetail from "../components/Car/CarDetail";
-import CarDetailExample from "../components/Car/CarDetailExample"; // CarDetailExample 컴포넌트 임포트
+import CarDetailExample from "../components/Car/CarDetailExample"; // CarDetailExample 컴포넌트 임포트'
+import CarUploadPage from "../pages/CarUploadPage";
 
 const AppRoutes = () => {
   let testCarImage =
@@ -63,6 +64,21 @@ const AppRoutes = () => {
     doors: "5",
   };
 
+  <style type="text/css">
+    {`
+    .nav-tabs .nav-link {
+      color: #495057;
+      background-color: #e9ecef;
+      border: 1px solid #dee2e6;
+    }
+    .nav-tabs .nav-link.active {
+      color: #495057;
+      background-color: #fff;
+      border-color: #dee2e6 #dee2e6 #fff;
+    }
+  `}
+  </style>;
+
   return (
     <>
       <Routes>
@@ -78,6 +94,7 @@ const AppRoutes = () => {
           path="/car/example"
           element={<CarDetailExample></CarDetailExample>}
         ></Route>
+        <Route path="/carUpload" element={<CarUploadPage />}></Route>
         <Route path="*" element={<NotFound404 />} />
       </Routes>
     </>
