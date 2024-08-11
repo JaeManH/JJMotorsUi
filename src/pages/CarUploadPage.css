@@ -1,14 +1,24 @@
-<style type="text/css">
-  {`
-    .nav-tabs .nav-link {
-      color: #495057;
-      background-color: #e9ecef;
-      border: 1px solid #dee2e6;
-    }
-    .nav-tabs .nav-link.active {
-      color: #495057;
-      background-color: #fff;
-      border-color: #dee2e6 #dee2e6 #fff;
-    }
-  `}
-</style>
+/* CarUploadPage.module.css */
+.navTabsLink {
+  color: var(--theme-dark) !important;
+  background-color: #e9ecef;
+  border: 1px solid #dee2e6;
+  margin-right: 5px;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  padding: 10px 15px;
+  font-weight: 500;
+}
+
+.navTabsLink:hover {
+  border-color: #007bff;
+  color: #007bff !important;
+  background-color: #f1f3f5;
+}
+
+.navTabsLinkActive {
+  color: #fff !important;
+  background-color: #007bff;
+  border-color: #007bff;
+  font-weight: bold;
+}
