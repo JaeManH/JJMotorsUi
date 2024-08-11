@@ -1,5 +1,15 @@
 import React, { useState, useCallback } from "react";
-import { Tabs, Tab, Form, Button, Image, Container } from "react-bootstrap";
+import {
+  Tabs,
+  Tab,
+  Form,
+  Button,
+  Image,
+  Container,
+  Row,
+  Col,
+  Alert,
+} from "react-bootstrap";
 import { useDropzone } from "react-dropzone";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./CarUploadPage.css";
@@ -8,6 +18,13 @@ const CarUploadPage = () => {
   const [images, setImages] = useState([]);
   const [thumbnailIndex, setThumbnailIndex] = useState(0);
   const [carInfo, setCarInfo] = useState({
+    vehicleName: "",
+    price: "",
+    year: "",
+    stockStatus: "재고", // 기본값은 '재고'
+  });
+
+  const [basicInfo, setBasicInfo] = useState({
     vehicleType: "",
     powerType: "",
     timeToMarket: "",
@@ -17,9 +34,15 @@ const CarUploadPage = () => {
     wheelBase: "",
     curbWeight: "",
     maxFullLoadWeight: "",
+  });
+
+  const [engineInfo, setEngineInfo] = useState({
     displacementMl: "",
     displacementL: "",
     horsepowerPs: "",
+  });
+
+  const [electricMotorInfo, setElectricMotorInfo] = useState({
     motorTypeKW: "",
     motorHorsepowerPs: "",
     totalMotorTorque: "",
@@ -31,13 +54,20 @@ const CarUploadPage = () => {
     quickCharge: "",
     slowCharge: "",
     percentageOfFastCharge: "",
+  });
+
+  const [chassisSteeringInfo, setChassisSteeringInfo] = useState({
     driveMode: "",
     fourWheelDrive: "",
+  });
+
+  const [transmissionInfo, setTransmissionInfo] = useState({
     numberOfGears: "",
   });
 
   const [additionalTabs, setAdditionalTabs] = useState([]);
   const [activeKey, setActiveKey] = useState("basic");
+  const [errorMessage, setErrorMessage] = useState(null);
 
   const onDrop = useCallback(
     (acceptedFiles) => {
@@ -49,81 +79,158 @@ const CarUploadPage = () => {
 
   const { getRootProps, getInputProps } = useDropzone({
     onDrop,
-    accept: "image/*",
+    accept: {
+      "image/jpeg": [],
+      "image/png": [],
+      "image/gif": [],
+      "image/bmp": [],
+      "image/webp": [],
+    }, // 허용되는 이미지 형식
     multiple: true,
+    onDropRejected: () => {
+      alert("이미지 파일만 업로드 가능합니다.");
+    },
   });
 
   const handleThumbnailSelect = (index) => {
     setThumbnailIndex(index);
   };
 
-  const handleInputChange = (e, tabKey) => {
+  const handleInputChange = (e, stateSetter) => {
     const { name, value } = e.target;
-    if (
-      tabKey === "basic" ||
-      tabKey === "engine" ||
-      tabKey === "electricMotor" ||
-      tabKey === "chassisSteering" ||
-      tabKey === "transmission"
-    ) {
-      setCarInfo({ ...carInfo, [name]: value });
-    } else {
-      setAdditionalTabs((prevTabs) =>
-        prevTabs.map((tab) =>
-          tab.key === tabKey
-            ? { ...tab, data: { ...tab.data, [name]: value } }
-            : tab
-        )
-      );
+    stateSetter((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleStockStatusChange = (e) => {
+    const { value } = e.target;
+    setCarInfo((prev) => ({ ...prev, stockStatus: value }));
+  };
+
+  const handleTabTitleChange = (e, tabKey) => {
+    const { value } = e.target;
+    setAdditionalTabs((prevTabs) =>
+      prevTabs.map((tab) =>
+        tab.key === tabKey ? { ...tab, title: value } : tab
+      )
+    );
+  };
+
+  const handleFieldNameChange = (e, tabKey, fieldKey) => {
+    const { value } = e.target;
+    setAdditionalTabs((prevTabs) =>
+      prevTabs.map((tab) =>
+        tab.key === tabKey
+          ? {
+              ...tab,
+              fieldNames: {
+                ...tab.fieldNames,
+                [fieldKey]: value,
+              },
+            }
+          : tab
+      )
+    );
+  };
+
+  const handleAddField = (tabKey) => {
+    setAdditionalTabs((prevTabs) =>
+      prevTabs.map((tab) => {
+        if (tab.key === tabKey) {
+          const newFieldKey = `customField${
+            Object.keys(tab.fieldNames).length + 1
+          }`;
+          return {
+            ...tab,
+            fieldNames: {
+              ...tab.fieldNames,
+              [newFieldKey]: `New Field ${
+                Object.keys(tab.fieldNames).length + 1
+              }`,
+            },
+            data: {
+              ...tab.data,
+              [newFieldKey]: "",
+            },
+          };
+        }
+        return tab;
+      })
+    );
+  };
+
+  const handleDeleteField = (tabKey, fieldKey) => {
+    setAdditionalTabs((prevTabs) =>
+      prevTabs.map((tab) => {
+        if (tab.key === tabKey) {
+          const newFieldNames = { ...tab.fieldNames };
+          const newData = { ...tab.data };
+          delete newFieldNames[fieldKey];
+          delete newData[fieldKey];
+          return {
+            ...tab,
+            fieldNames: newFieldNames,
+            data: newData,
+          };
+        }
+        return tab;
+      })
+    );
+  };
+
+  const checkForDuplicateFields = () => {
+    const tabNames = new Set();
+
+    for (let tab of additionalTabs) {
+      if (tabNames.has(tab.title)) {
+        setErrorMessage("탭 이름이 중복되었습니다.");
+        return false;
+      }
+      tabNames.add(tab.title);
+
+      const fieldNames = new Set();
+      for (let fieldName of Object.values(tab.fieldNames)) {
+        if (fieldNames.has(fieldName)) {
+          setErrorMessage("같은 탭 내에서 필드 이름이 중복되었습니다.");
+          return false;
+        }
+        fieldNames.add(fieldName);
+      }
     }
+    setErrorMessage(null); // 중복이 없으면 에러 메시지 제거
+    return true;
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    // 중복 필드나 탭 이름 체크
+    if (!checkForDuplicateFields()) {
+      return;
+    }
+
     // 데이터 구조화
+    const filterEmptyFields = (data) =>
+      Object.fromEntries(
+        Object.entries(data).filter(([_, value]) => value.trim() !== "")
+      );
+
     const tabsData = {
-      basicInfo: {
-        vehicleType: carInfo.vehicleType,
-        powerType: carInfo.powerType,
-        timeToMarket: carInfo.timeToMarket,
-        vehicleStructure: carInfo.vehicleStructure,
-        overallDimensions: carInfo.overallDimensions,
-        containerSize: carInfo.containerSize,
-        wheelBase: carInfo.wheelBase,
-        curbWeight: carInfo.curbWeight,
-        maxFullLoadWeight: carInfo.maxFullLoadWeight,
-      },
-      engine: {
-        displacementMl: carInfo.displacementMl,
-        displacementL: carInfo.displacementL,
-        horsepowerPs: carInfo.horsepowerPs,
-      },
-      electricMotor: {
-        motorTypeKW: carInfo.motorTypeKW,
-        motorHorsepowerPs: carInfo.motorHorsepowerPs,
-        totalMotorTorque: carInfo.totalMotorTorque,
-        batteryType: carInfo.batteryType,
-        batteryBrand: carInfo.batteryBrand,
-        necdPureElectricRange: carInfo.necdPureElectricRange,
-        batteryCapacity: carInfo.batteryCapacity,
-        powerConsumption: carInfo.powerConsumption,
-        quickCharge: carInfo.quickCharge,
-        slowCharge: carInfo.slowCharge,
-        percentageOfFastCharge: carInfo.percentageOfFastCharge,
-      },
-      chassisSteering: {
-        driveMode: carInfo.driveMode,
-        fourWheelDrive: carInfo.fourWheelDrive,
-      },
-      transmission: {
-        numberOfGears: carInfo.numberOfGears,
-      },
+      commonInfo: filterEmptyFields(carInfo),
+      basicInfo: filterEmptyFields(basicInfo),
+      engine: filterEmptyFields(engineInfo),
+      electricMotor: filterEmptyFields(electricMotorInfo),
+      chassisSteering: filterEmptyFields(chassisSteeringInfo),
+      transmission: filterEmptyFields(transmissionInfo),
     };
 
-    // 추가된 탭의 데이터 포함
     additionalTabs.forEach((tab) => {
-      tabsData[tab.key] = tab.data;
+      const tabData = {};
+      Object.entries(tab.fieldNames).forEach(([key, fieldName]) => {
+        if (fieldName.trim() && tab.data[key]?.trim()) {
+          tabData[fieldName] = tab.data[key];
+        }
+      });
+      tabsData[tab.title] = tabData;
     });
 
     console.log("Structured Data:", tabsData);
@@ -134,82 +241,25 @@ const CarUploadPage = () => {
     // axios.post('/api/upload', { carData: tabsData, images, thumbnailIndex });
   };
 
-  const renderFormGroups = (fields, tabKey) => {
-    return fields.map(([label, name]) => (
-      <Form.Group className="mb-3" key={name}>
-        <Form.Label style={{ fontWeight: "bold", color: "#343a40" }}>
-          {label}
-        </Form.Label>
-        <Form.Control
-          type="text"
-          name={name}
-          value={
-            tabKey
-              ? additionalTabs.find((tab) => tab.key === tabKey)?.data[name] ||
-                ""
-              : carInfo[name]
-          }
-          onChange={(e) => handleInputChange(e, tabKey)}
-          style={{
-            backgroundColor: "#ffffff",
-            borderColor: "#ced4da",
-            color: "#495057",
-          }}
-        />
-      </Form.Group>
-    ));
-  };
-
-  const basicInfoFields = [
-    ["Vehicle Type", "vehicleType"],
-    ["Power Type", "powerType"],
-    ["Time to Market", "timeToMarket"],
-    ["Vehicle Structure", "vehicleStructure"],
-    ["Overall Dimensions (L*W*H)", "overallDimensions"],
-    ["Container Size", "containerSize"],
-    ["Wheel Base", "wheelBase"],
-    ["Curb Weight", "curbWeight"],
-    ["Max Full Load Weight", "maxFullLoadWeight"],
-  ];
-
-  const engineFields = [
-    ["Displacement (ml)", "displacementMl"],
-    ["Displacement (L)", "displacementL"],
-    ["Horsepower (Ps)", "horsepowerPs"],
-  ];
-
-  const electricMotorFields = [
-    ["Motor Type (KW)", "motorTypeKW"],
-    ["Motor Horsepower (Ps)", "motorHorsepowerPs"],
-    ["Total Motor Torque (N.m)", "totalMotorTorque"],
-    ["Battery Type", "batteryType"],
-    ["Battery Brand", "batteryBrand"],
-    ["NECD Pure Electric Range (km)", "necdPureElectricRange"],
-    ["Battery Capacity (kWh)", "batteryCapacity"],
-    ["Power Consumption (kWh/100km)", "powerConsumption"],
-    ["Quick Charge (h)", "quickCharge"],
-    ["Slow Charge (h)", "slowCharge"],
-    ["Percentage of Fast Charge (%)", "percentageOfFastCharge"],
-  ];
-
-  const chassisSteeringFields = [
-    ["Drive Mode", "driveMode"],
-    ["Four-Wheel Drive", "fourWheelDrive"],
-  ];
-
-  const transmissionFields = [["Number of Gears", "numberOfGears"]];
-
   const handleAddTab = () => {
     const newKey = `customTab${additionalTabs.length + 1}`;
-    setAdditionalTabs([
-      ...additionalTabs,
-      {
-        key: newKey,
-        title: `Custom Tab ${additionalTabs.length + 1}`,
-        data: {},
+    const newTab = {
+      key: newKey,
+      title: `Custom Tab ${additionalTabs.length + 1}`,
+      data: {},
+      fieldNames: {
+        customField1: "Custom Field 1",
+        customField2: "Custom Field 2",
       },
-    ]);
+    };
+    setAdditionalTabs([...additionalTabs, newTab]);
     setActiveKey(newKey);
+  };
+
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter") {
+      e.target.blur(); // 포커스를 해제
+    }
   };
 
   const tabStyle = `
@@ -222,6 +272,12 @@ const CarUploadPage = () => {
       border-top-right-radius: 5px;
       padding: 10px 15px;
       font-weight: 500;
+      height: 42px;
+      line-height: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
     }
 
     .nav-tabs .nav-link:hover {
@@ -236,7 +292,81 @@ const CarUploadPage = () => {
       border-color: #007bff;
       font-weight: bold;
     }
+
+    .nav-tabs .add-tab-button {
+      color: #007bff !important;
+      background-color: #e9ecef;
+      border: 1px solid #dee2e6;
+      border-radius: 5px;
+      margin-left: 5px;
+      padding: 10px 15px;
+      font-size: 18px;
+      cursor: pointer;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 42px;
+      line-height: 20px;
+    }
+
+    .nav-tabs .add-tab-button:hover {
+      color: #0056b3 !important;
+    }
+
+    .add-field-button {
+      margin-top: 10px;
+      background-color: #28a745;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+
+    .add-field-button:hover {
+      background-color: #218838;
+    }
+
+    .delete-field-button {
+      background-color: #dc3545;
+      color: #fff;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: bold;
+    }
+
+    .delete-field-button:hover {
+      background-color: #c82333;
+    }
   `;
+
+  const renderFormGroups = (fields, state, stateSetter) => {
+    return fields.map(([label, name]) => (
+      <Form.Group className="mb-3" key={name}>
+        <Form.Label style={{ fontWeight: "bold", color: "#343a40" }}>
+          {label}
+        </Form.Label>
+        <Form.Control
+          type="text"
+          name={name}
+          value={state[name]}
+          onChange={(e) => handleInputChange(e, stateSetter)}
+          style={{
+            backgroundColor: "#ffffff",
+            borderColor: "#ced4da",
+            color: "#495057",
+          }}
+        />
+      </Form.Group>
+    ));
+  };
 
   return (
     <div
@@ -251,6 +381,108 @@ const CarUploadPage = () => {
       <h1 className="mb-4" style={{ color: "#343a40" }}>
         자동차 제품 업로드
       </h1>
+
+      {errorMessage && (
+        <Alert
+          variant="danger"
+          onClose={() => setErrorMessage(null)}
+          dismissible
+        >
+          {errorMessage}
+        </Alert>
+      )}
+
+      {/* 재고/중고 선택 섹션 */}
+      <Form.Group
+        className="mb-4"
+        style={{ display: "flex", alignItems: "center" }}
+      >
+        <Form.Label
+          style={{ marginRight: "15px", fontWeight: "bold", color: "#343a40" }}
+        >
+          차량 상태:
+        </Form.Label>
+        <Form.Check
+          inline
+          label="재고"
+          type="radio"
+          id="stock"
+          name="stockStatus"
+          value="재고"
+          checked={carInfo.stockStatus === "재고"}
+          onChange={handleStockStatusChange}
+          style={{ marginRight: "20px" }}
+        />
+        <Form.Check
+          inline
+          label="중고"
+          type="radio"
+          id="used"
+          name="stockStatus"
+          value="중고"
+          checked={carInfo.stockStatus === "중고"}
+          onChange={handleStockStatusChange}
+        />
+      </Form.Group>
+
+      {/* 공통 정보 입력 섹션 */}
+      <h2 style={{ color: "#343a40", marginBottom: "20px" }}>공통 정보</h2>
+      <Row>
+        <Col>
+          <Form.Group className="mb-3">
+            <Form.Label style={{ fontWeight: "bold", color: "#343a40" }}>
+              차량명
+            </Form.Label>
+            <Form.Control
+              type="text"
+              name="vehicleName"
+              value={carInfo.vehicleName}
+              onChange={(e) => handleInputChange(e, setCarInfo)}
+              style={{
+                backgroundColor: "#ffffff",
+                borderColor: "#ced4da",
+                color: "#495057",
+              }}
+            />
+          </Form.Group>
+        </Col>
+        <Col>
+          <Form.Group className="mb-3">
+            <Form.Label style={{ fontWeight: "bold", color: "#343a40" }}>
+              가격
+            </Form.Label>
+            <Form.Control
+              type="text"
+              name="price"
+              value={carInfo.price}
+              onChange={(e) => handleInputChange(e, setCarInfo)}
+              style={{
+                backgroundColor: "#ffffff",
+                borderColor: "#ced4da",
+                color: "#495057",
+              }}
+            />
+          </Form.Group>
+        </Col>
+        <Col>
+          <Form.Group className="mb-3">
+            <Form.Label style={{ fontWeight: "bold", color: "#343a40" }}>
+              연식
+            </Form.Label>
+            <Form.Control
+              type="text"
+              name="year"
+              value={carInfo.year}
+              onChange={(e) => handleInputChange(e, setCarInfo)}
+              style={{
+                backgroundColor: "#ffffff",
+                borderColor: "#ced4da",
+                color: "#495057",
+              }}
+            />
+          </Form.Group>
+        </Col>
+      </Row>
 
       {/* 이미지 업로드 섹션 */}
       <div
@@ -307,89 +539,189 @@ const CarUploadPage = () => {
       <Form onSubmit={handleSubmit}>
         <Tabs
           activeKey={activeKey}
-          onSelect={(k) => setActiveKey(k)}
+          onSelect={(k) => k !== "add" && setActiveKey(k)}
           className="mb-3"
           style={{
             borderBottom: "2px solid #007bff",
           }}
         >
           <Tab eventKey="basic" title="기본 정보" tabClassName="text-dark">
-            {renderFormGroups(basicInfoFields)}
+            {renderFormGroups(
+              [
+                ["Vehicle Type", "vehicleType"],
+                ["Power Type", "powerType"],
+                ["Time to Market", "timeToMarket"],
+                ["Vehicle Structure", "vehicleStructure"],
+                ["Overall Dimensions (L*W*H)", "overallDimensions"],
+                ["Container Size", "containerSize"],
+                ["Wheel Base", "wheelBase"],
+                ["Curb Weight", "curbWeight"],
+                ["Max Full Load Weight", "maxFullLoadWeight"],
+              ],
+              basicInfo,
+              setBasicInfo
+            )}
           </Tab>
           <Tab eventKey="engine" title="엔진" tabClassName="text-dark">
-            {renderFormGroups(engineFields)}
+            {renderFormGroups(
+              [
+                ["Displacement (ml)", "displacementMl"],
+                ["Displacement (L)", "displacementL"],
+                ["Horsepower (Ps)", "horsepowerPs"],
+              ],
+              engineInfo,
+              setEngineInfo
+            )}
           </Tab>
           <Tab
             eventKey="electricMotor"
             title="전기모터"
             tabClassName="text-dark"
           >
-            {renderFormGroups(electricMotorFields)}
+            {renderFormGroups(
+              [
+                ["Motor Type (KW)", "motorTypeKW"],
+                ["Motor Horsepower (Ps)", "motorHorsepowerPs"],
+                ["Total Motor Torque (N.m)", "totalMotorTorque"],
+                ["Battery Type", "batteryType"],
+                ["Battery Brand", "batteryBrand"],
+                ["NECD Pure Electric Range (km)", "necdPureElectricRange"],
+                ["Battery Capacity (kWh)", "batteryCapacity"],
+                ["Power Consumption (kWh/100km)", "powerConsumption"],
+                ["Quick Charge (h)", "quickCharge"],
+                ["Slow Charge (h)", "slowCharge"],
+                ["Percentage of Fast Charge (%)", "percentageOfFastCharge"],
+              ],
+              electricMotorInfo,
+              setElectricMotorInfo
+            )}
           </Tab>
           <Tab
             eventKey="chassisSteering"
             title="Chassis Steering"
             tabClassName="text-dark"
           >
-            {renderFormGroups(chassisSteeringFields)}
+            {renderFormGroups(
+              [
+                ["Drive Mode", "driveMode"],
+                ["Four-Wheel Drive", "fourWheelDrive"],
+              ],
+              chassisSteeringInfo,
+              setChassisSteeringInfo
+            )}
           </Tab>
           <Tab
             eventKey="transmission"
             title="Transmission"
             tabClassName="text-dark"
           >
-            {renderFormGroups(transmissionFields)}
+            {renderFormGroups(
+              [["Number of Gears", "numberOfGears"]],
+              transmissionInfo,
+              setTransmissionInfo
+            )}
           </Tab>
           {additionalTabs.map((tab) => (
             <Tab
               key={tab.key}
               eventKey={tab.key}
-              title={tab.title}
+              title={
+                <Form.Control
+                  type="text"
+                  value={tab.title}
+                  onChange={(e) => handleTabTitleChange(e, tab.key)}
+                  onKeyPress={handleKeyPress} // 엔터키를 처리
+                  style={{
+                    backgroundColor: "#e9ecef",
+                    border: "none",
+                    textAlign: "center",
+                    fontWeight: "bold",
+                    height: "100%",
+                    width: "100%",
+                    padding: "5px",
+                    margin: "0",
+                  }}
+                />
+              }
               tabClassName="text-dark"
             >
-              {renderFormGroups([], tab.key)}{" "}
-              {/* 탭 안에 추가할 폼 항목들을 넣어주세요 */}
-              <Form.Group className="mb-3">
-                <Form.Label style={{ fontWeight: "bold", color: "#343a40" }}>
-                  Custom Field 1
-                </Form.Label>
-                <Form.Control
-                  type="text"
-                  name="customField1"
-                  value={tab.data.customField1 || ""}
-                  onChange={(e) => handleInputChange(e, tab.key)}
-                  style={{
-                    backgroundColor: "#ffffff",
-                    borderColor: "#ced4da",
-                    color: "#495057",
-                  }}
-                />
-              </Form.Group>
-              <Form.Group className="mb-3">
-                <Form.Label style={{ fontWeight: "bold", color: "#343a40" }}>
-                  Custom Field 2
-                </Form.Label>
-                <Form.Control
-                  type="text"
-                  name="customField2"
-                  value={tab.data.customField2 || ""}
-                  onChange={(e) => handleInputChange(e, tab.key)}
-                  style={{
-                    backgroundColor: "#ffffff",
-                    borderColor: "#ced4da",
-                    color: "#495057",
-                  }}
-                />
-              </Form.Group>
+              {Object.entries(tab.fieldNames).map(([fieldKey, fieldLabel]) => (
+                <Form.Group className="mb-3" key={fieldKey}>
+                  <Row className="align-items-center">
+                    <Col>
+                      <Form.Control
+                        type="text"
+                        value={fieldLabel}
+                        onChange={(e) =>
+                          handleFieldNameChange(e, tab.key, fieldKey)
+                        }
+                        onKeyPress={handleKeyPress} // 엔터키를 처리
+                        style={{
+                          backgroundColor: "#ffffff",
+                          borderColor: "#ced4da",
+                          color: "#495057",
+                          marginBottom: "5px",
+                        }}
+                      />
+                    </Col>
+                    <Col>
+                      <Form.Control
+                        type="text"
+                        name={fieldKey}
+                        value={tab.data[fieldKey] || ""}
+                        onChange={(e) =>
+                          handleInputChange(e, (update) => {
+                            setAdditionalTabs((prevTabs) =>
+                              prevTabs.map((t) =>
+                                t.key === tab.key
+                                  ? { ...t, data: { ...t.data, ...update } }
+                                  : t
+                              )
+                            );
+                          })
+                        }
+                        style={{
+                          backgroundColor: "#ffffff",
+                          borderColor: "#ced4da",
+                          color: "#495057",
+                        }}
+                      />
+                    </Col>
+                    <Col xs="auto">
+                      <Button
+                        className="delete-field-button"
+                        onClick={() => handleDeleteField(tab.key, fieldKey)}
+                      >
+                        삭제
+                      </Button>
+                    </Col>
+                  </Row>
+                </Form.Group>
+              ))}
+              <Button
+                className="add-field-button"
+                onClick={() => handleAddField(tab.key)}
+              >
+                필드 추가
+              </Button>
             </Tab>
           ))}
+          <Tab
+            eventKey="add"
+            title={
+              <div
+                className="add-tab-button"
+                onClick={handleAddTab}
+                style={{ cursor: "pointer" }}
+              >
+                +
+              </div>
+            }
+            tabClassName="add-tab"
+          />
         </Tabs>
 
-        <Button variant="secondary" onClick={handleAddTab} className="mb-3">
-          탭 추가
-        </Button>
-
-        <Button variant="primary" type="submit">
+        <Button variant="primary" type="submit" style={{ marginTop: "20px" }}>
           제품 업로드
         </Button>
       </Form>

@@ -44,6 +44,9 @@ let isAthenticate = createSlice({
 const persistConfig = {
   key: "root",
   storage,
+  // serializableCheck 설정을 추가하여 비직렬화 가능 경고를 무시할 수 있습니다.
+  // 비활성화하거나 특정 액션에 대해 무시할 수 있습니다.
+  // 아래에서 serializableCheck를 비활성화하거나 특정 액션만 무시하도록 설정합니다.
 };
 
 // 모든 리듀서를 결합
@@ -67,7 +70,12 @@ const logoutMiddleware = (store) => (next) => (action) => {
 const store = configureStore({
   reducer: persistedReducer,
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(logoutMiddleware),
+    getDefaultMiddleware({
+      serializableCheck: {
+        // 특정 액션 타입을 무시
+        ignoredActions: ["persist/PERSIST"],
+      },
+    }).concat(logoutMiddleware),
 });
 
 const persistor = persistStore(store);
