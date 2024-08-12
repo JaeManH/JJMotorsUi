@@ -13,6 +13,7 @@ import {
 import { useDropzone } from "react-dropzone";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./CarUploadPage.css";
+import axios from "axios";
 
 const CarUploadPage = () => {
   const [images, setImages] = useState([]);
@@ -210,27 +211,32 @@ const CarUploadPage = () => {
 
     // 데이터 구조화
     const filterEmptyFields = (data) =>
-      Object.fromEntries(
-        Object.entries(data).filter(([_, value]) => value.trim() !== "")
-      );
+      Object.entries(data)
+        .filter(([_, value]) => value.trim() !== "")
+        .map(([key, value]) => ({ key, value }));
 
     const tabsData = {
-      commonInfo: filterEmptyFields(carInfo),
+      vehicleName: carInfo.vehicleName,
+      price: carInfo.price,
+      year: carInfo.year,
       basicInfo: filterEmptyFields(basicInfo),
-      engine: filterEmptyFields(engineInfo),
-      electricMotor: filterEmptyFields(electricMotorInfo),
-      chassisSteering: filterEmptyFields(chassisSteeringInfo),
-      transmission: filterEmptyFields(transmissionInfo),
+      engineInfo: filterEmptyFields(engineInfo),
+      electricMotorInfo: filterEmptyFields(electricMotorInfo),
+      chassisSteeringInfo: filterEmptyFields(chassisSteeringInfo),
+      transmissionInfo: filterEmptyFields(transmissionInfo),
     };
 
     additionalTabs.forEach((tab) => {
-      const tabData = {};
-      Object.entries(tab.fieldNames).forEach(([key, fieldName]) => {
-        if (fieldName.trim() && tab.data[key]?.trim()) {
-          tabData[fieldName] = tab.data[key];
-        }
-      });
-      tabsData[tab.title] = tabData;
+      const tabData = Object.entries(tab.fieldNames)
+        .map(([key, fieldName]) => {
+          const value = tab.data[key]?.trim();
+          return value ? { key: fieldName, value } : null;
+        })
+        .filter((item) => item !== null);
+
+      if (tabData.length > 0) {
+        tabsData[tab.title] = tabData;
+      }
     });
 
     console.log("Structured Data:", tabsData);
@@ -238,7 +244,11 @@ const CarUploadPage = () => {
     console.log("Thumbnail Index:", thumbnailIndex);
 
     // 전송할 데이터를 아래의 예시처럼 구조화할 수 있습니다.
-    // axios.post('/api/upload', { carData: tabsData, images, thumbnailIndex });
+    axios.post("http://localhost:8080/api/upload", {
+      ...tabsData,
+      images,
+      thumbnailIndex,
+    });
   };
 
   const handleAddTab = () => {

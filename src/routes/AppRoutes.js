@@ -64,21 +64,6 @@ const AppRoutes = () => {
     doors: "5",
   };
 
-  <style type="text/css">
-    {`
-    .nav-tabs .nav-link {
-      color: #495057;
-      background-color: #e9ecef;
-      border: 1px solid #dee2e6;
-    }
-    .nav-tabs .nav-link.active {
-      color: #495057;
-      background-color: #fff;
-      border-color: #dee2e6 #dee2e6 #fff;
-    }
-  `}
-  </style>;
-
   return (
     <>
       <Routes>
