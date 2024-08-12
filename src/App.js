@@ -42,7 +42,7 @@ function App() {
         <div className="App">
           <NavBar />
           <div className="content mt-5 pt-4">
-            <RemoteControlBox
+            {/* <RemoteControlBox
               onContactClick={handleContactClick}
               onPurchaseClick={handlePurchaseClick}
             />
@@ -54,8 +54,8 @@ function App() {
             <PurchaseModal
               show={showPurchase}
               handleClose={handlePurchaseClose}
-            />
-            <ChatBot />
+            /> */}
+            {/* <ChatBot /> */}
             <div className="content-container">
               <AppRoutes />
             </div>
