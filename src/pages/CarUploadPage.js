@@ -102,6 +102,20 @@ const CarUploadPage = () => {
     stateSetter((prev) => ({ ...prev, [name]: value }));
   };
 
+  const handleAdditionalTabInputChange = (e, tabKey) => {
+    const { name, value } = e.target;
+    setAdditionalTabs((prevTabs) =>
+      prevTabs.map((tab) =>
+        tab.key === tabKey
+          ? {
+              ...tab,
+              data: { ...tab.data, [name]: value },
+            }
+          : tab
+      )
+    );
+  };
+
   const handleStockStatusChange = (e) => {
     const { value } = e.target;
     setCarInfo((prev) => ({ ...prev, stockStatus: value }));
@@ -215,40 +229,48 @@ const CarUploadPage = () => {
         .filter(([_, value]) => value.trim() !== "")
         .map(([key, value]) => ({ key, value }));
 
-    const tabsData = {
-      vehicleName: carInfo.vehicleName,
-      price: carInfo.price,
-      year: carInfo.year,
+    const details = {
       basicInfo: filterEmptyFields(basicInfo),
       engineInfo: filterEmptyFields(engineInfo),
       electricMotorInfo: filterEmptyFields(electricMotorInfo),
       chassisSteeringInfo: filterEmptyFields(chassisSteeringInfo),
       transmissionInfo: filterEmptyFields(transmissionInfo),
+      additionalTabs: additionalTabs.map((tab) => ({
+        title: tab.title,
+        fields: Object.entries(tab.fieldNames).reduce(
+          (acc, [key, fieldName]) => {
+            const value = tab.data[key]?.trim();
+            if (value) {
+              acc.push({ fieldName, value });
+            }
+            return acc;
+          },
+          []
+        ),
+      })),
     };
 
-    additionalTabs.forEach((tab) => {
-      const tabData = Object.entries(tab.fieldNames)
-        .map(([key, fieldName]) => {
-          const value = tab.data[key]?.trim();
-          return value ? { key: fieldName, value } : null;
-        })
-        .filter((item) => item !== null);
-
-      if (tabData.length > 0) {
-        tabsData[tab.title] = tabData;
-      }
-    });
+    const tabsData = {
+      vehicleName: carInfo.vehicleName,
+      price: carInfo.price,
+      year: carInfo.year,
+      detailsJson: JSON.stringify(details),
+      // images and thumbnailIndex can be handled separately if required by the backend
+    };
 
     console.log("Structured Data:", tabsData);
     console.log("Images:", images);
     console.log("Thumbnail Index:", thumbnailIndex);
 
     // 전송할 데이터를 아래의 예시처럼 구조화할 수 있습니다.
-    axios.post("http://localhost:8080/api/upload", {
-      ...tabsData,
-      images,
-      thumbnailIndex,
-    });
+    axios
+      .post("http://localhost:8080/api/upload", tabsData)
+      .then((response) => {
+        console.log("Upload successful:", response.data);
+      })
+      .catch((error) => {
+        console.error("There was an error uploading the data:", error);
+      });
   };
 
   const handleAddTab = () => {
@@ -680,15 +702,7 @@ const CarUploadPage = () => {
                         name={fieldKey}
                         value={tab.data[fieldKey] || ""}
                         onChange={(e) =>
-                          handleInputChange(e, (update) => {
-                            setAdditionalTabs((prevTabs) =>
-                              prevTabs.map((t) =>
-                                t.key === tab.key
-                                  ? { ...t, data: { ...t.data, ...update } }
-                                  : t
-                              )
-                            );
-                          })
+                          handleAdditionalTabInputChange(e, tab.key)
                         }
                         style={{
                           backgroundColor: "#ffffff",
