@@ -70,13 +70,15 @@ const CarUploadPage = () => {
   const [activeKey, setActiveKey] = useState("basic");
   const [errorMessage, setErrorMessage] = useState(null);
 
-  const onDrop = useCallback(
-    (acceptedFiles) => {
-      const imageUrls = acceptedFiles.map((file) => URL.createObjectURL(file));
-      setImages([...images, ...imageUrls]);
-    },
-    [images]
-  );
+  const onDrop = useCallback((acceptedFiles) => {
+    const imagePreviews = acceptedFiles.map((file) =>
+      Object.assign(file, {
+        preview: URL.createObjectURL(file),
+      })
+    );
+
+    setImages((prevImages) => [...prevImages, ...imagePreviews]);
+  }, []);
 
   const { getRootProps, getInputProps } = useDropzone({
     onDrop,
@@ -250,21 +252,28 @@ const CarUploadPage = () => {
       })),
     };
 
-    const tabsData = {
-      vehicleName: carInfo.vehicleName,
-      price: carInfo.price,
-      year: carInfo.year,
-      detailsJson: JSON.stringify(details),
-      // images and thumbnailIndex can be handled separately if required by the backend
-    };
+    // FormData 객체 생성
+    const formData = new FormData();
+    formData.append("vehicleName", carInfo.vehicleName);
+    formData.append("price", carInfo.price);
+    formData.append("year", carInfo.year);
+    formData.append("detailsJson", JSON.stringify(details));
+    formData.append("thumbnailIndex", thumbnailIndex);
+    formData.append("stockStatus", carInfo.stockStatus);
 
-    console.log("Structured Data:", tabsData);
-    console.log("Images:", images);
-    console.log("Thumbnail Index:", thumbnailIndex);
+    // 이미지 파일을 FormData에 추가
+    images.forEach((image, index) => {
+      formData.append("images", image);
+    });
 
-    // 전송할 데이터를 아래의 예시처럼 구조화할 수 있습니다.
+    console.log("Structured Data:", formData);
+
     axios
-      .post("http://localhost:8080/api/upload", tabsData)
+      .post("http://localhost:8080/api/upload", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
       .then((response) => {
         console.log("Upload successful:", response.data);
       })
@@ -543,7 +552,7 @@ const CarUploadPage = () => {
             }}
           >
             <Image
-              src={image}
+              src={image.preview}
               thumbnail
               style={{
                 width: "150px",
