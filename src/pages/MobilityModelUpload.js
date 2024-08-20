@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import {
   Tabs,
   Tab,
@@ -12,17 +12,18 @@ import {
 } from "react-bootstrap";
 import { useDropzone } from "react-dropzone";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "./CarUploadPage.css";
+import { useNavigate } from "react-router-dom"; // React Router의 useNavigate 훅 사용
 import axios from "axios";
 
 const CarUploadPage = () => {
+  const [seriesOptions, setSeriesOptions] = useState([]);
   const [images, setImages] = useState([]);
   const [thumbnailIndex, setThumbnailIndex] = useState(0);
   const [carInfo, setCarInfo] = useState({
     vehicleName: "",
     price: "",
     year: "",
-    stockStatus: "재고", // 기본값은 '재고'
+    stockStatus: "재고",
   });
 
   const [basicInfo, setBasicInfo] = useState({
@@ -69,6 +70,21 @@ const CarUploadPage = () => {
   const [additionalTabs, setAdditionalTabs] = useState([]);
   const [activeKey, setActiveKey] = useState("basic");
   const [errorMessage, setErrorMessage] = useState(null);
+  const [successMessage, setSuccessMessage] = useState("");
+  const navigate = useNavigate(); // useNavigate 훅을 사용하여 리다이렉트 처리
+
+  // 모빌리티 시리즈 데이터를 불러오는 useEffect
+  useEffect(() => {
+    axios
+      .get("http://localhost:8080/mobilitySeries")
+      .then((response) => {
+        setSeriesOptions(response.data);
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching series data:", error);
+      });
+  }, []);
 
   const onDrop = useCallback((acceptedFiles) => {
     const imagePreviews = acceptedFiles.map((file) =>
@@ -88,7 +104,7 @@ const CarUploadPage = () => {
       "image/gif": [],
       "image/bmp": [],
       "image/webp": [],
-    }, // 허용되는 이미지 형식
+    },
     multiple: true,
     onDropRejected: () => {
       alert("이미지 파일만 업로드 가능합니다.");
@@ -213,19 +229,66 @@ const CarUploadPage = () => {
         fieldNames.add(fieldName);
       }
     }
-    setErrorMessage(null); // 중복이 없으면 에러 메시지 제거
+    setErrorMessage(null);
     return true;
+  };
+
+  const resetForm = () => {
+    setImages([]);
+    setThumbnailIndex(0);
+    setCarInfo({
+      vehicleName: "",
+      price: "",
+      year: "",
+      stockStatus: "재고",
+    });
+    setBasicInfo({
+      vehicleType: "",
+      powerType: "",
+      timeToMarket: "",
+      vehicleStructure: "",
+      overallDimensions: "",
+      containerSize: "",
+      wheelBase: "",
+      curbWeight: "",
+      maxFullLoadWeight: "",
+    });
+    setEngineInfo({
+      displacementMl: "",
+      displacementL: "",
+      horsepowerPs: "",
+    });
+    setElectricMotorInfo({
+      motorTypeKW: "",
+      motorHorsepowerPs: "",
+      totalMotorTorque: "",
+      batteryType: "",
+      batteryBrand: "",
+      necdPureElectricRange: "",
+      batteryCapacity: "",
+      powerConsumption: "",
+      quickCharge: "",
+      slowCharge: "",
+      percentageOfFastCharge: "",
+    });
+    setChassisSteeringInfo({
+      driveMode: "",
+      fourWheelDrive: "",
+    });
+    setTransmissionInfo({
+      numberOfGears: "",
+    });
+    setAdditionalTabs([]);
+    setActiveKey("basic");
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // 중복 필드나 탭 이름 체크
     if (!checkForDuplicateFields()) {
       return;
     }
 
-    // 데이터 구조화
     const filterEmptyFields = (data) =>
       Object.entries(data)
         .filter(([_, value]) => value.trim() !== "")
@@ -252,30 +315,32 @@ const CarUploadPage = () => {
       })),
     };
 
-    // FormData 객체 생성
     const formData = new FormData();
     formData.append("vehicleName", carInfo.vehicleName);
     formData.append("price", carInfo.price);
     formData.append("year", carInfo.year);
+    formData.append("seriesId", carInfo.seriesId); // 시리즈 ID 추가
     formData.append("detailsJson", JSON.stringify(details));
     formData.append("thumbnailIndex", thumbnailIndex);
     formData.append("stockStatus", carInfo.stockStatus);
 
-    // 이미지 파일을 FormData에 추가
     images.forEach((image, index) => {
       formData.append("images", image);
     });
 
-    console.log("Structured Data:", formData);
-
     axios
-      .post("http://localhost:8080/api/upload", formData, {
+      .post("http://localhost:8080/MobilityModel/upload", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       })
       .then((response) => {
         console.log("Upload successful:", response.data);
+        alert("업로드에 성공했습니다!"); // 팝업으로 성공 메시지 표시
+        resetForm(); // 폼 초기화
+        setTimeout(() => {
+          navigate("/"); // 2초 후 메인 화면으로 리다이렉트
+        }, 2000);
       })
       .catch((error) => {
         console.error("There was an error uploading the data:", error);
@@ -299,7 +364,7 @@ const CarUploadPage = () => {
 
   const handleKeyPress = (e) => {
     if (e.key === "Enter") {
-      e.target.blur(); // 포커스를 해제
+      e.target.blur();
     }
   };
 
@@ -423,6 +488,16 @@ const CarUploadPage = () => {
         자동차 제품 업로드
       </h1>
 
+      {successMessage && (
+        <Alert
+          variant="success"
+          onClose={() => setSuccessMessage("")}
+          dismissible
+        >
+          {successMessage}
+        </Alert>
+      )}
+
       {errorMessage && (
         <Alert
           variant="danger"
@@ -432,6 +507,30 @@ const CarUploadPage = () => {
           {errorMessage}
         </Alert>
       )}
+      {/* 시리즈 선택 섹션 */}
+      <Form.Group className="mb-4">
+        <Form.Label style={{ fontWeight: "bold", color: "#343a40" }}>
+          모빌리티 시리즈 선택
+        </Form.Label>
+        <Form.Control
+          as="select"
+          name="seriesId"
+          value={carInfo.seriesId}
+          onChange={(e) => handleInputChange(e, setCarInfo)}
+          style={{
+            backgroundColor: "#ffffff",
+            borderColor: "#ced4da",
+            color: "#495057",
+          }}
+        >
+          <option value="">시리즈를 선택하세요</option>
+          {seriesOptions.map((series) => (
+            <option key={series.id} value={series.id}>
+              {series.seriesName} - {series.manufacturer}
+            </option>
+          ))}
+        </Form.Control>
+      </Form.Group>
 
       {/* 재고/중고 선택 섹션 */}
       <Form.Group
@@ -671,7 +770,7 @@ const CarUploadPage = () => {
                   type="text"
                   value={tab.title}
                   onChange={(e) => handleTabTitleChange(e, tab.key)}
-                  onKeyPress={handleKeyPress} // 엔터키를 처리
+                  onKeyPress={handleKeyPress}
                   style={{
                     backgroundColor: "#e9ecef",
                     border: "none",
@@ -696,7 +795,7 @@ const CarUploadPage = () => {
                         onChange={(e) =>
                           handleFieldNameChange(e, tab.key, fieldKey)
                         }
-                        onKeyPress={handleKeyPress} // 엔터키를 처리
+                        onKeyPress={handleKeyPress}
                         style={{
                           backgroundColor: "#ffffff",
                           borderColor: "#ced4da",

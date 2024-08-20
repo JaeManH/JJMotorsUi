@@ -1,16 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import NavBar from "./components/NavBar/NavBar";
-import ChatBot from "./components/Chatbot/ChatBot";
-import AppRoutes from "./routes/AppRoutes";
-import RemoteControlBox from "./components/RemoteControlBox/RemoteControlBox";
-import ContactModal from "./components/Contact/ContactModal";
-import PurchaseModal from "./components/PurchaseModal/PurchaseModal";
 import Footer from "./components/Footer/Footer";
-import { useState } from "react";
+import AppRoutes from "./routes/AppRoutes";
 import { useSelector } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import { Provider } from "react-redux";
-import { store, persistor } from "./store/store"; // 경로 수정
+import { store, persistor } from "./store/store";
 import "./App.css";
 import "./i18n"; // i18n 초기화 파일 가져오기
 
@@ -33,7 +28,7 @@ function App() {
     handlePurchaseShow();
   };
 
-  let isAthenticate = useSelector((state) => state.isAthenticate);
+  let isAuthenticate = useSelector((state) => state.isAuthenticate);
 
   return (
     <Provider store={store}>
@@ -42,20 +37,6 @@ function App() {
         <div className="App">
           <NavBar />
           <div className="content mt-5 pt-4">
-            {/* <RemoteControlBox
-              onContactClick={handleContactClick}
-              onPurchaseClick={handlePurchaseClick}
-            />
-            <ContactModal
-              show={showContact}
-              handleClose={handleContactClose}
-              user={user}
-            />
-            <PurchaseModal
-              show={showPurchase}
-              handleClose={handlePurchaseClose}
-            /> */}
-            {/* <ChatBot /> */}
             <div className="content-container">
               <AppRoutes />
             </div>

@@ -1,0 +1,22 @@
+.admin-layout {
+  height: 100vh;
+}
+
+.sidebar {
+  min-height: 100vh;
+  border-right: 1px solid #ddd;
+}
+
+.main-content {
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar .nav-link {
+  color: black !important; /* 글자색을 검은색으로 설정 */
+}
+
+.sidebar .nav-link:hover {
+  color: #007bff !important; /* 마우스를 올렸을 때 파란색으로 변경 */
+}

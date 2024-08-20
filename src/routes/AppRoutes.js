@@ -11,7 +11,10 @@ import ProductDetails from "../components/ProductDetails"; // 새로운 컴포�
 import ContactForm from "../components/Contact/ContactForm"; // ContactForm 임포트
 import CarDetail from "../components/Car/CarDetail";
 import CarDetailExample from "../components/Car/CarDetailExample"; // CarDetailExample 컴포넌트 임포트'
-import CarUploadPage from "../pages/CarUploadPage";
+import MobilityModelUpload from "../pages/MobilityModelUpload";
+import MobilitySeriesUpload from "../pages/MobilitySeriesUpload";
+import AdminDashboard from "../pages/AdminDashboard";
+import AdminLayout from "../Layout/AdminLayout";
 
 const AppRoutes = () => {
   let testCarImage =
@@ -79,7 +82,21 @@ const AppRoutes = () => {
           path="/car/example"
           element={<CarDetailExample></CarDetailExample>}
         ></Route>
-        <Route path="/carUpload" element={<CarUploadPage />}></Route>
+        <Route
+          path="/mobilityModelUpload"
+          element={<MobilityModelUpload />}
+        ></Route>
+        <Route
+          path="/mobilitySeriesUpload"
+          element={<MobilitySeriesUpload />}
+        ></Route>
+        <Route path="/admin" element={<AdminLayout />}>
+          <Route path="dashboard" element={<AdminDashboard />} />
+          {/* <Route path="manufacturer" element={<ManufacturerPage />} />
+          <Route path="brand" element={<BrandPage />} />
+          <Route path="series" element={<SeriesPage />} />
+          <Route path="model" element={<ModelPage />} /> */}
+        </Route>
         <Route path="*" element={<NotFound404 />} />
       </Routes>
     </>
