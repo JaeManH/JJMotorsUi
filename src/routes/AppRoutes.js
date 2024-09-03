@@ -2,19 +2,18 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import MainPage from "./../pages/Main";
 import CarInfoCard from "../components/Car/CarInfoCard";
-import CarDetails from "../components/Car/CarDetails";
 import NotFound404 from "../pages/NotFound404";
 import ProductPage from "../pages/ProductPage";
 import CarCategoryPage from "../pages/CarCategoryPage";
 import QnA from "../components/QnA/QnA";
 import ProductDetails from "../components/ProductDetails"; // 새로운 컴포넌트 임포트
 import ContactForm from "../components/Contact/ContactForm"; // ContactForm 임포트
-import CarDetail from "../components/Car/CarDetail";
 import CarDetailExample from "../components/Car/CarDetailExample"; // CarDetailExample 컴포넌트 임포트'
 import MobilityModelUpload from "../pages/MobilityModelUpload";
 import MobilitySeriesUpload from "../pages/MobilitySeriesUpload";
 import AdminDashboard from "../pages/AdminDashboard";
 import AdminLayout from "../Layout/AdminLayout";
+import MobilityModelDetail from "../components/Car/MobilityModelDetail";
 
 const AppRoutes = () => {
   let testCarImage =
@@ -78,6 +77,7 @@ const AppRoutes = () => {
         <Route path="/qna" element={<QnA />} />
         <Route path="/product/:category/:id" element={<ProductDetails />} />
         <Route path="/contact" element={<ContactForm />} />
+        <Route path="/MobilityModel/:id" element={<MobilityModelDetail />} />
         <Route
           path="/car/example"
           element={<CarDetailExample></CarDetailExample>}

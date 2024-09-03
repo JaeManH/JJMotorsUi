@@ -1,0 +1,158 @@
+{
+    "WuLing Air ev 2023 two-seats Standard Edition": {
+        "Engine": [
+            {
+                "key": "Displacement（ml）",
+                "value": NaN
+            },
+            {
+                "key": "Displacement（L）",
+                "value": NaN
+            },
+            {
+                "key": "Horsepower（Ps）",
+                "value": NaN
+            }
+        ],
+        "Electric motor": [
+            {
+                "key": "Motor type（KW）",
+                "value": 30
+            },
+            {
+                "key": "Motor horsepower（Ps）",
+                "value": 41
+            },
+            {
+                "key": "Total motor torque(N.m)",
+                "value": 110
+            },
+            {
+                "key": "Battery type",
+                "value": "LFP"
+            },
+            {
+                "key": "Battery Brand",
+                "value": "中航锂电"
+            },
+            {
+                "key": "NECD Pure electric range（km）",
+                "value": 300
+            },
+            {
+                "key": "Battery capacity（kWh）",
+                "value": 26.7
+            },
+            {
+                "key": "Power Consumption（kWh/100km）",
+                "value": 9.5
+            },
+            {
+                "key": "Quick charge（h）",
+                "value": NaN
+            },
+            {
+                "key": "Slow charge（h）",
+                "value": 7.5
+            },
+            {
+                "key": "Percentage of Fast Charge（%）",
+                "value": NaN
+            }
+        ],
+        "Chassis Steering": [
+            {
+                "key": "Drive mode",
+                "value": "Rear-mounted rear-wheel drive"
+            },
+            {
+                "key": "Four-wheel drive",
+                "value": NaN
+            }
+        ],
+        "Transmission": [
+            {
+                "key": "Number of gears",
+                "value": 1
+            }
+        ]
+    },
+    "WuLing Air ev 2024 four-seats Standard Edition": {
+        "Engine": [
+            {
+                "key": "Displacement（ml）",
+                "value": NaN
+            },
+            {
+                "key": "Displacement（L）",
+                "value": NaN
+            },
+            {
+                "key": "Horsepower（Ps）",
+                "value": NaN
+            }
+        ],
+        "Electric motor": [
+            {
+                "key": "Motor type（KW）",
+                "value": 50
+            },
+            {
+                "key": "Motor horsepower（Ps）",
+                "value": 68
+            },
+            {
+                "key": "Total motor torque(N.m)",
+                "value": 140
+            },
+            {
+                "key": "Battery type",
+                "value": "LFP"
+            },
+            {
+                "key": "Battery Brand",
+                "value": "多氟多新能源"
+            },
+            {
+                "key": "NECD Pure electric range（km）",
+                "value": 300
+            },
+            {
+                "key": "Battery capacity（kWh）",
+                "value": 28.4
+            },
+            {
+                "key": "Power Consumption（kWh/100km）",
+                "value": 10.3
+            },
+            {
+                "key": "Quick charge（h）",
+                "value": 0.75
+            },
+            {
+                "key": "Slow charge（h）",
+                "value": 8
+            },
+            {
+                "key": "Percentage of Fast Charge（%）",
+                "value": 80
+            }
+        ],
+        "Chassis Steering": [
+            {
+                "key": "Drive mode",
+                "value": "Rear-mounted rear-wheel drive"
+            },
+            {
+                "key": "Four-wheel drive",
+                "value": NaN
+            }
+        ],
+        "Transmission": [
+            {
+                "key": "Number of gears",
+                "value": 1
+            }
+        ]
+    }
+}
