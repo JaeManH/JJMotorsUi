@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import SearchBar from "../components/SearchBar/SearchBar";
-import CarList from "../components/Car/CarList";
-import { sedans, suvs, trucks } from "../test/TestData";
+import SearchBar from "../Components/SearchBar/SearchBar";
+import CarList from "../Components/Car/CarList";
+import { sedans, suvs, trucks } from "../Test/TestData";
 
 const Main = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -16,7 +16,7 @@ const Main = () => {
 
   return (
     <div className="main-page">
-      <SearchBar onSearch={handleSearch} />
+      {/* <SearchBar onSearch={handleSearch} /> */}
       <div className="container mt-5">
         <CarList title="Sedans" cars={filterCars(sedans)} />
         <CarList title="SUVs" cars={filterCars(suvs)} />

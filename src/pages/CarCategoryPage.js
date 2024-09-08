@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Container, Row, Col, Pagination } from "react-bootstrap";
-import CarItem from "../components/Car/CarItem";
+import CarItem from "../Components/Car/CarItem";
 import { useParams, useSearchParams } from "react-router-dom";
-import { sedans, suvs, trucks } from "../test/TestData";
+import { sedans, suvs, trucks } from "../Test/TestData";
 import "./CarCategoryPage.css"; // 새로운 스타일링 파일 임포트
 
 const carData = {

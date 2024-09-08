@@ -17,8 +17,8 @@ const AdminDashboard = () => {
         <Col xs={12} sm={6} md={4} lg={3} className="mb-4">
           <Card className="text-center h-100">
             <Card.Body>
-              <Card.Title>제조사 등록</Card.Title>
-              <Card.Text>새로운 제조사를 등록합니다.</Card.Text>
+              <Card.Title>제조사 관리</Card.Title>
+              <Card.Text>제조사를 관리 또는 추가합니다.</Card.Text>
               <Button
                 variant="primary"
                 onClick={() => handleNavigation("/admin/manufacturer")}
@@ -31,8 +31,8 @@ const AdminDashboard = () => {
         <Col xs={12} sm={6} md={4} lg={3} className="mb-4">
           <Card className="text-center h-100">
             <Card.Body>
-              <Card.Title>브랜드 등록</Card.Title>
-              <Card.Text>새로운 브랜드를 등록합니다.</Card.Text>
+              <Card.Title>브랜드 관리</Card.Title>
+              <Card.Text>브랜드를 관리 또는 추가합니다.</Card.Text>
               <Button
                 variant="primary"
                 onClick={() => handleNavigation("/admin/brand")}
@@ -45,8 +45,8 @@ const AdminDashboard = () => {
         <Col xs={12} sm={6} md={4} lg={3} className="mb-4">
           <Card className="text-center h-100">
             <Card.Body>
-              <Card.Title>시리즈 등록</Card.Title>
-              <Card.Text>새로운 시리즈를 등록합니다.</Card.Text>
+              <Card.Title>시리즈 관리</Card.Title>
+              <Card.Text>시리즈를 관리 또는 추가합니다.</Card.Text>
               <Button
                 variant="primary"
                 onClick={() => handleNavigation("/admin/series")}
@@ -59,8 +59,8 @@ const AdminDashboard = () => {
         <Col xs={12} sm={6} md={4} lg={3} className="mb-4">
           <Card className="text-center h-100">
             <Card.Body>
-              <Card.Title>모델 등록</Card.Title>
-              <Card.Text>새로운 모델을 등록합니다.</Card.Text>
+              <Card.Title>모델 관리</Card.Title>
+              <Card.Text>모델을 관리 또는 추가합니다.</Card.Text>
               <Button
                 variant="primary"
                 onClick={() => handleNavigation("/admin/model")}

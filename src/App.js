@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import NavBar from "./components/NavBar/NavBar";
-import Footer from "./components/Footer/Footer";
-import AppRoutes from "./routes/AppRoutes";
+import NavBar from "./Components/Common/NavBar";
+import Footer from "./Components/Common/Footer";
+import AppRoutes from "./Routes/AppRoutes";
 import { useSelector } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import { Provider } from "react-redux";
-import { store, persistor } from "./store/store";
+import { store, persistor } from "./Store/Store";
 import "./App.css";
 import "./i18n"; // i18n 초기화 파일 가져오기
 

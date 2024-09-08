@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import CarList from "../components/Car/CarList";
-import SearchBar from "../components/SearchBar/SearchBar";
-import Filter from "../components/Filter/Filter";
-import { sedans, suvs, trucks } from "../test/TestData";
+import CarList from "../Components/Car/CarList";
+import SearchBar from "../Components/SearchBar/SearchBar";
+import Filter from "../Components/Filter/Filter";
+import { sedans, suvs, trucks } from "../Test/TestData";
 
 function ProductPage() {
   const [searchQuery, setSearchQuery] = useState("");

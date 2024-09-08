@@ -1,13 +1,5 @@
 import React, { useState } from "react";
-import {
-  Container,
-  Form,
-  Button,
-  Row,
-  Col,
-  Alert,
-  Image,
-} from "react-bootstrap";
+import { Container, Form, Button, Alert, Image } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useDropzone } from "react-dropzone";

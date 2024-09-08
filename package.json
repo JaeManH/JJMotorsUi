@@ -12,6 +12,7 @@
     "i18next": "^23.12.1",
     "i18next-browser-languagedetector": "^8.0.0",
     "i18next-http-backend": "^2.5.2",
+    "ksmotorui": "file:",
     "react": "^18.3.1",
     "react-bootstrap": "^2.10.3",
     "react-chatbot-kit": "^2.2.2",

@@ -24,16 +24,16 @@ const AdminLayout = () => {
                 대시보드
               </Nav.Link>
               <Nav.Link as={Link} to="/admin/manufacturer">
-                제조사 등록
+                제조사 관리
               </Nav.Link>
               <Nav.Link as={Link} to="/admin/brand">
-                브랜드 등록
+                브랜드 관리
               </Nav.Link>
               <Nav.Link as={Link} to="/admin/series">
-                시리즈 등록
+                시리즈 관리
               </Nav.Link>
               <Nav.Link as={Link} to="/admin/model">
-                모델 등록
+                모델 관리
               </Nav.Link>
             </Nav>
           </Col>

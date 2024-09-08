@@ -7,7 +7,7 @@ import LoginModal from "../User/LoginModal";
 import SignupModal from "../User/SignupModal";
 import ForgotPasswordModal from "../User/ForgotPasswordModal";
 import { useDispatch, useSelector } from "react-redux";
-import { logout } from "../../store/store";
+import { logout } from "../../Store/Store";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next"; // i18next 훅 사용
 
