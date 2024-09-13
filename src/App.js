@@ -19,8 +19,6 @@ function App() {
   const handlePurchaseClose = () => setShowPurchase(false);
   const handlePurchaseShow = () => setShowPurchase(true);
 
-  const [user, setUser] = useState(null);
-
   const handleContactClick = () => {
     handleContactShow();
   };
@@ -36,7 +34,7 @@ function App() {
       <PersistGate loading={null} persistor={persistor}>
         <div className="App">
           <NavBar />
-          <div className="content mt-5 pt-4">
+          <div className="content">
             <div className="content-container">
               <AppRoutes />
             </div>

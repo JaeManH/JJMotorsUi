@@ -25,7 +25,7 @@ const ManufacturerList = () => {
   const [selectedForDeletion, setSelectedForDeletion] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const [manufacturersPerPage, setManufacturersPerPage] = useState(5); // 초기 페이지당 제조사 수를 5로 설정
+  const [manufacturersPerPage, setManufacturersPerPage] = useState(10); // 초기 페이지당 제조사 수를 5로 설정
   const [totalPages, setTotalPages] = useState(0); // 전체 페이지 수 상태 추가
   const [totalElements, setTotalElements] = useState(0); // 전체 항목 수 상태 추가
 
@@ -91,10 +91,25 @@ const ManufacturerList = () => {
     setShowDeleteModal(true);
   };
 
-  const confirmDelete = () => {
-    console.log("삭제 확인됨: ", selectedForDeletion);
-    setShowDeleteModal(false);
-    setSelectedForDeletion([]);
+  const confirmDelete = async () => {
+    if (selectedForDeletion.length === 0) {
+      alert("삭제할 제조사를 선택하세요.");
+      return;
+    }
+
+    try {
+      await axios({
+        method: "delete",
+        url: "http://localhost:8080/api/manufacturers",
+        data: selectedForDeletion, // 삭제할 제조사 ID 리스트를 배열로 전달
+        headers: { "Content-Type": "application/json" }, // Content-Type 설정
+      });
+      fetchManufacturers(); // 삭제 후 제조사 목록 갱신
+      setSelectedForDeletion([]); // 선택 목록 초기화
+      setShowDeleteModal(false); // 모달 닫기
+    } catch (error) {
+      console.error("제조사 삭제 중 오류가 발생했습니다:", error);
+    }
   };
 
   const handleCheckboxChange = (id) => {
