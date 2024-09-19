@@ -12,10 +12,11 @@ import {
 } from "react-bootstrap";
 import { useDropzone } from "react-dropzone";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { useNavigate } from "react-router-dom"; // React Router의 useNavigate 훅 사용
+import { useNavigate, useParams } from "react-router-dom"; // React Router의 useNavigate 훅 사용
 import axios from "axios";
 
 const CarUploadPage = () => {
+  const { id } = useParams();
   const [seriesOptions, setSeriesOptions] = useState([]);
   const [images, setImages] = useState([]);
   const [thumbnailIndex, setThumbnailIndex] = useState(0);
@@ -73,28 +74,106 @@ const CarUploadPage = () => {
   const [successMessage, setSuccessMessage] = useState("");
   const navigate = useNavigate(); // useNavigate 훅을 사용하여 리다이렉트 처리
 
-  // 모빌리티 시리즈 데이터를 불러오는 useEffect
+  const fetchCarData = async (carId) => {
+    try {
+      const response = await axios.get(
+        `http://localhost:8080/api/models/${id}`
+      );
+      const carData = response.data;
+      console.log(carData);
+
+      setCarInfo({
+        vehicleName: carData.vehicleName || "",
+        price: carData.price || "",
+        year: carData.year || "",
+        stockStatus: carData.stockStatus || "재고",
+      });
+
+      setBasicInfo({
+        vehicleType: carData.basicInfo?.vehicleType || "",
+        powerType: carData.basicInfo?.powerType || "",
+        timeToMarket: carData.basicInfo?.timeToMarket || "",
+        vehicleStructure: carData.basicInfo?.vehicleStructure || "",
+        overallDimensions: carData.basicInfo?.overallDimensions || "",
+        containerSize: carData.basicInfo?.containerSize || "",
+        wheelBase: carData.basicInfo?.wheelBase || "",
+        curbWeight: carData.basicInfo?.curbWeight || "",
+        maxFullLoadWeight: carData.basicInfo?.maxFullLoadWeight || "",
+      });
+
+      setEngineInfo({
+        displacementMl: carData.engineInfo?.displacementMl || "",
+        displacementL: carData.engineInfo?.displacementL || "",
+        horsepowerPs: carData.engineInfo?.horsepowerPs || "",
+      });
+
+      setElectricMotorInfo({
+        motorTypeKW: carData.electricMotorInfo?.motorTypeKW || "",
+        motorHorsepowerPs: carData.electricMotorInfo?.motorHorsepowerPs || "",
+        totalMotorTorque: carData.electricMotorInfo?.totalMotorTorque || "",
+        batteryType: carData.electricMotorInfo?.batteryType || "",
+        batteryBrand: carData.electricMotorInfo?.batteryBrand || "",
+        necdPureElectricRange:
+          carData.electricMotorInfo?.necdPureElectricRange || "",
+        batteryCapacity: carData.electricMotorInfo?.batteryCapacity || "",
+        powerConsumption: carData.electricMotorInfo?.powerConsumption || "",
+        quickCharge: carData.electricMotorInfo?.quickCharge || "",
+        slowCharge: carData.electricMotorInfo?.slowCharge || "",
+        percentageOfFastCharge:
+          carData.electricMotorInfo?.percentageOfFastCharge || "",
+      });
+
+      setChassisSteeringInfo({
+        driveMode: carData.chassisSteeringInfo?.driveMode || "",
+        fourWheelDrive: carData.chassisSteeringInfo?.fourWheelDrive || "",
+      });
+
+      setTransmissionInfo({
+        numberOfGears: carData.transmissionInfo?.numberOfGears || "",
+      });
+
+      setAdditionalTabs(carData.additionalTabs || []);
+    } catch (error) {
+      console.error("Error fetching car data:", error);
+    }
+  };
+
+  useEffect(() => {
+    if (id) {
+      fetchCarData(id); // 차량 ID가 있을 경우에만 데이터 불러오기
+    }
+  }, [id]);
+
   useEffect(() => {
     axios
-      .get("http://localhost:8080/mobilitySeries")
+      .get("http://localhost:8080/api/series")
       .then((response) => {
-        setSeriesOptions(response.data);
-        console.log(response.data);
+        const data = response.data;
+        // 응답 데이터에서 content 필드를 사용하여 seriesOptions 설정
+        if (Array.isArray(data.content)) {
+          setSeriesOptions(data.content); // content 배열을 seriesOptions로 설정
+        } else {
+          setSeriesOptions([]); // content가 배열이 아닐 경우 빈 배열로 설정
+        }
       })
       .catch((error) => {
         console.error("Error fetching series data:", error);
+        setSeriesOptions([]); // 오류 발생 시 빈 배열로 설정
       });
   }, []);
 
-  const onDrop = useCallback((acceptedFiles) => {
-    const imagePreviews = acceptedFiles.map((file) =>
-      Object.assign(file, {
-        preview: URL.createObjectURL(file),
-      })
-    );
+  const onDrop = useCallback(
+    (acceptedFiles) => {
+      const imagePreviews = acceptedFiles.map((file) =>
+        Object.assign(file, {
+          preview: URL.createObjectURL(file),
+        })
+      );
 
-    setImages((prevImages) => [...prevImages, ...imagePreviews]);
-  }, []);
+      setImages((prevImages) => [...prevImages, ...imagePreviews]);
+    },
+    [setImages]
+  );
 
   const { getRootProps, getInputProps } = useDropzone({
     onDrop,
@@ -289,38 +368,37 @@ const CarUploadPage = () => {
       return;
     }
 
+    // 빈 필드를 제거하는 함수
     const filterEmptyFields = (data) =>
       Object.entries(data)
         .filter(([_, value]) => value.trim() !== "")
-        .map(([key, value]) => ({ key, value }));
+        .map(([key, value]) => ({
+          category: "default", // 필요한 경우 카테고리를 분리할 수 있음
+          parameterName: key,
+          parameterValue: value,
+        }));
 
-    const details = {
-      basicInfo: filterEmptyFields(basicInfo),
-      engineInfo: filterEmptyFields(engineInfo),
-      electricMotorInfo: filterEmptyFields(electricMotorInfo),
-      chassisSteeringInfo: filterEmptyFields(chassisSteeringInfo),
-      transmissionInfo: filterEmptyFields(transmissionInfo),
-      additionalTabs: additionalTabs.map((tab) => ({
-        title: tab.title,
-        fields: Object.entries(tab.fieldNames).reduce(
-          (acc, [key, fieldName]) => {
-            const value = tab.data[key]?.trim();
-            if (value) {
-              acc.push({ fieldName, value });
-            }
-            return acc;
-          },
-          []
-        ),
-      })),
-    };
+    const parameters = [
+      ...filterEmptyFields(basicInfo),
+      ...filterEmptyFields(engineInfo),
+      ...filterEmptyFields(electricMotorInfo),
+      ...filterEmptyFields(chassisSteeringInfo),
+      ...filterEmptyFields(transmissionInfo),
+      ...additionalTabs.flatMap((tab) =>
+        Object.entries(tab.fieldNames).map(([key, fieldName]) => ({
+          category: tab.title,
+          parameterName: fieldName,
+          parameterValue: tab.data[key]?.trim() || "",
+        }))
+      ),
+    ];
 
     const formData = new FormData();
-    formData.append("vehicleName", carInfo.vehicleName);
+    formData.append("modelName", carInfo.vehicleName); // modelName으로 변경
     formData.append("price", carInfo.price);
     formData.append("year", carInfo.year);
-    formData.append("seriesId", carInfo.seriesId); // 시리즈 ID 추가
-    formData.append("detailsJson", JSON.stringify(details));
+    formData.append("seriesId", carInfo.seriesId);
+    formData.append("parameters", JSON.stringify(parameters)); // parameters로 변경
     formData.append("thumbnailIndex", thumbnailIndex);
     formData.append("stockStatus", carInfo.stockStatus);
 
@@ -329,17 +407,17 @@ const CarUploadPage = () => {
     });
 
     axios
-      .post("http://localhost:8080/MobilityModel/upload", formData, {
+      .post("http://localhost:8080/", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       })
       .then((response) => {
         console.log("Upload successful:", response.data);
-        alert("업로드에 성공했습니다!"); // 팝업으로 성공 메시지 표시
-        resetForm(); // 폼 초기화
+        alert("업로드에 성공했습니다!");
+        resetForm();
         setTimeout(() => {
-          navigate("/"); // 2초 후 메인 화면으로 리다이렉트
+          navigate("/");
         }, 2000);
       })
       .catch((error) => {
@@ -524,11 +602,12 @@ const CarUploadPage = () => {
           }}
         >
           <option value="">시리즈를 선택하세요</option>
-          {seriesOptions.map((series) => (
-            <option key={series.id} value={series.id}>
-              {series.seriesName} - {series.manufacturer}
-            </option>
-          ))}
+          {Array.isArray(seriesOptions) &&
+            seriesOptions.map((series) => (
+              <option key={series.id} value={series.id}>
+                {series.seriesName} - {series.brandName}
+              </option>
+            ))}
         </Form.Control>
       </Form.Group>
 

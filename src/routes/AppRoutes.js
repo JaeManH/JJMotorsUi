@@ -9,7 +9,7 @@ import QnA from "../Components/QnA/QnA";
 import ProductDetails from "../Components/ProductDetails"; // 새로운 컴포넌트 임포트
 import ContactForm from "../Components/Contact/ContactForm"; // ContactForm 임포트
 import CarDetailExample from "../Components/Car/CarDetailExample"; // CarDetailExample 컴포넌트 임포트'
-import MobilityModelUpload from "../Pages/MobilityModelUpload";
+import MobilityModelUpload from "../Components/Model/MobilityModelUpload";
 import MobilitySeriesUpload from "../Pages/MobilitySeriesUpload";
 import AdminDashboard from "../Pages/Admin/AdminDashboard";
 import AdminLayout from "../Pages/Admin/Layout/AdminLayout";
@@ -20,6 +20,7 @@ import BrandList from "../Components/Brand/BrandList";
 import AddBrand from "../Components/Brand/AddBrand";
 import SeriesList from "../Components/Series/SeriesList";
 import AddSeries from "../Components/Series/AddSeries";
+import MobilityModelList from "../Components/Model/MobilityModelList";
 
 const AppRoutes = () => {
   return (
@@ -54,7 +55,10 @@ const AppRoutes = () => {
           <Route path="add-brand" element={<AddBrand />} />
           <Route path="series" element={<SeriesList />} />
           <Route path="add-series" element={<AddSeries />} />
-
+          <Route path="model" element={<MobilityModelList />} />
+          <Route path="add-model" element={<MobilityModelUpload />} />
+          <Route path="edit-model/:id" element={<MobilityModelUpload />} />
+          {/* 수정 경로 추가 */}
           {/* <Route path="manufacturer" element={<ManufacturerPage />} />
           <Route path="brand" element={<BrandPage />} />
           <Route path="series" element={<SeriesPage />} />

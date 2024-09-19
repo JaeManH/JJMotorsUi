@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import NavBar from "./Components/Common/NavBar";
+import Navbar from "./Components/Common/NavBar";
 import Footer from "./Components/Common/Footer";
 import AppRoutes from "./Routes/AppRoutes";
 import { useSelector } from "react-redux";
@@ -33,7 +33,7 @@ function App() {
       <div className="overlay"></div>
       <PersistGate loading={null} persistor={persistor}>
         <div className="App">
-          <NavBar />
+          <Navbar />
           <div className="content">
             <div className="content-container">
               <AppRoutes />
