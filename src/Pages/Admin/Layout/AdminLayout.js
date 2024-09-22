@@ -7,14 +7,14 @@ import "./AdminLayout.css"; // 새로 만든 CSS 파일 임포트
 const AdminLayout = () => {
   return (
     <div className="admin-layout">
-      <Navbar bg="dark" variant="dark" className="mb-4">
+      {/* <Navbar bg="dark" variant="dark" className="mb-4">
         <Container>
           <Navbar.Brand href="/admin/dashboard">관리자 패널</Navbar.Brand>
           <Nav className="ml-auto">
             <Button variant="outline-light">로그아웃</Button>
           </Nav>
         </Container>
-      </Navbar>
+      </Navbar> */}
 
       <Container fluid>
         <Row>
@@ -34,6 +34,9 @@ const AdminLayout = () => {
               </Nav.Link>
               <Nav.Link as={Link} to="/admin/model">
                 모델 관리
+              </Nav.Link>
+              <Nav.Link as={Link} to="/admin/buyer">
+                바이어 리스트
               </Nav.Link>
             </Nav>
           </Col>

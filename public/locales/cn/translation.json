@@ -1,0 +1,15 @@
+{
+  "welcome": "欢迎来到我们的全球汽车贸易平台",
+  "description": "探索全球领先的汽车贸易平台。寻找新车和二手车，连接经销商，获取市场趋势和贸易见解。",
+  "navbar": {
+    "brand": "KS Motor",
+    "product": "产品",
+    "search": "搜索",
+    "howtobuy": "如何购买",
+    "contact": "联系",
+    "qna": "问答",
+    "login": "登录",
+    "logout": "登出",
+    "language": "语言"
+  }
+}

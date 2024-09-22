@@ -21,6 +21,7 @@ import AddBrand from "../Components/Brand/AddBrand";
 import SeriesList from "../Components/Series/SeriesList";
 import AddSeries from "../Components/Series/AddSeries";
 import MobilityModelList from "../Components/Model/MobilityModelList";
+import BuyerListPage from "../Components/Buyer/BuyerListPage";
 
 const AppRoutes = () => {
   return (
@@ -58,6 +59,7 @@ const AppRoutes = () => {
           <Route path="model" element={<MobilityModelList />} />
           <Route path="add-model" element={<MobilityModelUpload />} />
           <Route path="edit-model/:id" element={<MobilityModelUpload />} />
+          <Route path="buyer" element={<BuyerListPage />} />
           {/* 수정 경로 추가 */}
           {/* <Route path="manufacturer" element={<ManufacturerPage />} />
           <Route path="brand" element={<BrandPage />} />

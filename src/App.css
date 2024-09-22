@@ -101,7 +101,9 @@ body::before {
 .content-container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 2rem;
+  margin-top: 8%;
+  margin-bottom: 3%;
+  /* padding: 2rem; */
   width: 100%;
 }
 

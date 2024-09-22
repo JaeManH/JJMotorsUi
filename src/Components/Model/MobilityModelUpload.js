@@ -12,7 +12,7 @@ import {
 } from "react-bootstrap";
 import { useDropzone } from "react-dropzone";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { useNavigate, useParams } from "react-router-dom"; // React Router의 useNavigate 훅 사용
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 
 const CarUploadPage = () => {
@@ -21,7 +21,7 @@ const CarUploadPage = () => {
   const [images, setImages] = useState([]);
   const [thumbnailIndex, setThumbnailIndex] = useState(0);
   const [carInfo, setCarInfo] = useState({
-    vehicleName: "",
+    modelName: "",
     price: "",
     year: "",
     stockStatus: "재고",
@@ -72,7 +72,7 @@ const CarUploadPage = () => {
   const [activeKey, setActiveKey] = useState("basic");
   const [errorMessage, setErrorMessage] = useState(null);
   const [successMessage, setSuccessMessage] = useState("");
-  const navigate = useNavigate(); // useNavigate 훅을 사용하여 리다이렉트 처리
+  const navigate = useNavigate();
 
   const fetchCarData = async (carId) => {
     try {
@@ -80,59 +80,103 @@ const CarUploadPage = () => {
         `http://localhost:8080/api/models/${id}`
       );
       const carData = response.data;
-      console.log(carData);
+
+      // carData.parameters 배열을 상태에 매핑
+      carData.parameters.forEach((param) => {
+        switch (param.parameterName) {
+          case "vehicleType":
+          case "powerType":
+          case "timeToMarket":
+          case "vehicleStructure":
+          case "overallDimensions":
+          case "containerSize":
+          case "wheelBase":
+          case "curbWeight":
+          case "maxFullLoadWeight":
+            setBasicInfo((prev) => ({
+              ...prev,
+              [param.parameterName]: param.parameterValue,
+            }));
+            break;
+          case "displacementMl":
+          case "displacementL":
+          case "horsepowerPs":
+            setEngineInfo((prev) => ({
+              ...prev,
+              [param.parameterName]: param.parameterValue,
+            }));
+            break;
+          case "motorTypeKW":
+          case "motorHorsepowerPs":
+          case "totalMotorTorque":
+          case "batteryType":
+          case "batteryBrand":
+          case "necdPureElectricRange":
+          case "batteryCapacity":
+          case "powerConsumption":
+          case "quickCharge":
+          case "slowCharge":
+          case "percentageOfFastCharge":
+            setElectricMotorInfo((prev) => ({
+              ...prev,
+              [param.parameterName]: param.parameterValue,
+            }));
+            break;
+          case "driveMode":
+          case "fourWheelDrive":
+            setChassisSteeringInfo((prev) => ({
+              ...prev,
+              [param.parameterName]: param.parameterValue,
+            }));
+            break;
+          case "numberOfGears":
+            setTransmissionInfo((prev) => ({
+              ...prev,
+              [param.parameterName]: param.parameterValue,
+            }));
+            break;
+          default:
+            // Additional tabs 처리
+            const tabIndex = additionalTabs.findIndex(
+              (tab) => tab.title === param.category
+            );
+            if (tabIndex !== -1) {
+              setAdditionalTabs((prevTabs) => {
+                const updatedTabs = [...prevTabs];
+                updatedTabs[tabIndex].data[param.parameterName] =
+                  param.parameterValue;
+                return updatedTabs;
+              });
+            } else {
+              // 새로운 탭 추가
+              const newTab = {
+                key: `customTab${additionalTabs.length + 1}`,
+                title: param.category,
+                data: { [param.parameterName]: param.parameterValue },
+                fieldNames: { [param.parameterName]: param.parameterName },
+              };
+              setAdditionalTabs((prevTabs) => [...prevTabs, newTab]);
+            }
+            break;
+        }
+      });
 
       setCarInfo({
-        vehicleName: carData.vehicleName || "",
+        modelName: carData.modelName || "",
         price: carData.price || "",
         year: carData.year || "",
         stockStatus: carData.stockStatus || "재고",
+        seriesId: carData.series?.id || "",
       });
 
-      setBasicInfo({
-        vehicleType: carData.basicInfo?.vehicleType || "",
-        powerType: carData.basicInfo?.powerType || "",
-        timeToMarket: carData.basicInfo?.timeToMarket || "",
-        vehicleStructure: carData.basicInfo?.vehicleStructure || "",
-        overallDimensions: carData.basicInfo?.overallDimensions || "",
-        containerSize: carData.basicInfo?.containerSize || "",
-        wheelBase: carData.basicInfo?.wheelBase || "",
-        curbWeight: carData.basicInfo?.curbWeight || "",
-        maxFullLoadWeight: carData.basicInfo?.maxFullLoadWeight || "",
-      });
+      setImages(
+        carData.images.map((url, index) => ({
+          url,
+          isExisting: true,
+        }))
+      );
 
-      setEngineInfo({
-        displacementMl: carData.engineInfo?.displacementMl || "",
-        displacementL: carData.engineInfo?.displacementL || "",
-        horsepowerPs: carData.engineInfo?.horsepowerPs || "",
-      });
-
-      setElectricMotorInfo({
-        motorTypeKW: carData.electricMotorInfo?.motorTypeKW || "",
-        motorHorsepowerPs: carData.electricMotorInfo?.motorHorsepowerPs || "",
-        totalMotorTorque: carData.electricMotorInfo?.totalMotorTorque || "",
-        batteryType: carData.electricMotorInfo?.batteryType || "",
-        batteryBrand: carData.electricMotorInfo?.batteryBrand || "",
-        necdPureElectricRange:
-          carData.electricMotorInfo?.necdPureElectricRange || "",
-        batteryCapacity: carData.electricMotorInfo?.batteryCapacity || "",
-        powerConsumption: carData.electricMotorInfo?.powerConsumption || "",
-        quickCharge: carData.electricMotorInfo?.quickCharge || "",
-        slowCharge: carData.electricMotorInfo?.slowCharge || "",
-        percentageOfFastCharge:
-          carData.electricMotorInfo?.percentageOfFastCharge || "",
-      });
-
-      setChassisSteeringInfo({
-        driveMode: carData.chassisSteeringInfo?.driveMode || "",
-        fourWheelDrive: carData.chassisSteeringInfo?.fourWheelDrive || "",
-      });
-
-      setTransmissionInfo({
-        numberOfGears: carData.transmissionInfo?.numberOfGears || "",
-      });
-
-      setAdditionalTabs(carData.additionalTabs || []);
+      setThumbnailIndex(carData.thumbnailIndex || 0);
     } catch (error) {
       console.error("Error fetching car data:", error);
     }
@@ -149,16 +193,15 @@ const CarUploadPage = () => {
       .get("http://localhost:8080/api/series")
       .then((response) => {
         const data = response.data;
-        // 응답 데이터에서 content 필드를 사용하여 seriesOptions 설정
         if (Array.isArray(data.content)) {
-          setSeriesOptions(data.content); // content 배열을 seriesOptions로 설정
+          setSeriesOptions(data.content);
         } else {
-          setSeriesOptions([]); // content가 배열이 아닐 경우 빈 배열로 설정
+          setSeriesOptions([]);
         }
       })
       .catch((error) => {
         console.error("Error fetching series data:", error);
-        setSeriesOptions([]); // 오류 발생 시 빈 배열로 설정
+        setSeriesOptions([]);
       });
   }, []);
 
@@ -192,6 +235,13 @@ const CarUploadPage = () => {
 
   const handleThumbnailSelect = (index) => {
     setThumbnailIndex(index);
+  };
+
+  const handleDeleteImage = (index) => {
+    setImages((prevImages) => prevImages.filter((_, i) => i !== index));
+    if (thumbnailIndex === index) {
+      setThumbnailIndex(0);
+    }
   };
 
   const handleInputChange = (e, stateSetter) => {
@@ -316,7 +366,7 @@ const CarUploadPage = () => {
     setImages([]);
     setThumbnailIndex(0);
     setCarInfo({
-      vehicleName: "",
+      modelName: "",
       price: "",
       year: "",
       stockStatus: "재고",
@@ -368,12 +418,11 @@ const CarUploadPage = () => {
       return;
     }
 
-    // 빈 필드를 제거하는 함수
     const filterEmptyFields = (data) =>
       Object.entries(data)
         .filter(([_, value]) => value.trim() !== "")
         .map(([key, value]) => ({
-          category: "default", // 필요한 경우 카테고리를 분리할 수 있음
+          category: "default",
           parameterName: key,
           parameterValue: value,
         }));
@@ -394,35 +443,57 @@ const CarUploadPage = () => {
     ];
 
     const formData = new FormData();
-    formData.append("modelName", carInfo.vehicleName); // modelName으로 변경
+    formData.append("modelName", carInfo.modelName);
     formData.append("price", carInfo.price);
     formData.append("year", carInfo.year);
     formData.append("seriesId", carInfo.seriesId);
-    formData.append("parameters", JSON.stringify(parameters)); // parameters로 변경
+    formData.append("parameters", JSON.stringify(parameters));
     formData.append("thumbnailIndex", thumbnailIndex);
     formData.append("stockStatus", carInfo.stockStatus);
 
     images.forEach((image, index) => {
-      formData.append("images", image);
+      if (!image.isExisting) {
+        formData.append("images", image);
+      }
     });
 
-    axios
-      .post("http://localhost:8080/", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      })
-      .then((response) => {
-        console.log("Upload successful:", response.data);
-        alert("업로드에 성공했습니다!");
-        resetForm();
-        setTimeout(() => {
-          navigate("/");
-        }, 2000);
-      })
-      .catch((error) => {
-        console.error("There was an error uploading the data:", error);
-      });
+    const requestConfig = {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    };
+
+    if (id) {
+      // If ID exists, send a PUT request to update the existing model
+      axios
+        .put(`http://localhost:8080/api/models/${id}`, formData, requestConfig)
+        .then((response) => {
+          console.log("Update successful:", response.data);
+          alert("업로드에 성공했습니다!");
+          resetForm();
+          setTimeout(() => {
+            navigate("/");
+          }, 2000);
+        })
+        .catch((error) => {
+          console.error("There was an error uploading the data:", error);
+        });
+    } else {
+      // Otherwise, send a POST request to create a new model
+      axios
+        .post("http://localhost:8080/api/models", formData, requestConfig)
+        .then((response) => {
+          console.log("Upload successful:", response.data);
+          alert("업로드에 성공했습니다!");
+          resetForm();
+          setTimeout(() => {
+            navigate("/");
+          }, 2000);
+        })
+        .catch((error) => {
+          console.error("There was an error uploading the data:", error);
+        });
+    }
   };
 
   const handleAddTab = () => {
@@ -654,8 +725,8 @@ const CarUploadPage = () => {
             </Form.Label>
             <Form.Control
               type="text"
-              name="vehicleName"
-              value={carInfo.vehicleName}
+              name="modelName"
+              value={carInfo.modelName}
               onChange={(e) => handleInputChange(e, setCarInfo)}
               style={{
                 backgroundColor: "#ffffff",
@@ -730,7 +801,7 @@ const CarUploadPage = () => {
             }}
           >
             <Image
-              src={image.preview}
+              src={image.isExisting ? image.url : image.preview}
               thumbnail
               style={{
                 width: "150px",
@@ -750,6 +821,18 @@ const CarUploadPage = () => {
               onClick={() => handleThumbnailSelect(index)}
             >
               썸네일 선택
+            </Button>
+            <Button
+              variant="danger"
+              size="sm"
+              style={{
+                position: "absolute",
+                bottom: "5px",
+                right: "5px",
+              }}
+              onClick={() => handleDeleteImage(index)}
+            >
+              삭제
             </Button>
           </div>
         ))}
@@ -933,7 +1016,7 @@ const CarUploadPage = () => {
         </Tabs>
 
         <Button variant="primary" type="submit" style={{ marginTop: "20px" }}>
-          제품 업로드
+          {id ? "수정" : "제품 업로드"}
         </Button>
       </Form>
     </div>

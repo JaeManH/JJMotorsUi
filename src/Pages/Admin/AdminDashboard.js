@@ -70,6 +70,20 @@ const AdminDashboard = () => {
             </Card.Body>
           </Card>
         </Col>
+        <Col xs={12} sm={6} md={4} lg={3} className="mb-4">
+          <Card className="text-center h-100">
+            <Card.Body>
+              <Card.Title>바이어 리스트</Card.Title>
+              <Card.Text>바이어 정보를 확인합니다.</Card.Text>
+              <Button
+                variant="primary"
+                onClick={() => handleNavigation("/admin/buyer")}
+              >
+                이동
+              </Button>
+            </Card.Body>
+          </Card>
+        </Col>
       </Row>
     </Container>
   );

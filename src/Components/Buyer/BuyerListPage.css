@@ -1,0 +1,27 @@
+/* 우선순위를 높이기 위해 !important를 사용 */
+.custom-tabs .nav-link {
+  color: #000000 !important; /* 글자 색을 검정색으로 설정 */
+  background-color: #ffffff !important; /* 기본 배경색을 흰색으로 설정 */
+  border: 1px solid #dee2e6 !important;
+  margin-right: 5px;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  padding: 10px 15px;
+  font-weight: bold;
+}
+
+.custom-tabs .nav-link:hover {
+  background-color: #e9ecef !important; /* 호버 시 배경색 변경 */
+  color: #007bff !important; /* 호버 시 글자 색상 변경 */
+}
+
+.custom-tabs .nav-link.active {
+  color: #ffffff !important; /* 활성화된 탭의 글자 색상 */
+  background-color: #007bff !important; /* 활성화된 탭의 배경색 */
+  border-color: #007bff !important; /* 활성화된 탭의 테두리 색상 */
+}
+
+.page-input-form {
+  width: 80px; /* 폼의 너비 조정 */
+  margin-right: 10px; /* 폼 간의 여백 조정 */
+}

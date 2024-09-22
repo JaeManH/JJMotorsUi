@@ -91,6 +91,9 @@ function NavBar() {
                 <Dropdown.Item onClick={() => changeLanguage("ko")}>
                   한국어
                 </Dropdown.Item>
+                <Dropdown.Item onClick={() => changeLanguage("cn")}>
+                  중국어
+                </Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
           </Nav>
