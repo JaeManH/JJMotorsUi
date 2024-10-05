@@ -31,7 +31,9 @@ const BuyerListPage = () => {
 
   const fetchCountries = async () => {
     try {
-      const response = await axios.get("http://localhost:8080/api/countries");
+      const response = await axios.get("http://localhost:8080/api/countries", {
+        headers: { "ngrok-skip-browser-warning": "69420" },
+      });
       setCountries(response.data);
     } catch (error) {
       console.error("Error fetching countries:", error);
@@ -45,6 +47,9 @@ const BuyerListPage = () => {
           country: activeCountry !== "All" ? activeCountry : "",
           page: currentPage,
           size: 10, // 페이지당 아이템 수
+        },
+        headers: {
+          "ngrok-skip-browser-warning": "69420",
         },
       });
       setBuyers(response.data.content || []);
