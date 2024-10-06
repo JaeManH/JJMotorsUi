@@ -23,6 +23,7 @@ const BuyerListPage = () => {
   const [totalPages, setTotalPages] = useState(0); // 전체 페이지 수
   const [activeCountry, setActiveCountry] = useState("All"); // 활성화된 탭의 국가
   const [countries, setCountries] = useState([]); // 국가 목록
+  const apiUrl = process.env.REACT_APP_API_URL;
 
   useEffect(() => {
     fetchCountries();
@@ -31,7 +32,7 @@ const BuyerListPage = () => {
 
   const fetchCountries = async () => {
     try {
-      const response = await axios.get("http://localhost:8080/api/countries", {
+      const response = await axios.get("${apiUrl}/api/countries", {
         headers: { "ngrok-skip-browser-warning": "69420" },
       });
       setCountries(response.data);
@@ -42,7 +43,7 @@ const BuyerListPage = () => {
 
   const fetchBuyers = async () => {
     try {
-      const response = await axios.get("http://localhost:8080/api/buyers", {
+      const response = await axios.get("${apiUrl}/api/buyers", {
         params: {
           country: activeCountry !== "All" ? activeCountry : "",
           page: currentPage,

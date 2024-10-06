@@ -24,6 +24,7 @@ const MobilityModelList = () => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectedForDeletion, setSelectedForDeletion] = useState([]);
   const navigate = useNavigate(); // useNavigate 훅으로 페이지 이동 제어
+  const apiUrl = process.env.REACT_APP_API_URL;
 
   // 페이지 변경 및 페이지당 모델 수 변경 시 호출
   useEffect(() => {
@@ -33,7 +34,7 @@ const MobilityModelList = () => {
   // 모델 목록 또는 검색어에 따른 모델 데이터 가져오기
   const fetchModels = async (query = "") => {
     try {
-      const response = await axios.get("http://localhost:8080/api/models", {
+      const response = await axios.get("${apiUrl}/api/models", {
         params: {
           search: query,
           page: currentPage - 1, // 페이지는 0부터 시작

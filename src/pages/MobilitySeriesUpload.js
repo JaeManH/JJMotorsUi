@@ -13,6 +13,7 @@ const MobilitySeriesUploadPage = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const navigate = useNavigate();
+  const apiUrl = process.env.REACT_APP_API_URL;
 
   const onDrop = (acceptedFiles) => {
     setLogoImage(acceptedFiles[0]);
@@ -49,7 +50,7 @@ const MobilitySeriesUploadPage = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:8080/mobilitySeries/upload",
+        "${apiUrl}/mobilitySeries/upload",
         formData,
         {
           headers: {

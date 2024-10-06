@@ -28,6 +28,7 @@ const ManufacturerList = () => {
   const [manufacturersPerPage, setManufacturersPerPage] = useState(10); // 초기 페이지당 제조사 수를 5로 설정
   const [totalPages, setTotalPages] = useState(0); // 전체 페이지 수 상태 추가
   const [totalElements, setTotalElements] = useState(0); // 전체 항목 수 상태 추가
+  const apiUrl = process.env.REACT_APP_API_URL;
 
   useEffect(() => {
     fetchManufacturers();
@@ -35,16 +36,13 @@ const ManufacturerList = () => {
 
   const fetchManufacturers = async (query = "") => {
     try {
-      const response = await axios.get(
-        `http://localhost:8080/api/manufacturers`,
-        {
-          params: {
-            search: query,
-            page: currentPage - 1, // Spring Data JPA는 0부터 시작하는 페이지 인덱스를 사용
-            size: manufacturersPerPage,
-          },
-        }
-      );
+      const response = await axios.get(`${apiUrl}/api/manufacturers`, {
+        params: {
+          search: query,
+          page: currentPage - 1, // Spring Data JPA는 0부터 시작하는 페이지 인덱스를 사용
+          size: manufacturersPerPage,
+        },
+      });
       setManufacturers(response.data.content); // content를 사용하여 실제 제조사 데이터를 설정
       setTotalPages(response.data.totalPages); // totalPages 설정
       setTotalElements(response.data.totalElements); // totalElements 설정
@@ -67,10 +65,7 @@ const ManufacturerList = () => {
       };
 
       // PUT 요청을 통해 수정된 제조사 데이터를 서버에 전송
-      await axios.put(
-        `http://localhost:8080/api/manufacturers/${id}`,
-        updatedManufacturer
-      );
+      await axios.put(`${apiUrl}/api/manufacturers/${id}`, updatedManufacturer);
 
       // 수정 후 UI 업데이트
       setManufacturers(
@@ -100,7 +95,7 @@ const ManufacturerList = () => {
     try {
       await axios({
         method: "delete",
-        url: "http://localhost:8080/api/manufacturers",
+        url: "${apiUrl}/api/manufacturers",
         data: selectedForDeletion, // 삭제할 제조사 ID 리스트를 배열로 전달
         headers: { "Content-Type": "application/json" }, // Content-Type 설정
       });

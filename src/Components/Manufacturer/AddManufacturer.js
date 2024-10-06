@@ -9,6 +9,7 @@ const AddManufacturer = () => {
   const [country, setCountry] = useState("");
   const [logoUrl, setLogoUrl] = useState("");
   const navigate = useNavigate();
+  const apiUrl = process.env.REACT_APP_API_URL;
 
   const handleAddManufacturer = async () => {
     const newManufacturer = {
@@ -22,10 +23,7 @@ const AddManufacturer = () => {
     };
 
     try {
-      await axios.post(
-        "http://localhost:8080/api/manufacturers",
-        newManufacturer
-      );
+      await axios.post("${apiUrl}/api/manufacturers", newManufacturer);
       navigate("/"); // Add Manufacturer 후 리스트 페이지로 이동
     } catch (error) {
       console.error("제조사 추가 중 오류 발생:", error);

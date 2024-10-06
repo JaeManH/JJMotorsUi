@@ -12,7 +12,7 @@ const AddSeries = () => {
   const [brands, setBrands] = useState([]); // 브랜드 목록
   const [selectedBrand, setSelectedBrand] = useState(""); // 선택된 브랜드 ID
   const [errorMessage, setErrorMessage] = useState("");
-
+  const apiUrl = process.env.REACT_APP_API_URL;
   const navigate = useNavigate();
 
   // 페이지가 로드될 때 브랜드 목록을 불러옴
@@ -22,7 +22,7 @@ const AddSeries = () => {
 
   const fetchBrands = async () => {
     try {
-      const response = await axios.get("http://localhost:8080/api/brands");
+      const response = await axios.get("${apiUrl}/api/brands");
       setBrands(response.data); // 브랜드 데이터를 상태로 저장
     } catch (error) {
       console.error("브랜드 데이터를 가져오는 중 오류가 발생했습니다:", error);
@@ -48,10 +48,7 @@ const AddSeries = () => {
 
     try {
       // API 요청
-      const response = await axios.post(
-        "http://localhost:8080/api/series",
-        newSeries
-      );
+      const response = await axios.post("${apiUrl}/api/series", newSeries);
 
       if (response.status === 201) {
         // 상태 코드 201 (Created) 확인

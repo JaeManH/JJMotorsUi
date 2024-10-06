@@ -73,12 +73,11 @@ const CarUploadPage = () => {
   const [errorMessage, setErrorMessage] = useState(null);
   const [successMessage, setSuccessMessage] = useState("");
   const navigate = useNavigate();
+  const apiUrl = process.env.REACT_APP_API_URL;
 
   const fetchCarData = async (carId) => {
     try {
-      const response = await axios.get(
-        `http://localhost:8080/api/models/${id}`
-      );
+      const response = await axios.get(`${apiUrl}/api/models/${id}`);
       const carData = response.data;
 
       // carData.parameters 배열을 상태에 매핑
@@ -190,7 +189,7 @@ const CarUploadPage = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:8080/api/series")
+      .get("${apiUrl}/api/series")
       .then((response) => {
         const data = response.data;
         if (Array.isArray(data.content)) {
@@ -466,7 +465,7 @@ const CarUploadPage = () => {
     if (id) {
       // If ID exists, send a PUT request to update the existing model
       axios
-        .put(`http://localhost:8080/api/models/${id}`, formData, requestConfig)
+        .put(`${apiUrl}/api/models/${id}`, formData, requestConfig)
         .then((response) => {
           console.log("Update successful:", response.data);
           alert("업로드에 성공했습니다!");
@@ -481,7 +480,7 @@ const CarUploadPage = () => {
     } else {
       // Otherwise, send a POST request to create a new model
       axios
-        .post("http://localhost:8080/api/models", formData, requestConfig)
+        .post("${apiUrl}/api/models", formData, requestConfig)
         .then((response) => {
           console.log("Upload successful:", response.data);
           alert("업로드에 성공했습니다!");

@@ -9,14 +9,13 @@ const MobilityModelDetail = () => {
   const { id } = useParams(); // URL에서 ID 파라미터 가져오기
   const [carData, setCarData] = useState(null); // API로부터 데이터를 저장할 상태
   const [loading, setLoading] = useState(true);
+  const apiUrl = process.env.REACT_APP_API_URL;
 
   useEffect(() => {
     // ID로 자동차 데이터를 가져오는 함수
     const fetchCarData = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:8080/MobilityModel/${id}`
-        );
+        const response = await axios.get(`${apiUrl}/MobilityModel/${id}`);
         setCarData(response.data);
         console.log("Fetched car data:", response.data); // 데이터 로그 출력
       } catch (error) {

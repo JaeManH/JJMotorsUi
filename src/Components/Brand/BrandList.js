@@ -26,6 +26,7 @@ const BrandList = () => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectedForDeletion, setSelectedForDeletion] = useState([]);
   const navigate = useNavigate();
+  const apiUrl = process.env.REACT_APP_API_URL;
 
   useEffect(() => {
     fetchBrands(searchQuery); // 검색어를 반영한 fetch 호출
@@ -34,7 +35,7 @@ const BrandList = () => {
   // 검색어를 반영하여 브랜드 데이터 가져오기
   const fetchBrands = async (query = "") => {
     try {
-      const response = await axios.get("http://localhost:8080/api/brands", {
+      const response = await axios.get("${apiUrl}/api/brands", {
         params: {
           search: query, // 검색어 반영
           page: currentPage - 1, // 페이지는 0부터 시작
@@ -80,7 +81,7 @@ const BrandList = () => {
         logoUrl: editLogoUrl,
       };
 
-      await axios.put(`http://localhost:8080/api/brands/${id}`, updatedBrand);
+      await axios.put("${apiUrl}/api/brands/${id}", updatedBrand);
       fetchBrands(searchQuery); // 수정 후 검색어 유지하면서 목록 갱신
       setEditingId(null);
     } catch (error) {
@@ -101,7 +102,7 @@ const BrandList = () => {
     try {
       await axios({
         method: "delete",
-        url: "http://localhost:8080/api/brands",
+        url: "${apiUrl}/api/brands",
         data: selectedForDeletion, // 삭제할 브랜드 ID 리스트를 배열로 직접 전달
       });
       fetchBrands(searchQuery); // 삭제 후 검색어 유지하면서 목록 갱신
