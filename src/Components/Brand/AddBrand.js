@@ -14,7 +14,7 @@ const AddBrand = () => {
   useEffect(() => {
     const fetchManufacturers = async () => {
       try {
-        const response = await axios.get("${apiUrl}/api/manufacturers");
+        const response = await axios.get(`${apiUrl}/api/manufacturers`);
         console.log(response.data); // 데이터 확인
         const manufacturersData = response.data.content || []; // content 배열을 사용
         setManufacturers(manufacturersData);
@@ -40,7 +40,7 @@ const AddBrand = () => {
     };
 
     try {
-      await axios.post("${apiUrl}/api/brands", newBrand);
+      await axios.post(`${apiUrl}/api/brands`, newBrand);
       navigate("/brands"); // 추가 후 브랜드 리스트 페이지로 이동
     } catch (error) {
       console.error("브랜드 추가 중 오류가 발생했습니다:", error);

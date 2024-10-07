@@ -25,6 +25,7 @@ const MobilityModelList = () => {
   const [selectedForDeletion, setSelectedForDeletion] = useState([]);
   const navigate = useNavigate(); // useNavigate 훅으로 페이지 이동 제어
   const apiUrl = process.env.REACT_APP_API_URL;
+  console.log(apiUrl);
 
   // 페이지 변경 및 페이지당 모델 수 변경 시 호출
   useEffect(() => {
@@ -34,7 +35,7 @@ const MobilityModelList = () => {
   // 모델 목록 또는 검색어에 따른 모델 데이터 가져오기
   const fetchModels = async (query = "") => {
     try {
-      const response = await axios.get("${apiUrl}/api/models", {
+      const response = await axios.get(`${apiUrl}/api/models`, {
         params: {
           search: query,
           page: currentPage - 1, // 페이지는 0부터 시작
@@ -86,7 +87,7 @@ const MobilityModelList = () => {
     try {
       await axios({
         method: "delete",
-        url: "http://localhost:8080/api/models",
+        url: `${apiUrl}/api/models`,
         data: selectedForDeletion, // 삭제할 모델 ID 리스트를 배열로 직접 전달
       });
       fetchModels(searchQuery); // 삭제 후 검색어 유지하면서 목록 갱신

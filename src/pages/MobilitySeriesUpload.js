@@ -50,7 +50,7 @@ const MobilitySeriesUploadPage = () => {
 
     try {
       const response = await axios.post(
-        "${apiUrl}/mobilitySeries/upload",
+        `${apiUrl}/mobilitySeries/upload`,
         formData,
         {
           headers: {

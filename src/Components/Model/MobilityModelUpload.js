@@ -189,7 +189,7 @@ const CarUploadPage = () => {
 
   useEffect(() => {
     axios
-      .get("${apiUrl}/api/series")
+      .get(`${apiUrl}/api/series`)
       .then((response) => {
         const data = response.data;
         if (Array.isArray(data.content)) {
@@ -480,7 +480,7 @@ const CarUploadPage = () => {
     } else {
       // Otherwise, send a POST request to create a new model
       axios
-        .post("${apiUrl}/api/models", formData, requestConfig)
+        .post(`${apiUrl}/api/models`, formData, requestConfig)
         .then((response) => {
           console.log("Upload successful:", response.data);
           alert("업로드에 성공했습니다!");

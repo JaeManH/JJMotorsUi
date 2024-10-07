@@ -95,7 +95,7 @@ const ManufacturerList = () => {
     try {
       await axios({
         method: "delete",
-        url: "${apiUrl}/api/manufacturers",
+        url: `${apiUrl}/api/manufacturers`,
         data: selectedForDeletion, // 삭제할 제조사 ID 리스트를 배열로 전달
         headers: { "Content-Type": "application/json" }, // Content-Type 설정
       });

@@ -32,7 +32,7 @@ const BuyerListPage = () => {
 
   const fetchCountries = async () => {
     try {
-      const response = await axios.get("${apiUrl}/api/countries", {
+      const response = await axios.get(`${apiUrl}/api/countries`, {
         headers: { "ngrok-skip-browser-warning": "69420" },
       });
       setCountries(response.data);
@@ -43,7 +43,7 @@ const BuyerListPage = () => {
 
   const fetchBuyers = async () => {
     try {
-      const response = await axios.get("${apiUrl}/api/buyers", {
+      const response = await axios.get(`${apiUrl}/api/buyers`, {
         params: {
           country: activeCountry !== "All" ? activeCountry : "",
           page: currentPage,
