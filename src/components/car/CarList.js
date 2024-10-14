@@ -3,7 +3,7 @@ import { Row, Col, Button } from "react-bootstrap";
 import CarItem from "./CarItem";
 import { useNavigate } from "react-router-dom";
 
-const CarList = ({ title, cars, category }) => {
+const CarList = ({ title, cars, category,listSize }) => {
   const navigate = useNavigate();
 
   const handleMoreClick = () => {
@@ -19,7 +19,7 @@ const CarList = ({ title, cars, category }) => {
         </Button>
       </div>
       <Row>
-        {cars.slice(0, 4).map((car, index) => (
+        {cars.slice(0, listSize).map((car, index) => (
           <Col key={index} xs={12} sm={6} md={4} lg={3} className="mb-4">
             <CarItem car={car} />
           </Col>

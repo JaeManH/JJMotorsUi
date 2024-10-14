@@ -1,6 +1,6 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import { sedans, suvs, trucks } from "../Test/TestData";
+import { sedans, suvs, trucks } from "../test/TestData";
 
 const carData = {
   sedans,

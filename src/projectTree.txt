@@ -1,5 +1,5 @@
-Æú´õ PATHÀÇ ¸ñ·ÏÀÔ´Ï´Ù.
-º¼·ý ÀÏ·Ã ¹øÈ£´Â F06C-969EÀÔ´Ï´Ù.
+ï¿½ï¿½ï¿½ï¿½ PATHï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ô´Ï´ï¿½.
+ï¿½ï¿½ï¿½ï¿½ ï¿½Ï·ï¿½ ï¿½ï¿½È£ï¿½ï¿½ F06C-969Eï¿½Ô´Ï´ï¿½.
 C:.
 |   App.css
 |   App.js
@@ -16,7 +16,7 @@ C:.
 |   |   CarInfoCard.js
 |   |   Footer.css
 |   |   Footer.js
-|   |   MainCarousel.js
+|   |   Carousel.js
 |   |   ProductDetails.js
 |   |   PurchaseModal.css
 |   |   PurchaseModal.js
@@ -66,17 +66,17 @@ C:.
 |       CarCategoryPage.css
 |       CarCategoryPage.js
 |       Cart.js
-|       Main.js
+|       MainPage.js
 |       MainEventBanner.js
 |       NotFound404.js
 |       ProductPage.css
 |       ProductPage.js
 |       
 +---routes
-|       AppRoutes.js
+|       Approutes.js
 |       
 +---store
-|       store.js
+|       Store.js
 |       
 \---test
         TestData.js

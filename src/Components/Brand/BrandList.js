@@ -11,7 +11,7 @@ import {
   Pagination,
   Modal,
 } from "react-bootstrap";
-import axios from "axios";
+import axios from "../../utils/axios";
 import { useNavigate } from "react-router-dom";
 
 const BrandList = () => {

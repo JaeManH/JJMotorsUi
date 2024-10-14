@@ -1,6 +1,6 @@
 import Carousel from "react-bootstrap/Carousel";
 
-function MainCarousel({ carImage }) {
+function Carousel({ carImage }) {
   return (
     <Carousel
       style={{
@@ -24,4 +24,4 @@ function MainCarousel({ carImage }) {
   );
 }
 
-export default MainCarousel;
+export default Carousel;

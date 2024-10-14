@@ -1,17 +1,22 @@
 {
-  "name": "ksmotorui",
+  "name": "jjmotorsui",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^6.6.0",
+    "@fortawesome/free-solid-svg-icons": "^6.6.0",
+    "@fortawesome/react-fontawesome": "^0.2.2",
     "@reduxjs/toolkit": "^2.2.5",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.7.2",
     "bootstrap": "^5.3.3",
+    "country-list": "^2.3.0",
     "i18next": "^23.12.1",
     "i18next-browser-languagedetector": "^8.0.0",
     "i18next-http-backend": "^2.5.2",
+    "jjmotorsui": "file:",
     "ksmotorui": "file:",
     "react": "^18.3.1",
     "react-bootstrap": "^2.10.3",
@@ -21,10 +26,13 @@
     "react-i18next": "^14.1.3",
     "react-icons": "^5.3.0",
     "react-phone-input-2": "^2.15.1",
+    "react-quill": "^2.0.0",
     "react-redux": "^9.1.2",
     "react-router-dom": "^6.23.1",
     "react-scripts": "5.0.1",
-    "react-toastify": "^10.0.5",
+    "react-select": "^5.8.1",
+    "react-toastify": "^10.0.6",
+    "react-world-flags": "^1.6.0",
     "redux-persist": "^6.0.0",
     "styled-components": "^6.1.11",
     "web-vitals": "^2.1.4"
@@ -52,5 +60,6 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "proxy": "http://localhost:8080"
 }

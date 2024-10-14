@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import CarList from "../Components/Car/CarList";
-import SearchBar from "../Components/SearchBar/SearchBar";
-import Filter from "../Components/Filter/Filter";
-import { sedans, suvs, trucks } from "../Test/TestData";
+import CarList from "../../components/car/CarList";
+import SearchBar from "../../components/search-bar/SearchBar";
+import Filter from "../../components/filter/Filter";
+import { sedans, suvs, trucks } from "../../test/TestData";
 
 function ProductPage() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -45,8 +45,8 @@ function ProductPage() {
 
   return (
     <div className="product-page">
-      <SearchBar onSearch={handleSearch} />
-      <Filter onFilter={handleFilter} />
+      {/*<SearchBar onSearch={handleSearch} />*/}
+      {/*<Filter onFilter={handleFilter} />*/}
       <CarList title="Sedans" cars={filterCars(sedans)} category="sedans" />
       <CarList title="SUVs" cars={filterCars(suvs)} category="suvs" />
       <CarList title="Trucks" cars={filterCars(trucks)} category="trucks" />

@@ -1,4 +1,4 @@
-// components/CarDetail.jsx
+// components/ModelDetail.jsx
 import React from "react";
 import { useParams } from "react-router-dom";
 import { Container, Row, Col, Image, Card } from "react-bootstrap";

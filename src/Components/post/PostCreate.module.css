@@ -1,0 +1,56 @@
+/* PostCreate.module.css */
+
+/* 컨테이너 스타일 */
+.formContainer {
+    background-color: #ffffff; /* 흰색 배경 */
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    max-width: 800px;
+    margin: 50px auto; /* 중앙에 배치 */
+}
+
+/* 제목 입력 필드 스타일 */
+h1 {
+    color: #333; /* 진한 글자색 */
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+input {
+    background-color: white;
+    color: black;
+    padding: 10px;
+    width: 100%;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+/* 버튼 스타일 */
+button {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 16px;
+    width: 100%;
+}
+
+button:hover {
+    background-color: #218838;
+}
+
+/* Quill 에디터 스타일 */
+.reactQuill {
+    width: 100%; /* 전체 너비를 차지 */
+    margin-bottom: 20px;
+    min-height: 400px; /* 본문 작성 부분의 최소 높이 */
+    font-size: 16px; /* 글자 크기 조정 */
+    line-height: 1.6; /* 줄 간격 조정 */
+    height: 400px; /* 에디터의 고정된 높이 설정 */
+}

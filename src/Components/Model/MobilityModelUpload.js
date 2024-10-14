@@ -72,6 +72,7 @@ const CarUploadPage = () => {
   const [activeKey, setActiveKey] = useState("basic");
   const [errorMessage, setErrorMessage] = useState(null);
   const [successMessage, setSuccessMessage] = useState("");
+  const [deletedImages, setDeletedImages] = useState([]);
   const navigate = useNavigate();
   const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -79,6 +80,9 @@ const CarUploadPage = () => {
     try {
       const response = await axios.get(`${apiUrl}/api/models/${id}`);
       const carData = response.data;
+
+      // 초기 추가 탭 데이터를 담을 배열
+      const newAdditionalTabs = [];
 
       // carData.parameters 배열을 상태에 매핑
       carData.parameters.forEach((param) => {
@@ -136,29 +140,27 @@ const CarUploadPage = () => {
             break;
           default:
             // Additional tabs 처리
-            const tabIndex = additionalTabs.findIndex(
-              (tab) => tab.title === param.category
+            let existingTab = newAdditionalTabs.find(
+                (tab) => tab.title === param.category
             );
-            if (tabIndex !== -1) {
-              setAdditionalTabs((prevTabs) => {
-                const updatedTabs = [...prevTabs];
-                updatedTabs[tabIndex].data[param.parameterName] =
-                  param.parameterValue;
-                return updatedTabs;
-              });
+
+            if (existingTab) {
+              existingTab.data[param.parameterName] = param.parameterValue;
+              existingTab.fieldNames[param.parameterName] = param.parameterName;
             } else {
               // 새로운 탭 추가
-              const newTab = {
-                key: `customTab${additionalTabs.length + 1}`,
+              newAdditionalTabs.push({
+                key: `customTab${newAdditionalTabs.length + 1}`,
                 title: param.category,
                 data: { [param.parameterName]: param.parameterValue },
                 fieldNames: { [param.parameterName]: param.parameterName },
-              };
-              setAdditionalTabs((prevTabs) => [...prevTabs, newTab]);
+              });
             }
             break;
         }
       });
+
+      setAdditionalTabs(newAdditionalTabs); // 가져온 데이터를 기반으로만 탭을 설정
 
       setCarInfo({
         modelName: carData.modelName || "",
@@ -169,10 +171,11 @@ const CarUploadPage = () => {
       });
 
       setImages(
-        carData.images.map((url, index) => ({
-          url,
-          isExisting: true,
-        }))
+          carData.images.map((image, index) => ({
+            id: image.id,
+            url: image.imageUrl,
+            isExisting: true,
+          }))
       );
 
       setThumbnailIndex(carData.thumbnailIndex || 0);
@@ -180,6 +183,7 @@ const CarUploadPage = () => {
       console.error("Error fetching car data:", error);
     }
   };
+
 
   useEffect(() => {
     if (id) {
@@ -209,7 +213,9 @@ const CarUploadPage = () => {
       const imagePreviews = acceptedFiles.map((file) =>
         Object.assign(file, {
           preview: URL.createObjectURL(file),
+          fileName: file.name,
         })
+
       );
 
       setImages((prevImages) => [...prevImages, ...imagePreviews]);
@@ -236,11 +242,27 @@ const CarUploadPage = () => {
     setThumbnailIndex(index);
   };
 
-  const handleDeleteImage = (index) => {
-    setImages((prevImages) => prevImages.filter((_, i) => i !== index));
+  const handleDeleteImage = (image, index) => {
+    setImages((prevImages) =>
+        prevImages.map((img, i) =>
+            i === index ? { ...img, isDeleted: true } : img
+        )
+    );
+    setDeletedImages((prevDeleted) => [...prevDeleted, image.url]);
     if (thumbnailIndex === index) {
       setThumbnailIndex(0);
     }
+  };
+
+  const handleRestoreImage = (index) => {
+    setImages((prevImages) =>
+        prevImages.map((img, i) =>
+            i === index ? { ...img, isDeleted: false } : img
+        )
+    );
+    setDeletedImages((prevDeleted) =>
+        prevDeleted.filter((url) => url !== images[index].url)
+    );
   };
 
   const handleInputChange = (e, stateSetter) => {
@@ -417,27 +439,27 @@ const CarUploadPage = () => {
       return;
     }
 
-    const filterEmptyFields = (data) =>
-      Object.entries(data)
-        .filter(([_, value]) => value.trim() !== "")
-        .map(([key, value]) => ({
-          category: "default",
-          parameterName: key,
-          parameterValue: value,
-        }));
+    const filterEmptyFields = (categoryName,data) =>
+        Object.entries(data)
+            .filter(([_, value]) => value.trim() !== "")
+            .map(([key, value]) => ({
+              category: categoryName,
+              parameterName: key,
+              parameterValue: value,
+            }));
 
     const parameters = [
-      ...filterEmptyFields(basicInfo),
-      ...filterEmptyFields(engineInfo),
-      ...filterEmptyFields(electricMotorInfo),
-      ...filterEmptyFields(chassisSteeringInfo),
-      ...filterEmptyFields(transmissionInfo),
+      ...filterEmptyFields("BasicInfo",basicInfo),
+      ...filterEmptyFields("EngineInfo",engineInfo),
+      ...filterEmptyFields("ElectricMotorInfo",electricMotorInfo),
+      ...filterEmptyFields("ChassisSteeringInfo",chassisSteeringInfo),
+      ...filterEmptyFields("TransmissionInfo",transmissionInfo),
       ...additionalTabs.flatMap((tab) =>
-        Object.entries(tab.fieldNames).map(([key, fieldName]) => ({
-          category: tab.title,
-          parameterName: fieldName,
-          parameterValue: tab.data[key]?.trim() || "",
-        }))
+          Object.entries(tab.fieldNames).map(([key, fieldName]) => ({
+            category: tab.title,
+            parameterName: fieldName,
+            parameterValue: tab.data[key]?.trim() || "",
+          }))
       ),
     ];
 
@@ -450,9 +472,22 @@ const CarUploadPage = () => {
     formData.append("thumbnailIndex", thumbnailIndex);
     formData.append("stockStatus", carInfo.stockStatus);
 
-    images.forEach((image, index) => {
-      if (!image.isExisting) {
-        formData.append("images", image);
+    // 모든 이미지를 DTO 형식으로 통합하여 FormData에 추가
+
+    const imageDTOs = [ ...images].map((image, index) => ({
+      id: image.id || null,
+      imageName : !image.isExisting ? image.fileName : "",
+      imageUrl: image.url || "",
+      isThumbnail: thumbnailIndex === index,
+      imageStatus: image.isDeleted ? "DELETED" : image.isExisting ? "UNCHANGED" : "NEW",
+    }));
+
+    formData.append("images", new Blob([JSON.stringify(imageDTOs)], { type: 'application/json' }  )); // 최종적으로 FormData에 DTO를 추가
+    imageDTOs.map((dto) => console.log(dto));
+
+    [ ...images].forEach((image, index) => {
+      if (!image.isExisting && image instanceof File) {
+        formData.append("imageFiles", image,image.name); // 새 이미지 파일을 DTO에 포함
       }
     });
 
@@ -462,38 +497,46 @@ const CarUploadPage = () => {
       },
     };
 
+    // console.log("FormData 내용 확인:");
+    // for (let pair of formData.entries()) {
+    //   console.log(`${pair[0]}: ${pair[1]}`);
+    // }
+
     if (id) {
-      // If ID exists, send a PUT request to update the existing model
+      // PUT 요청으로 업데이트 처리
       axios
-        .put(`${apiUrl}/api/models/${id}`, formData, requestConfig)
-        .then((response) => {
-          console.log("Update successful:", response.data);
-          alert("업로드에 성공했습니다!");
-          resetForm();
-          setTimeout(() => {
-            navigate("/");
-          }, 2000);
-        })
-        .catch((error) => {
-          console.error("There was an error uploading the data:", error);
-        });
+          .put(`${apiUrl}/api/models/${id}`, formData,requestConfig)
+          .then((response) => {
+            console.log("Update successful:", response.data);
+            alert("수정에 성공했습니다!");
+            resetForm();
+            setTimeout(() => {
+              navigate("/");
+            }, 2000);
+          })
+          .catch((error) => {
+            console.error("There was an error uploading the data:", error);
+          });
     } else {
-      // Otherwise, send a POST request to create a new model
+      // POST 요청으로 새로운 모델 생성 처리
       axios
-        .post(`${apiUrl}/api/models`, formData, requestConfig)
-        .then((response) => {
-          console.log("Upload successful:", response.data);
-          alert("업로드에 성공했습니다!");
-          resetForm();
-          setTimeout(() => {
-            navigate("/");
-          }, 2000);
-        })
-        .catch((error) => {
-          console.error("There was an error uploading the data:", error);
-        });
+          .post(`${apiUrl}/api/models`, formData,requestConfig)
+          .then((response) => {
+            console.log("Upload successful:", response.data);
+            alert("업로드에 성공했습니다!");
+            resetForm();
+            setTimeout(() => {
+              navigate("/");
+            }, 2000);
+          })
+          .catch((error) => {
+            console.error("There was an error uploading the data:", error);
+          });
     }
   };
+
+
+
 
   const handleAddTab = () => {
     const newKey = `customTab${additionalTabs.length + 1}`;
@@ -508,6 +551,10 @@ const CarUploadPage = () => {
     };
     setAdditionalTabs([...additionalTabs, newTab]);
     setActiveKey(newKey);
+  };
+
+  const handleDeleteTab = (tabKey) => {
+    setAdditionalTabs((prevTabs) => prevTabs.filter((tab) => tab.key !== tabKey));
   };
 
   const handleKeyPress = (e) => {
@@ -809,30 +856,55 @@ const CarUploadPage = () => {
                 border: index === thumbnailIndex ? "3px solid #007bff" : "",
               }}
             />
-            <Button
-              variant="primary"
-              size="sm"
-              style={{
-                position: "absolute",
-                top: "5px",
-                right: "5px",
-              }}
-              onClick={() => handleThumbnailSelect(index)}
-            >
-              썸네일 선택
-            </Button>
-            <Button
-              variant="danger"
-              size="sm"
-              style={{
-                position: "absolute",
-                bottom: "5px",
-                right: "5px",
-              }}
-              onClick={() => handleDeleteImage(index)}
-            >
-              삭제
-            </Button>
+            {image.isDeleted && (
+                <div
+                    style={{
+                      position: "absolute",
+                      top: "0",
+                      left: "0",
+                      width: "100%",
+                      height: "100%",
+                      backgroundColor: "rgba(255, 0, 0, 0.5)",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      color: "white",
+                      fontSize: "24px",
+                      fontWeight: "bold",
+                    }}
+                >
+                  X
+                </div>
+            )}
+            {image.isDeleted ? (
+                <Button
+                    variant="success"
+                    size="sm"
+                    style={{ position: "absolute", bottom: "5px", right: "5px" }}
+                    onClick={() => handleRestoreImage(index)}
+                >
+                  복원
+                </Button>
+            ) : (
+                <>
+                  <Button
+                      variant="primary"
+                      size="sm"
+                      style={{ position: "absolute", top: "5px", right: "5px" }}
+                      onClick={() => handleThumbnailSelect(index)}
+                  >
+                    썸네일 선택
+                  </Button>
+                  <Button
+                      variant="danger"
+                      size="sm"
+                      style={{ position: "absolute", bottom: "5px", right: "5px" }}
+                      onClick={() => handleDeleteImage(image, index)}
+                  >
+                    삭제
+                  </Button>
+                </>
+            )}
           </div>
         ))}
       </Container>
@@ -885,7 +957,7 @@ const CarUploadPage = () => {
                 ["Motor Horsepower (Ps)", "motorHorsepowerPs"],
                 ["Total Motor Torque (N.m)", "totalMotorTorque"],
                 ["Battery Type", "batteryType"],
-                ["Battery Brand", "batteryBrand"],
+                ["Battery brand", "batteryBrand"],
                 ["NECD Pure Electric Range (km)", "necdPureElectricRange"],
                 ["Battery Capacity (kWh)", "batteryCapacity"],
                 ["Power Consumption (kWh/100km)", "powerConsumption"],
@@ -923,82 +995,93 @@ const CarUploadPage = () => {
             )}
           </Tab>
           {additionalTabs.map((tab) => (
-            <Tab
-              key={tab.key}
-              eventKey={tab.key}
-              title={
-                <Form.Control
-                  type="text"
-                  value={tab.title}
-                  onChange={(e) => handleTabTitleChange(e, tab.key)}
-                  onKeyPress={handleKeyPress}
-                  style={{
-                    backgroundColor: "#e9ecef",
-                    border: "none",
-                    textAlign: "center",
-                    fontWeight: "bold",
-                    height: "100%",
-                    width: "100%",
-                    padding: "5px",
-                    margin: "0",
-                  }}
-                />
-              }
-              tabClassName="text-dark"
-            >
-              {Object.entries(tab.fieldNames).map(([fieldKey, fieldLabel]) => (
-                <Form.Group className="mb-3" key={fieldKey}>
-                  <Row className="align-items-center">
-                    <Col>
+              <Tab
+                  key={tab.key}
+                  eventKey={tab.key}
+                  title={
+                    <div style={{ display: 'flex', alignItems: 'center' }}>
                       <Form.Control
-                        type="text"
-                        value={fieldLabel}
-                        onChange={(e) =>
-                          handleFieldNameChange(e, tab.key, fieldKey)
-                        }
-                        onKeyPress={handleKeyPress}
-                        style={{
-                          backgroundColor: "#ffffff",
-                          borderColor: "#ced4da",
-                          color: "#495057",
-                          marginBottom: "5px",
-                        }}
+                          type="text"
+                          value={tab.title}
+                          onChange={(e) => handleTabTitleChange(e, tab.key)}
+                          onKeyPress={handleKeyPress}
+                          style={{
+                            backgroundColor: "#e9ecef",
+                            border: "none",
+                            textAlign: "center",
+                            fontWeight: "bold",
+                            height: "100%",
+                            width: "100%",
+                            padding: "5px",
+                            margin: "0",
+                          }}
                       />
-                    </Col>
-                    <Col>
-                      <Form.Control
-                        type="text"
-                        name={fieldKey}
-                        value={tab.data[fieldKey] || ""}
-                        onChange={(e) =>
-                          handleAdditionalTabInputChange(e, tab.key)
-                        }
-                        style={{
-                          backgroundColor: "#ffffff",
-                          borderColor: "#ced4da",
-                          color: "#495057",
-                        }}
-                      />
-                    </Col>
-                    <Col xs="auto">
                       <Button
-                        className="delete-field-button"
-                        onClick={() => handleDeleteField(tab.key, fieldKey)}
+                          variant="danger"
+                          size="sm"
+                          onClick={() => handleDeleteTab(tab.key)}
+                          style={{ marginLeft: "5px", padding: "2px 6px", height: "100%" }}
                       >
-                        삭제
+                        X
                       </Button>
-                    </Col>
-                  </Row>
-                </Form.Group>
-              ))}
-              <Button
-                className="add-field-button"
-                onClick={() => handleAddField(tab.key)}
+                    </div>
+                  }
+                  tabClassName="text-dark"
               >
-                필드 추가
-              </Button>
-            </Tab>
+                {Object.entries(tab.fieldNames).map(([fieldKey, fieldLabel]) => (
+                    <Form.Group className="mb-3" key={fieldKey}>
+                      <Row className="align-items-center">
+                        <Col>
+                          <Form.Control
+                              type="text"
+                              value={fieldLabel}
+                              onChange={(e) =>
+                                  handleFieldNameChange(e, tab.key, fieldKey)
+                              }
+                              onKeyPress={handleKeyPress}
+                              style={{
+                                backgroundColor: "#ffffff",
+                                borderColor: "#ced4da",
+                                color: "#495057",
+                                marginBottom: "5px",
+                              }}
+                          />
+                        </Col>
+                        <Col>
+                          <Form.Control
+                              type="text"
+                              name={fieldKey}
+                              value={tab.data[fieldKey] || ""}
+                              onChange={(e) =>
+                                  handleAdditionalTabInputChange(e, tab.key)
+                              }
+                              style={{
+                                backgroundColor: "#ffffff",
+                                borderColor: "#ced4da",
+                                color: "#495057",
+                              }}
+                          />
+                        </Col>
+                        <Col xs="auto">
+                          <Button
+                              className="delete-field-button"
+                              onClick={() => handleDeleteField(tab.key, fieldKey)}
+                          >
+                            삭제
+                          </Button>
+                        </Col>
+                      </Row>
+                    </Form.Group>
+                ))}
+                <Button
+                    className="add-field-button"
+                    onClick={() => handleAddField(tab.key)}
+                >
+                  필드 추가
+                </Button>
+              </Tab>
           ))}
+
           <Tab
             eventKey="add"
             title={

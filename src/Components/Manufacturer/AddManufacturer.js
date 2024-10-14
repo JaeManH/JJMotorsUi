@@ -24,7 +24,7 @@ const AddManufacturer = () => {
 
     try {
       await axios.post(`${apiUrl}/api/manufacturers`, newManufacturer);
-      navigate("/"); // Add Manufacturer 후 리스트 페이지로 이동
+      navigate("/"); // Add manufacturer 후 리스트 페이지로 이동
     } catch (error) {
       console.error("제조사 추가 중 오류 발생:", error);
     }

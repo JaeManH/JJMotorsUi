@@ -3,9 +3,9 @@ import { useParams } from "react-router-dom";
 import Carousel from "react-bootstrap/Carousel";
 import Card from "react-bootstrap/Card";
 import Table from "react-bootstrap/Table";
-import "./CarDetail.css"; // 스타일링 파일 임포트
+import "./ModelDetail.css"; // 스타일링 파일 임포트
 
-const CarDetail = ({ cars }) => {
+const ModelDetail = ({ cars }) => {
   //   const { id } = useParams();
   //   const car = cars.find((car) => car.id === parseInt(id));
 
@@ -127,4 +127,4 @@ const CarDetail = ({ cars }) => {
   );
 };
 
-export default CarDetail;
+export default ModelDetail;

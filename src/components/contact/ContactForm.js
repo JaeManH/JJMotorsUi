@@ -5,7 +5,7 @@ import "./ContactForm.css";
 
 const ContactForm = () => {
   const [formData, setFormData] = useState({
-    companyName: "",
+    customerName: "",
     email: "",
     phone: "",
     message: "",
@@ -35,7 +35,7 @@ const ContactForm = () => {
   return (
     <form className="contact-form" onSubmit={handleSubmit}>
       <div className="form-group">
-        <label htmlFor="companyName">회사명</label>
+        <label htmlFor="companyName">이름(회사명)</label>
         <input
           type="text"
           id="companyName"

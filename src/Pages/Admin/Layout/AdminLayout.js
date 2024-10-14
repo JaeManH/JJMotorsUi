@@ -9,7 +9,7 @@ const AdminLayout = () => {
     <div className="admin-layout">
       {/* <Navbar bg="dark" variant="dark" className="mb-4">
         <Container>
-          <Navbar.Brand href="/admin/dashboard">관리자 패널</Navbar.Brand>
+          <Navbar.brand href="/admin/dashboard">관리자 패널</Navbar.brand>
           <Nav className="ml-auto">
             <Button variant="outline-light">로그아웃</Button>
           </Nav>

@@ -25,7 +25,6 @@ const MobilityModelList = () => {
   const [selectedForDeletion, setSelectedForDeletion] = useState([]);
   const navigate = useNavigate(); // useNavigate 훅으로 페이지 이동 제어
   const apiUrl = process.env.REACT_APP_API_URL;
-  console.log(apiUrl);
 
   // 페이지 변경 및 페이지당 모델 수 변경 시 호출
   useEffect(() => {
