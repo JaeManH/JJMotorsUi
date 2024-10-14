@@ -13,42 +13,40 @@ import {
 } from "react-bootstrap";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next"; // i18n 훅 추가
 
 const MobilityModelList = () => {
+  const { t } = useTranslation(); // useTranslation 훅 사용
   const [modelList, setModelList] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const [modelsPerPage, setModelsPerPage] = useState(10); // 기본값 10으로 설정
+  const [modelsPerPage, setModelsPerPage] = useState(10);
   const [totalPages, setTotalPages] = useState(0);
-  const [totalElements, setTotalElements] = useState(0); // 전체 항목 수 상태 추가
+  const [totalElements, setTotalElements] = useState(0);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectedForDeletion, setSelectedForDeletion] = useState([]);
-  const navigate = useNavigate(); // useNavigate 훅으로 페이지 이동 제어
+  const navigate = useNavigate();
   const apiUrl = process.env.REACT_APP_API_URL;
 
-  // 페이지 변경 및 페이지당 모델 수 변경 시 호출
   useEffect(() => {
     fetchModels(searchQuery);
-  }, [currentPage, modelsPerPage]); // currentPage와 modelsPerPage가 변경될 때마다 호출
+  }, [currentPage, modelsPerPage]);
 
-  // 모델 목록 또는 검색어에 따른 모델 데이터 가져오기
   const fetchModels = async (query = "") => {
     try {
       const response = await axios.get(`${apiUrl}/api/models`, {
         params: {
           search: query,
-          page: currentPage - 1, // 페이지는 0부터 시작
-          size: modelsPerPage, // 페이지당 보여줄 모델 수 반영
+          page: currentPage - 1,
+          size: modelsPerPage,
         },
       });
 
-      const modelData = response.data.content; // 모델 데이터
-      console.log(response.data.content);
-      setModelList(modelData); // 모델 목록 상태 업데이트
-      setTotalPages(response.data.totalPages); // 총 페이지 수 업데이트
-      setTotalElements(response.data.totalElements); // 전체 항목 수 업데이트
+      setModelList(response.data.content);
+      setTotalPages(response.data.totalPages);
+      setTotalElements(response.data.totalElements);
     } catch (error) {
-      console.error("모델 데이터를 가져오는 중 오류가 발생했습니다:", error);
+      console.error(t('mobilityModel.error'), error);
     }
   };
 
@@ -58,18 +56,16 @@ const MobilityModelList = () => {
 
   const handleSearchSubmit = (e) => {
     e.preventDefault();
-    setCurrentPage(1); // 검색 시 첫 페이지로 초기화
-    fetchModels(searchQuery); // 검색어로 모델 목록 검색
+    setCurrentPage(1);
+    fetchModels(searchQuery);
   };
 
   const handlePageSizeChange = (e) => {
-    setModelsPerPage(parseInt(e.target.value)); // 페이지당 모델 수 업데이트
-    setCurrentPage(1); // 페이지 수 변경 시 첫 페이지로 이동
+    setModelsPerPage(parseInt(e.target.value));
+    setCurrentPage(1);
   };
 
   const handleEdit = (modelId) => {
-    // 모델 수정 페이지로 이동
-    console.log(modelId);
     navigate(`/admin/edit-model/${modelId}`);
   };
 
@@ -79,7 +75,7 @@ const MobilityModelList = () => {
 
   const confirmDelete = async () => {
     if (selectedForDeletion.length === 0) {
-      alert("삭제할 모델을 선택하세요.");
+      alert(t('mobilityModel.modal.confirmDelete'));
       return;
     }
 
@@ -87,13 +83,13 @@ const MobilityModelList = () => {
       await axios({
         method: "delete",
         url: `${apiUrl}/api/models`,
-        data: selectedForDeletion, // 삭제할 모델 ID 리스트를 배열로 직접 전달
+        data: selectedForDeletion,
       });
-      fetchModels(searchQuery); // 삭제 후 검색어 유지하면서 목록 갱신
+      fetchModels(searchQuery);
       setSelectedForDeletion([]);
       setShowDeleteModal(false);
     } catch (error) {
-      console.error("모델 삭제 중 오류가 발생했습니다:", error);
+      console.error(t('mobilityModel.error'), error);
     }
   };
 
@@ -108,130 +104,126 @@ const MobilityModelList = () => {
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   return (
-    <Container className="mt-5">
-      <h1 className="text-center mb-4">모빌리티 모델 관리</h1>
-      <Row className="mb-3 justify-content-between">
-        <Col xs="auto">
-          <Form onSubmit={handleSearchSubmit}>
-            <InputGroup className="mb-3">
-              <FormControl
-                placeholder="모델 검색"
-                value={searchQuery}
-                onChange={handleSearchChange}
-              />
-              <Button variant="primary" type="submit">
-                검색
-              </Button>
-            </InputGroup>
-          </Form>
-        </Col>
-        <Col xs="auto">
-          <Form.Select value={modelsPerPage} onChange={handlePageSizeChange}>
-            <option value="5">5개</option>
-            <option value="10">10개</option>
-            <option value="20">20개</option>
-            <option value="30">30개</option>
-          </Form.Select>
-        </Col>
-        <Col xs="auto">
-          <Button
-            variant="success"
-            className="me-2"
-            onClick={() => navigate("/admin/add-model")}
-          >
-            추가
-          </Button>
-          <Button variant="danger" onClick={handleDeleteSelected}>
-            삭제
-          </Button>
-        </Col>
-      </Row>
+      <Container className="mt-5">
+        <h1 className="text-center mb-4">{t('mobilityModel.title')}</h1>
+        <Row className="mb-3 justify-content-between">
+          <Col xs="auto">
+            <Form onSubmit={handleSearchSubmit}>
+              <InputGroup className="mb-3">
+                <FormControl
+                    placeholder={t('mobilityModel.searchPlaceholder')}
+                    value={searchQuery}
+                    onChange={handleSearchChange}
+                />
+                <Button variant="primary" type="submit">
+                  {t('mobilityModel.searchButton')}
+                </Button>
+              </InputGroup>
+            </Form>
+          </Col>
+          <Col xs="auto">
+            <Form.Select value={modelsPerPage} onChange={handlePageSizeChange}>
+              <option value="5">5 {t('mobilityModel.itemsPerPage')}</option>
+              <option value="10">10 {t('mobilityModel.itemsPerPage')}</option>
+              <option value="20">20 {t('mobilityModel.itemsPerPage')}</option>
+              <option value="30">30 {t('mobilityModel.itemsPerPage')}</option>
+            </Form.Select>
+          </Col>
+          <Col xs="auto">
+            <Button
+                variant="success"
+                className="me-2"
+                onClick={() => navigate("/admin/add-model")}
+            >
+              {t('mobilityModel.addButton')}
+            </Button>
+            <Button variant="danger" onClick={handleDeleteSelected}>
+              {t('mobilityModel.deleteButton')}
+            </Button>
+          </Col>
+        </Row>
 
-      <Table bordered hover responsive>
-        <thead>
+        <Table bordered hover responsive>
+          <thead>
           <tr>
-            <th style={{ width: "20%" }}>모델 사진</th>
-            <th style={{ width: "20%" }}>모델 이름</th>
-            <th style={{ width: "10%" }}>연식</th>
-            <th style={{ width: "10%" }}>가격</th>
-            <th style={{ width: "20%" }}>시리즈 이름</th>
-            <th style={{ width: "10%" }}>수정</th>
-            <th style={{ width: "10%" }}>삭제</th>
+            <th style={{ width: "20%" }}>{t('mobilityModel.table.image')}</th>
+            <th style={{ width: "20%" }}>{t('mobilityModel.table.name')}</th>
+            <th style={{ width: "10%" }}>{t('mobilityModel.table.year')}</th>
+            <th style={{ width: "10%" }}>{t('mobilityModel.table.price')}</th>
+            <th style={{ width: "20%" }}>{t('mobilityModel.table.series')}</th>
+            <th style={{ width: "10%" }}>{t('mobilityModel.table.edit')}</th>
+            <th style={{ width: "10%" }}>{t('mobilityModel.deleteButton')}</th>
           </tr>
-        </thead>
-        <tbody>
+          </thead>
+          <tbody>
           {modelList && modelList.length > 0 ? (
-            modelList.map((model) => (
-              <tr key={model.id}>
-                <td className="align-middle text-center">
-                  <img
-                    src={model.thumbnailImage} // 썸네일 이미지
-                    alt="thumbnail"
-                    style={{
-                      width: "150px",
-                      height: "150px",
-                      objectFit: "cover",
-                    }}
-                  />
-                </td>
-                <td className="align-middle">{model.modelName}</td>
-                <td className="align-middle">{model.year}</td>
-                <td className="align-middle">{model.price}</td>
-                <td className="align-middle">{model.series.seriesName}</td>
-                <td className="align-middle text-center">
-                  <Button
-                    variant="warning"
-                    onClick={() => handleEdit(model.id)} // 수정 버튼 클릭 시 해당 모델 ID로 수정 페이지 이동
-                  >
-                    수정
-                  </Button>
-                </td>
-                <td className="align-middle text-center">
-                  <Form.Check
-                    type="checkbox"
-                    checked={selectedForDeletion.includes(model.id)}
-                    onChange={() => handleCheckboxChange(model.id)}
-                  />
+              modelList.map((model) => (
+                  <tr key={model.id}>
+                    <td className="align-middle text-center">
+                      <img
+                          src={model.thumbnailImage}
+                          alt="thumbnail"
+                          style={{ width: "150px", height: "150px", objectFit: "cover" }}
+                      />
+                    </td>
+                    <td className="align-middle">{model.modelName}</td>
+                    <td className="align-middle">{model.year}</td>
+                    <td className="align-middle">{model.price}</td>
+                    <td className="align-middle">{model.series.seriesName}</td>
+                    <td className="align-middle text-center">
+                      <Button
+                          variant="warning"
+                          onClick={() => handleEdit(model.id)}
+                      >
+                        {t('mobilityModel.table.edit')}
+                      </Button>
+                    </td>
+                    <td className="align-middle text-center">
+                      <Form.Check
+                          type="checkbox"
+                          checked={selectedForDeletion.includes(model.id)}
+                          onChange={() => handleCheckboxChange(model.id)}
+                      />
+                    </td>
+                  </tr>
+              ))
+          ) : (
+              <tr>
+                <td colSpan="8" className="text-center">
+                  {t('mobilityModel.noData')}
                 </td>
               </tr>
-            ))
-          ) : (
-            <tr>
-              <td colSpan="8" className="text-center">
-                데이터가 없습니다.
-              </td>
-            </tr>
           )}
-        </tbody>
-      </Table>
+          </tbody>
+        </Table>
 
-      <Pagination className="justify-content-center">
-        {[...Array(totalPages).keys()].map((number) => (
-          <Pagination.Item
-            key={number + 1}
-            active={number + 1 === currentPage}
-            onClick={() => paginate(number + 1)}
-          >
-            {number + 1}
-          </Pagination.Item>
-        ))}
-      </Pagination>
+        <Pagination className="justify-content-center">
+          {[...Array(totalPages).keys()].map((number) => (
+              <Pagination.Item
+                  key={number + 1}
+                  active={number + 1 === currentPage}
+                  onClick={() => paginate(number + 1)}
+              >
+                {number + 1}
+              </Pagination.Item>
+          ))}
+        </Pagination>
 
-      <Modal show={showDeleteModal} onHide={() => setShowDeleteModal(false)}>
-        <Modal.Header closeButton>
-          <Modal.Title>삭제 확인</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>정말 삭제하시겠습니까?</Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={() => setShowDeleteModal(false)}>
-            취소
-          </Button>
-          <Button variant="danger" onClick={confirmDelete}>
-            삭제
-          </Button>
-        </Modal.Footer>
-      </Modal>
-    </Container>
+        <Modal show={showDeleteModal} onHide={() => setShowDeleteModal(false)}>
+          <Modal.Header closeButton>
+            <Modal.Title>{t('mobilityModel.modal.title')}</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>{t('mobilityModel.modal.body')}</Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={() => setShowDeleteModal(false)}>
+              {t('mobilityModel.modal.cancel')}
+            </Button>
+            <Button variant="danger" onClick={confirmDelete}>
+              {t('mobilityModel.modal.confirmDelete')}
+            </Button>
+          </Modal.Footer>
+        </Modal>
+      </Container>
   );
 };
 

@@ -35,7 +35,7 @@ const MainPage = () => {
   return (
       <div className="main-page">
         <div className="container mt-5">
-          <CarList title="최신 자동차" cars={cars} />
+          <CarList title="최근 제품" cars={cars} />
         </div>
       </div>
   );

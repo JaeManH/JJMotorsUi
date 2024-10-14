@@ -10,6 +10,156 @@
     "qna": "QnA",
     "login": "로그인",
     "logout": "로그아웃",
-    "language": "언어"
+    "language": "언어",
+    "community" : "커뮤니티"
+  },
+  "sidebar": {
+    "dashboard": "대시보드",
+    "manufacturerManagement": "제조사 관리",
+    "brandManagement": "브랜드 관리",
+    "seriesManagement": "시리즈 관리",
+    "modelManagement": "모델 관리",
+    "buyerList": "바이어 리스트"
+  },
+  "adminDashboard": {
+    "title": "관리자 대시보드",
+    "manufacturerManagement": "제조사 관리",
+    "manufacturerDescription": "제조사를 관리 또는 추가합니다.",
+    "brandManagement": "브랜드 관리",
+    "brandDescription": "브랜드를 관리 또는 추가합니다.",
+    "seriesManagement": "시리즈 관리",
+    "seriesDescription": "시리즈를 관리 또는 추가합니다.",
+    "modelManagement": "모델 관리",
+    "modelDescription": "모델을 관리 또는 추가합니다.",
+    "buyerList": "바이어 리스트",
+    "buyerDescription": "바이어 정보를 확인합니다.",
+    "go": "이동"
+  },
+  "mobilityModel": {
+    "title": "모빌리티 모델 관리",
+    "searchPlaceholder": "모델 검색",
+    "searchButton": "검색",
+    "itemsPerPage": "개",
+    "addButton": "추가",
+    "deleteButton": "삭제",
+    "table": {
+      "image": "모델 사진",
+      "name": "모델 이름",
+      "year": "연식",
+      "price": "가격",
+      "series": "시리즈 이름",
+      "edit": "수정"
+    },
+    "noData": "데이터가 없습니다.",
+    "modal": {
+      "title": "삭제 확인",
+      "body": "정말 삭제하시겠습니까?",
+      "cancel": "취소",
+      "confirmDelete": "삭제"
+    }
+  },
+  "carUpload": {
+    "pageTitle": "자동차 제품 업로드",
+    "seriesSelectLabel": "모빌리티 시리즈 선택",
+    "seriesSelectPlaceholder": "시리즈를 선택하세요",
+    "stockStatusLabel": "차량 상태",
+    "stockStatusOptions": {
+      "inStock": "재고",
+      "used": "중고"
+    },
+    "commonInfoTitle": "공통 정보",
+    "modelName": "차량명",
+    "price": "가격",
+    "year": "연식",
+    "imageUploadText": "이미지를 여기에 드래그하거나 클릭하여 업로드하세요.",
+    "selectThumbnail": "썸네일 선택",
+    "deleteImage": "삭제",
+    "restoreImage": "복원",
+    "basicInfoTab": "기본 정보",
+    "engineTab": "엔진",
+    "electricMotorTab": "전기모터",
+    "chassisSteeringTab": "샤시 및 조향",
+    "transmissionTab": "변속기",
+    "customTabTitle": "사용자 정의 탭 {{count}}",
+    "customField": "사용자 정의 필드 {{count}}",
+    "deleteTab": "탭 삭제",
+    "deleteField": "필드 삭제",
+    "addField": "필드 추가",
+    "addFieldButton": "필드 추가",
+    "addTabButton": "탭 추가",
+    "uploadButton": "제품 업로드",
+    "updateButton": "수정",
+    "successUpload": "업로드에 성공했습니다!",
+    "successUpdate": "수정에 성공했습니다!",
+    "errorMessages": {
+      "duplicateTabName": "탭 이름이 중복되었습니다.",
+      "duplicateFieldName": "같은 탭 내에서 필드 이름이 중복되었습니다."
+    },
+    "imageUploadError": "이미지 파일만 업로드 가능합니다.",
+    "restoreImageButton": "이미지 복원",
+    "fieldLabel": {
+      "vehicleType": "차량 유형",
+      "powerType": "동력 유형",
+      "timeToMarket": "출시 시기",
+      "vehicleStructure": "차량 구조",
+      "overallDimensions": "전체 크기 (L*W*H)",
+      "containerSize": "컨테이너 크기",
+      "wheelBase": "휠베이스",
+      "curbWeight": "공차 중량",
+      "maxFullLoadWeight": "최대 적재 중량",
+      "displacementMl": "배기량 (ml)",
+      "displacementL": "배기량 (L)",
+      "horsepowerPs": "마력 (Ps)",
+      "motorTypeKW": "모터 유형 (KW)",
+      "motorHorsepowerPs": "모터 마력 (Ps)",
+      "totalMotorTorque": "모터 토크 (N.m)",
+      "batteryType": "배터리 유형",
+      "batteryBrand": "배터리 브랜드",
+      "necdPureElectricRange": "순수 전기 주행 거리 (km)",
+      "batteryCapacity": "배터리 용량 (kWh)",
+      "powerConsumption": "전력 소비량 (kWh/100km)",
+      "quickCharge": "급속 충전 시간 (h)",
+      "slowCharge": "완속 충전 시간 (h)",
+      "percentageOfFastCharge": "빠른 충전 비율 (%)",
+      "driveMode": "구동 방식",
+      "fourWheelDrive": "4륜 구동",
+      "numberOfGears": "기어 수"
+    },
+    "basicInfoFields": {
+      "vehicleType": "차량 유형",
+      "powerType": "동력 유형",
+      "timeToMarket": "출시 시기",
+      "vehicleStructure": "차량 구조",
+      "overallDimensions": "전체 크기 (L*W*H)",
+      "containerSize": "컨테이너 크기",
+      "wheelBase": "휠베이스",
+      "curbWeight": "공차 중량",
+      "maxFullLoadWeight": "최대 적재 중량"
+    },
+    "engineInfoFields": {
+      "displacementMl": "배기량 (ml)",
+      "displacementL": "배기량 (L)",
+      "horsepowerPs": "마력 (Ps)"
+    },
+    "electricMotorInfoFields": {
+      "motorTypeKW": "모터 유형 (KW)",
+      "motorHorsepowerPs": "모터 마력 (Ps)",
+      "totalMotorTorque": "모터 토크 (N.m)",
+      "batteryType": "배터리 유형",
+      "batteryBrand": "배터리 브랜드",
+      "necdPureElectricRange": "순수 전기 주행 거리 (km)",
+      "batteryCapacity": "배터리 용량 (kWh)",
+      "powerConsumption": "전력 소비량 (kWh/100km)",
+      "quickCharge": "급속 충전 시간 (h)",
+      "slowCharge": "완속 충전 시간 (h)",
+      "percentageOfFastCharge": "빠른 충전 비율 (%)"
+    },
+    "chassisSteeringInfoFields": {
+      "driveMode": "구동 방식",
+      "fourWheelDrive": "4륜 구동"
+    },
+    "transmissionInfoFields": {
+      "numberOfGears": "기어 수"
+    }
   }
 }

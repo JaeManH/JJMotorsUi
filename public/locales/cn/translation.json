@@ -10,6 +10,156 @@
     "qna": "问答",
     "login": "登录",
     "logout": "登出",
-    "language": "语言"
+    "language": "语言",
+    "community" : "社区"
+  },
+  "sidebar": {
+    "dashboard": "仪表板",
+    "manufacturerManagement": "制造商管理",
+    "brandManagement": "品牌管理",
+    "seriesManagement": "系列管理",
+    "modelManagement": "型号管理",
+    "buyerList": "买家列表"
+  },
+  "adminDashboard": {
+    "title": "管理员仪表板",
+    "manufacturerManagement": "制造商管理",
+    "manufacturerDescription": "管理或添加制造商。",
+    "brandManagement": "品牌管理",
+    "brandDescription": "管理或添加品牌。",
+    "seriesManagement": "系列管理",
+    "seriesDescription": "管理或添加系列。",
+    "modelManagement": "型号管理",
+    "modelDescription": "管理或添加型号。",
+    "buyerList": "买家列表",
+    "buyerDescription": "查看买家信息。",
+    "go": "前往"
+  },
+  "mobilityModel": {
+    "title": "移动模型管理",
+    "searchPlaceholder": "搜索模型",
+    "searchButton": "搜索",
+    "itemsPerPage": "个",
+    "addButton": "添加",
+    "deleteButton": "删除",
+    "table": {
+      "image": "模型图片",
+      "name": "模型名称",
+      "year": "年份",
+      "price": "价格",
+      "series": "系列名称",
+      "edit": "编辑"
+    },
+    "noData": "没有可用数据。",
+    "modal": {
+      "title": "确认删除",
+      "body": "您确定要删除吗？",
+      "cancel": "取消",
+      "confirmDelete": "删除"
+    }
+  },
+  "carUpload": {
+    "pageTitle": "汽车产品上传",
+    "seriesSelectLabel": "选择移动系列",
+    "seriesSelectPlaceholder": "请选择系列",
+    "stockStatusLabel": "车辆状态",
+    "stockStatusOptions": {
+      "inStock": "现货",
+      "used": "二手"
+    },
+    "commonInfoTitle": "通用信息",
+    "modelName": "车辆名称",
+    "price": "价格",
+    "year": "年份",
+    "imageUploadText": "拖动或点击此处上传图片。",
+    "selectThumbnail": "选择缩略图",
+    "deleteImage": "删除",
+    "restoreImage": "恢复",
+    "basicInfoTab": "基本信息",
+    "engineTab": "发动机",
+    "electricMotorTab": "电动马达",
+    "chassisSteeringTab": "底盘与转向",
+    "transmissionTab": "变速器",
+    "customTabTitle": "自定义标签 {{count}}",
+    "customField": "自定义字段 {{count}}",
+    "deleteTab": "删除标签",
+    "deleteField": "删除字段",
+    "addField": "添加字段",
+    "addFieldButton": "添加字段",
+    "addTabButton": "添加标签",
+    "uploadButton": "上传产品",
+    "updateButton": "更新",
+    "successUpload": "上传成功！",
+    "successUpdate": "更新成功！",
+    "errorMessages": {
+      "duplicateTabName": "标签名称重复。",
+      "duplicateFieldName": "同一标签内字段名称重复。"
+    },
+    "imageUploadError": "只允许上传图片文件。",
+    "restoreImageButton": "恢复图片",
+    "fieldLabel": {
+      "vehicleType": "车辆类型",
+      "powerType": "动力类型",
+      "timeToMarket": "上市时间",
+      "vehicleStructure": "车辆结构",
+      "overallDimensions": "整体尺寸 (L*W*H)",
+      "containerSize": "集装箱尺寸",
+      "wheelBase": "轴距",
+      "curbWeight": "整备重量",
+      "maxFullLoadWeight": "最大满载重量",
+      "displacementMl": "排量 (ml)",
+      "displacementL": "排量 (L)",
+      "horsepowerPs": "马力 (Ps)",
+      "motorTypeKW": "马达类型 (KW)",
+      "motorHorsepowerPs": "马达马力 (Ps)",
+      "totalMotorTorque": "马达扭矩 (N.m)",
+      "batteryType": "电池类型",
+      "batteryBrand": "电池品牌",
+      "necdPureElectricRange": "纯电续航里程 (km)",
+      "batteryCapacity": "电池容量 (kWh)",
+      "powerConsumption": "电力消耗 (kWh/100km)",
+      "quickCharge": "快速充电时间 (h)",
+      "slowCharge": "慢速充电时间 (h)",
+      "percentageOfFastCharge": "快速充电比例 (%)",
+      "driveMode": "驱动模式",
+      "fourWheelDrive": "四轮驱动",
+      "numberOfGears": "档位数"
+    },
+    "basicInfoFields": {
+      "vehicleType": "车辆类型",
+      "powerType": "动力类型",
+      "timeToMarket": "上市时间",
+      "vehicleStructure": "车辆结构",
+      "overallDimensions": "整体尺寸 (L*W*H)",
+      "containerSize": "集装箱尺寸",
+      "wheelBase": "轴距",
+      "curbWeight": "整备重量",
+      "maxFullLoadWeight": "最大满载重量"
+    },
+    "engineInfoFields": {
+      "displacementMl": "排量 (ml)",
+      "displacementL": "排量 (L)",
+      "horsepowerPs": "马力 (Ps)"
+    },
+    "electricMotorInfoFields": {
+      "motorTypeKW": "马达类型 (KW)",
+      "motorHorsepowerPs": "马达马力 (Ps)",
+      "totalMotorTorque": "马达扭矩 (N.m)",
+      "batteryType": "电池类型",
+      "batteryBrand": "电池品牌",
+      "necdPureElectricRange": "纯电续航里程 (km)",
+      "batteryCapacity": "电池容量 (kWh)",
+      "powerConsumption": "电力消耗 (kWh/100km)",
+      "quickCharge": "快速充电时间 (h)",
+      "slowCharge": "慢速充电时间 (h)",
+      "percentageOfFastCharge": "快速充电比例 (%)"
+    },
+    "chassisSteeringInfoFields": {
+      "driveMode": "驱动模式",
+      "fourWheelDrive": "四轮驱动"
+    },
+    "transmissionInfoFields": {
+      "numberOfGears": "档位数"
+    }
   }
 }

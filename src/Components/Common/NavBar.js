@@ -71,7 +71,7 @@ function NavBar() {
                 {t("navbar.qna")}
               </Nav.Link>
               <Nav.Link as={Link} to="/posts">
-                커뮤니티
+                {t("navbar.community")}
               </Nav.Link>
 
               {/* 관리자 권한이 있을 경우 Admin Dashboard 링크 표시 */}

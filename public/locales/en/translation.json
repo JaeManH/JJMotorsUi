@@ -10,6 +10,156 @@
     "qna": "QnA",
     "login": "Login",
     "logout": "Logout",
-    "language": "Language"
+    "language": "Language",
+    "community" : "Community"
+  },
+  "sidebar": {
+    "dashboard": "Dashboard",
+    "manufacturerManagement": "Manufacturer Management",
+    "brandManagement": "Brand Management",
+    "seriesManagement": "Series Management",
+    "modelManagement": "Model Management",
+    "buyerList": "Buyer List"
+  },
+  "adminDashboard": {
+    "title": "Admin Dashboard",
+    "manufacturerManagement": "Manufacturer Management",
+    "manufacturerDescription": "Manage or add manufacturers.",
+    "brandManagement": "Brand Management",
+    "brandDescription": "Manage or add brands.",
+    "seriesManagement": "Series Management",
+    "seriesDescription": "Manage or add series.",
+    "modelManagement": "Model Management",
+    "modelDescription": "Manage or add models.",
+    "buyerList": "Buyer List",
+    "buyerDescription": "View buyer information.",
+    "go": "Go"
+  },
+  "mobilityModel": {
+    "title": "Mobility Model Management",
+    "searchPlaceholder": "Search Model",
+    "searchButton": "Search",
+    "itemsPerPage": "items",
+    "addButton": "Add",
+    "deleteButton": "Delete",
+    "table": {
+      "image": "Model Image",
+      "name": "Model Name",
+      "year": "Year",
+      "price": "Price",
+      "series": "Series Name",
+      "edit": "Edit"
+    },
+    "noData": "No data available.",
+    "modal": {
+      "title": "Confirm Deletion",
+      "body": "Are you sure you want to delete?",
+      "cancel": "Cancel",
+      "confirmDelete": "Delete"
+    }
+  },
+  "carUpload": {
+    "pageTitle": "Car Product Upload",
+    "seriesSelectLabel": "Select Mobility Series",
+    "seriesSelectPlaceholder": "Please select a series",
+    "stockStatusLabel": "Vehicle Condition",
+    "stockStatusOptions": {
+      "inStock": "In Stock",
+      "used": "Used"
+    },
+    "commonInfoTitle": "Common Information",
+    "modelName": "Model Name",
+    "price": "Price",
+    "year": "Year",
+    "imageUploadText": "Drag or click here to upload images.",
+    "selectThumbnail": "Select Thumbnail",
+    "deleteImage": "Delete",
+    "restoreImage": "Restore",
+    "basicInfoTab": "Basic Information",
+    "engineTab": "Engine",
+    "electricMotorTab": "Electric Motor",
+    "chassisSteeringTab": "Chassis and Steering",
+    "transmissionTab": "Transmission",
+    "customTabTitle": "Custom Tab {{count}}",
+    "customField": "Custom Field {{count}}",
+    "deleteTab": "Delete Tab",
+    "deleteField": "Delete Field",
+    "addField": "Add Field",
+    "addFieldButton": "Add Field",
+    "addTabButton": "Add Tab",
+    "uploadButton": "Upload Product",
+    "updateButton": "Update",
+    "successUpload": "Upload successful!",
+    "successUpdate": "Update successful!",
+    "errorMessages": {
+      "duplicateTabName": "Tab name is duplicated.",
+      "duplicateFieldName": "Field name is duplicated within the same tab."
+    },
+    "imageUploadError": "Only image files are allowed.",
+    "restoreImageButton": "Restore Image",
+    "fieldLabel": {
+      "vehicleType": "Vehicle Type",
+      "powerType": "Power Type",
+      "timeToMarket": "Release Time",
+      "vehicleStructure": "Vehicle Structure",
+      "overallDimensions": "Overall Dimensions (L*W*H)",
+      "containerSize": "Container Size",
+      "wheelBase": "Wheel Base",
+      "curbWeight": "Curb Weight",
+      "maxFullLoadWeight": "Max Full Load Weight",
+      "displacementMl": "Displacement (ml)",
+      "displacementL": "Displacement (L)",
+      "horsepowerPs": "Horsepower (Ps)",
+      "motorTypeKW": "Motor Type (KW)",
+      "motorHorsepowerPs": "Motor Horsepower (Ps)",
+      "totalMotorTorque": "Motor Torque (N.m)",
+      "batteryType": "Battery Type",
+      "batteryBrand": "Battery Brand",
+      "necdPureElectricRange": "Pure Electric Range (km)",
+      "batteryCapacity": "Battery Capacity (kWh)",
+      "powerConsumption": "Power Consumption (kWh/100km)",
+      "quickCharge": "Quick Charge Time (h)",
+      "slowCharge": "Slow Charge Time (h)",
+      "percentageOfFastCharge": "Percentage of Fast Charge (%)",
+      "driveMode": "Drive Mode",
+      "fourWheelDrive": "Four-Wheel Drive",
+      "numberOfGears": "Number of Gears"
+    },
+    "basicInfoFields": {
+      "vehicleType": "Vehicle Type",
+      "powerType": "Power Type",
+      "timeToMarket": "Release Time",
+      "vehicleStructure": "Vehicle Structure",
+      "overallDimensions": "Overall Dimensions (L*W*H)",
+      "containerSize": "Container Size",
+      "wheelBase": "Wheel Base",
+      "curbWeight": "Curb Weight",
+      "maxFullLoadWeight": "Max Full Load Weight"
+    },
+    "engineInfoFields": {
+      "displacementMl": "Displacement (ml)",
+      "displacementL": "Displacement (L)",
+      "horsepowerPs": "Horsepower (Ps)"
+    },
+    "electricMotorInfoFields": {
+      "motorTypeKW": "Motor Type (KW)",
+      "motorHorsepowerPs": "Motor Horsepower (Ps)",
+      "totalMotorTorque": "Motor Torque (N.m)",
+      "batteryType": "Battery Type",
+      "batteryBrand": "Battery Brand",
+      "necdPureElectricRange": "Pure Electric Range (km)",
+      "batteryCapacity": "Battery Capacity (kWh)",
+      "powerConsumption": "Power Consumption (kWh/100km)",
+      "quickCharge": "Quick Charge Time (h)",
+      "slowCharge": "Slow Charge Time (h)",
+      "percentageOfFastCharge": "Percentage of Fast Charge (%)"
+    },
+    "chassisSteeringInfoFields": {
+      "driveMode": "Drive Mode",
+      "fourWheelDrive": "Four-Wheel Drive"
+    },
+    "transmissionInfoFields": {
+      "numberOfGears": "Number of Gears"
+    }
   }
 }
