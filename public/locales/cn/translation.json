@@ -161,5 +161,48 @@
     "transmissionInfoFields": {
       "numberOfGears": "档位数"
     }
+  },
+  "qna": {
+    "title": "常见问题",
+    "questionsAndAnswers": [
+      {
+        "question": "交货时间需要多久？",
+        "answer": "交货时间取决于订购的车辆，详情请联系销售部门。"
+      },
+      {
+        "question": "可以使用哪些交易条款？",
+        "answer": "我们可以使用EXW, FCA, FOB, CFR, DAP, CIF, DDP进行交易。"
+      },
+      {
+        "question": "你们可以接受哪些付款条件？",
+        "answer": "我们接受L/C, D/P, O/A, 西联汇款, 贝宝, 速汇金, 安全支付。我们支持先支付定金，货物准备好后在交货前完成全款支付。"
+      },
+      {
+        "question": "贵公司可以购买哪些品牌的车辆？",
+        "answer": "我们提供BYD、大众、特斯拉、红旗、五菱等品牌的电动汽车，以及您想要的其他品牌。任何品牌的车辆我们都可以提供！"
+      },
+      {
+        "question": "最小订购量是多少？",
+        "answer": "您可以订购至少一辆车。"
+      },
+      {
+        "question": "你们的产品提供什么保修？",
+        "answer": "首先，我们的产品是在严格的质量控制体系下生产的，发货前已通过100%的测试（基本设备测试包括道路、爬坡、雨水、水路等）。缺陷率低于0.2%。其次，我们提供至少1年的质量保证，如果电动汽车需要更换零件，我们免费提供服务。对于有缺陷的批次产品，我们提供维修或解决方案，包括召回。"
+      }
+    ]
+  },
+  "MobilityModelDetail": {
+    "model_name": "车型名称",
+    "price": "价格",
+    "year": "年份",
+    "stock_status": "库存状态",
+    "contact": "联系我们",
+    "wishlist": "加入愿望清单",
+    "specifications": "规格",
+    "basic_info": "基本信息",
+    "engine_info": "引擎信息",
+    "electric_motor_info": "电动机信息",
+    "chassis_steering_info": "底盘和转向信息",
+    "transmission_info": "变速器信息"
   }
 }

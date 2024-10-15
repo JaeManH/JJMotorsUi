@@ -1,25 +1,26 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import axios from "axios"; // Axios 임포트
+import axios from "axios";
 import Carousel from "react-bootstrap/Carousel";
 import Table from "react-bootstrap/Table";
 import Tabs from "react-bootstrap/Tabs";
 import Tab from "react-bootstrap/Tab";
-import "./MobilityModelDetail.css"; // 스타일링 파일 추가
+import { useTranslation } from 'react-i18next';
+import styles from "./MobilityModelDetail.module.css";
 
 const MobilityModelDetail = () => {
-  const { id } = useParams(); // URL에서 ID 파라미터 가져오기
-  const [carData, setCarData] = useState(null); // API로부터 데이터를 저장할 상태
+  const { id } = useParams();
+  const [carData, setCarData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const { t } = useTranslation();
   const apiUrl = process.env.REACT_APP_API_URL;
 
   useEffect(() => {
-    // ID로 자동차 데이터를 가져오는 함수
     const fetchCarData = async () => {
       try {
         const response = await axios.get(`${apiUrl}/api/models/${id}`);
         setCarData(response.data);
-        console.log("Fetched car data:", response.data); // 데이터 로그 출력
+        console.log("Fetched car data:", response.data);
       } catch (error) {
         console.error("Error fetching car data:", error);
       } finally {
@@ -38,10 +39,8 @@ const MobilityModelDetail = () => {
     return <div>Car data not found</div>;
   }
 
-  // carData의 detailsJson을 객체로 파싱
   const carDetails = carData.detailsJson ? JSON.parse(carData.detailsJson) : {};
 
-  // parameters 데이터를 category별로 그룹화
   const categorizedParameters = carData.parameters.reduce((acc, param) => {
     if (!acc[param.category]) {
       acc[param.category] = [];
@@ -50,11 +49,10 @@ const MobilityModelDetail = () => {
     return acc;
   }, {});
 
-  // 각 데이터 섹션을 렌더링하는 함수
   const renderDetailsSection = (title, data) => (
-      <>
+      <div className={styles.customTabContent}>
         <h3>{title}</h3>
-        <Table striped bordered hover className="details-table">
+        <Table striped bordered hover className={styles.detailsTable}>
           <tbody>
           {data.map((item, index) => (
               <tr key={index}>
@@ -64,72 +62,69 @@ const MobilityModelDetail = () => {
           ))}
           </tbody>
         </Table>
-      </>
+      </div>
   );
 
   return (
-      <div className="mobility-model-detail-container">
-        <h1>{carData.modelName}</h1>
-        <div className="model-details">
-          <Carousel className="car-carousel">
-            {carData.images.map((image, index) => (
-                <Carousel.Item key={index}>
-                  <img
-                      className="d-block w-100"
-                      src={image.imageUrl}
-                      alt={`Car image ${index + 1}`}
-                  />
-                </Carousel.Item>
-            ))}
-          </Carousel>
-          <Table striped bordered hover className="details-table">
-            <tbody>
-            <tr>
-              <td>Price</td>
-              <td>{carData.price}</td>
-            </tr>
-            <tr>
-              <td>Year</td>
-              <td>{carData.year}</td>
-            </tr>
-            <tr>
-              <td>Stock Status</td>
-              <td>{carData.stockStatus}</td>
-            </tr>
-            </tbody>
-          </Table>
-          <div className="additional-details">
-            <h2>Car Details</h2>
-            {carDetails.basicInfo &&
-                renderDetailsSection("Basic Info", carDetails.basicInfo)}
-            {carDetails.engineInfo &&
-                renderDetailsSection("Engine Info", carDetails.engineInfo)}
-            {carDetails.electricMotorInfo &&
-                renderDetailsSection(
-                    "Electric Motor Info",
-                    carDetails.electricMotorInfo
-                )}
-            {carDetails.chassisSteeringInfo &&
-                renderDetailsSection(
-                    "Chassis & Steering Info",
-                    carDetails.chassisSteeringInfo
-                )}
-            {carDetails.transmissionInfo &&
-                renderDetailsSection(
-                    "Transmission Info",
-                    carDetails.transmissionInfo
-                )}
-            {carDetails.additionalTabs &&
-                carDetails.additionalTabs.map((tab, index) =>
-                    renderDetailsSection(
-                        tab.title || `Additional Tab ${index + 1}`,
-                        tab.data || []
-                    )
-                )}
+      <div className={styles.mobilityModelDetailContainer}>
+        <div className={styles.modelDetails}>
+          <div className={styles.carouselContainer}>
+            <Carousel className={styles.carCarousel}>
+              {carData.images.map((image, index) => (
+                  <Carousel.Item key={index}>
+                    <img
+                        className="d-block w-100"
+                        src={image.imageUrl}
+                        alt={`Car image ${index + 1}`}
+                    />
+                  </Carousel.Item>
+              ))}
+            </Carousel>
+          </div>
+          <div className={styles.detailsRight}>
+            <div className={styles.detailsText}>
+              <span>{t('MobilityModelDetail.model_name')}: </span>{carData.modelName}
+            </div>
+            <div className={styles.detailsText}>
+              <span>{t('MobilityModelDetail.price')}: </span>{carData.price}
+            </div>
+            <div className={styles.detailsText}>
+              <span>{t('MobilityModelDetail.year')}: </span>{carData.year}
+            </div>
+            <div className={styles.detailsText}>
+              <span>{t('MobilityModelDetail.stock_status')}: </span>{carData.stockStatus}
+            </div>
+            <div className={styles.buttonContainer}>
+              <button className={styles.contactButton}>{t('MobilityModelDetail.contact')}</button>
+              <button className={styles.wishlistButton}>{t('MobilityModelDetail.wishlist')}</button>
+            </div>
+          </div>
+        </div>
+        <div className={styles.additionalDetails}>
+          {carDetails.basicInfo &&
+              renderDetailsSection(t('MobilityModelDetail.basic_info'), carDetails.basicInfo)}
+          {carDetails.engineInfo &&
+              renderDetailsSection(t('MobilityModelDetail.engine_info'), carDetails.engineInfo)}
+          {carDetails.electricMotorInfo &&
+              renderDetailsSection(t('MobilityModelDetail.electric_motor_info'), carDetails.electricMotorInfo)}
+          {carDetails.chassisSteeringInfo &&
+              renderDetailsSection(t('MobilityModelDetail.chassis_steering_info'), carDetails.chassisSteeringInfo)}
+          {carDetails.transmissionInfo &&
+              renderDetailsSection(t('MobilityModelDetail.transmission_info'), carDetails.transmissionInfo)}
+          {carDetails.additionalTabs &&
+              carDetails.additionalTabs.map((tab, index) =>
+                  renderDetailsSection(
+                      tab.title || `${t('MobilityModelDetail.additional_tab')} ${index + 1}`,
+                      tab.data || []
+                  )
+              )}
 
-            {/* Parameters 데이터를 category별로 그룹화하여 Tabs로 렌더링 */}
-            <h2>Specifications</h2>
-            <Tabs defaultActiveKey={Object.keys(categorizedParameters)[0]}>
+          <h2>{t('MobilityModelDetail.specifications')}</h2>
+          <div className={styles.tabsSection}>
+            <Tabs
+                defaultActiveKey={Object.keys(categorizedParameters)[0]}
+                className={styles.customTabs}
+            >
               {Object.entries(categorizedParameters).map(([category, parameters], index) => (
                   <Tab eventKey={category} title={category} key={index}>
                     {renderDetailsSection(category, parameters)}

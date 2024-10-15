@@ -76,7 +76,7 @@ function ProductPage() {
     <div className="product-page">
       {/*<SearchBar onSearch={handleSearch} />*/}
       {/*<Filter onFilter={handleFilter} />*/}
-      <CarList title="Sedans" cars={cars} category="제품" />
+      <CarList title="최근 제품" cars={cars} category="제품" />
       {/*<CarList title="SUVs" cars={filterCars(suvs)} category="suvs" />*/}
       {/*<CarList title="Trucks" cars={filterCars(trucks)} category="trucks" />*/}
     </div>

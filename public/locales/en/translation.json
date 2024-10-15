@@ -161,5 +161,48 @@
     "transmissionInfoFields": {
       "numberOfGears": "Number of Gears"
     }
-  }
+  },
+  "qna": {
+    "title": "QnA",
+    "questionsAndAnswers": [
+      {
+        "question": "How long does the delivery take?",
+        "answer": "The delivery time depends on the ordered vehicle, so please contact our sales department for details."
+      },
+      {
+        "question": "What types of trading terms are available?",
+        "answer": "We can trade using EXW, FCA, FOB, CFR, DAP, CIF, DDP."
+      },
+      {
+        "question": "What payment terms can you accept?",
+        "answer": "We accept L/C, D/P, O/A, Western Union, PayPal, MoneyGram, Secure Payment. We support paying the deposit first and completing the full payment before delivery once the goods are ready."
+      },
+      {
+        "question": "What vehicle brands are available for purchase?",
+        "answer": "We offer electric cars from brands like BYD, Volkswagen, Tesla, Hongqi, Wuling, and other brands you may want. We can provide any brand you need!"
+      },
+      {
+        "question": "What is the minimum order quantity?",
+        "answer": "You can order as little as one vehicle."
+      },
+      {
+        "question": "What warranty do you offer for the products?",
+        "answer": "First, our products are produced under a strict quality control system, and we have passed 100% testing before shipment (including road, hill climbing, rain, and water testing for basic equipment). The defect rate is below 0.2%. Second, we provide at least a 1-year quality warranty, and if parts need replacement in electric vehicles, we provide free service. For defective batch products, we offer repair services or solutions, including recalls."
+      }
+    ]
+  },
+  "MobilityModelDetail": {
+  "model_name": "Model Name",
+  "price": "Price",
+  "year": "Year",
+  "stock_status": "Stock Status",
+  "contact": "Contact Us",
+  "wishlist": "Add to Wishlist",
+  "specifications": "Specifications",
+  "basic_info": "Basic Info",
+  "engine_info": "Engine Info",
+  "electric_motor_info": "Electric Motor Info",
+  "chassis_steering_info": "Chassis & Steering Info",
+  "transmission_info": "Transmission Info"
+}
 }

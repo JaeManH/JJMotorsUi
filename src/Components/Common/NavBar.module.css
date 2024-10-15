@@ -1,0 +1,38 @@
+/* NavBar.module.css */
+
+/* 네비게이션 바 스타일 */
+.navbar {
+  background-color: rgba(51, 51, 51, 0.8);
+  border-bottom: 2px solid rgba(204, 204, 204, 0.8);
+  height: 10%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 1000;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.navbarBrand {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #fff !important;
+}
+
+.navbarToggler {
+  border-color: rgba(204, 204, 204, 0.8);
+}
+
+.navbarTogglerIcon {
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(255, 255, 255, 0.8)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+}
+
+.navLink {
+  color: #fff !important;
+  margin-right: 1rem;
+  font-size: 1rem;
+  transition: color 0.3s ease;
+}
+
+.navLink:hover {
+  color: #ff6347 !important;
+}

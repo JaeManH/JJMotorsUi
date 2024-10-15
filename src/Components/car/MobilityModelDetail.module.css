@@ -1,0 +1,163 @@
+/* 기존 스타일 유지 */
+.mobilityModelDetailContainer {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.modelDetails {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.carouselContainer {
+    position: relative;
+    max-width: 600px;
+    flex: 1;
+}
+
+.carCarousel img {
+    border: 4px solid #ddd; /* 액자 같은 테두리 */
+    border-radius: 8px; /* 모서리 둥글게 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 약간의 그림자 */
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+    width: auto;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1;
+}
+
+.carousel-control-prev {
+    left: -40px; /* 왼쪽으로 살짝 튀어나오게 조정 */
+}
+
+.carousel-control-next {
+    right: -40px; /* 오른쪽으로 살짝 튀어나오게 조정 */
+}
+
+/* 차량 상세 정보 박스 */
+.detailsRight {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 20px;
+    border: 2px solid #ddd; /* 테두리 추가 */
+    border-radius: 8px; /* 모서리 둥글게 */
+    background-color: #fafafa; /* 배경 색상 추가 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 약간의 그림자 */
+}
+
+.detailsText {
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+}
+
+.detailsText span {
+    font-weight: bold;
+    color: #555;
+}
+
+.buttonContainer {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.contactButton, .wishlistButton {
+    padding: 10px 20px;
+    font-size: 1rem;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+}
+
+.contactButton {
+    background-color: #007bff;
+    color: #fff;
+}
+
+.contactButton:hover {
+    background-color: #0056b3;
+}
+
+.wishlistButton {
+    background-color: #28a745;
+    color: #fff;
+}
+
+.wishlistButton:hover {
+    background-color: #218838;
+}
+
+.additionalDetails {
+    margin-top: 20px;
+}
+
+.detailsTable td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: center; /* 가운데 정렬 */
+}
+
+.detailsTable tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.additionalDetails h2, .additionalDetails h3 {
+    margin-bottom: 10px;
+    color: #333;
+    text-align: center;
+}
+
+.tabsSection {
+    margin-top: 30px;
+    border: 2px solid #ddd; /* 탭 컨테이너 테두리 추가 */
+    border-radius: 8px;
+    padding: 10px;
+}
+
+.customTabs .nav-item .nav-link {
+    color: #007bff !important; /* 기본 탭 글자 색상 */
+    background-color: #f9f9f9 !important; /* 탭 배경색 */
+    border: 1px solid #ddd !important; /* 테두리 보이게 하기 위해 !important 추가 */
+    font-size: 1rem !important; /* 글자 크기 조정 */
+    margin-right: 5px !important; /* 탭 사이 간격 */
+    border-radius: 4px 4px 0 0 !important; /* 탭 모서리 둥글게 */
+}
+
+.customTabs .nav-item .nav-link.active {
+    color: #fff !important; /* 선택된 탭 글자 색상 */
+    background-color: #007bff !important; /* 선택된 탭 배경 색상 */
+    border-color: #007bff !important; /* 선택된 탭 경계선 색상 */
+}
+
+.customTabs .nav-item .nav-link:hover {
+    color: #0056b3 !important; /* 마우스 올릴 때 글자 색상 */
+}
+
+.customTabContent {
+    margin: 20px auto 0 auto; /* 탭과 컨텐츠 사이에 공간 추가 */
+    max-width: 800px; /* 탭 내용 사이즈 조절 */
+    padding: 20px;
+    text-align: center; /* 탭 내용 가운데 정렬 */
+    background-color: #fff;
+    border: 2px solid #ddd; /* 탭 컨텐츠 테두리 추가 */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    color: #333;
+    font-size: 2em;
+    margin-bottom: 20px;
+    text-align: center;
+}
